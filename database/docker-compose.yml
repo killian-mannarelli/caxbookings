@@ -3,7 +3,7 @@ services:
   mysql:
     image: mysql:latest
     ports:
-      - 8080:3306
+      - 8081:3306
     volumes:
       - ./script/script.sql:/docker-entrypoint-initdb.d/script.sql
       - ./mysql-data:/var/lib/mysql

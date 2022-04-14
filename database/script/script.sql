@@ -1,5 +1,6 @@
 CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
+  `admin_level` int(2) DEFAULT 0,
   `username` varchar(255)
 );
 
