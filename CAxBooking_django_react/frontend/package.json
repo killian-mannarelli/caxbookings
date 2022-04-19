@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development --watch",
-    "build": "webpack --mode production"
+    "devfront": "webpack --mode development --watch",
+    "build": "webpack --mode production",
+    "init" : "cd .. && pipenv install && cd frontend && npm install && cd ..",
+    "devback": "cd .. && pipenv run python manage.py runserver",
+    "serve" : "concurrently \"cd .. && pipenv run python manage.py runserver\" \"npm run devfront\""
   },
   "keywords": [],
   "author": "",
@@ -19,7 +22,8 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "webpack": "^5.4.0",
-    "webpack-cli": "^4.2.0"
+    "webpack-cli": "^4.2.0",
+    "concurrently": "^6.4.0"
   },
   "description": ""
 }
