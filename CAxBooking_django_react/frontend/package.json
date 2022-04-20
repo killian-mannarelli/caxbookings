@@ -5,25 +5,29 @@
   "scripts": {
     "devfront": "webpack --mode development --watch",
     "build": "webpack --mode production",
-    "init" : "cd .. && pipenv install && cd frontend && npm install && cd ..",
+    "init": "cd .. && pipenv install && cd frontend && npm install && cd ..",
     "devback": "cd .. && pipenv run python manage.py runserver",
-    "serve" : "concurrently \"cd .. && pipenv run python manage.py runserver\" \"npm run devfront\""
+    "serve": "concurrently \"cd .. && pipenv run python manage.py runserver\" \"npm run devfront\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.26.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.4",
+    "concurrently": "^6.4.0",
+    "css-loader": "^6.7.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
+    "style-loader": "^3.3.1",
     "webpack": "^5.4.0",
-    "webpack-cli": "^4.2.0",
-    "concurrently": "^6.4.0"
+    "webpack-cli": "^4.2.0"
   },
   "description": ""
 }

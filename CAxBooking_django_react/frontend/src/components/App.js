@@ -10,7 +10,6 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <p>bonjour2</p>
         <HomePage />
       </div>
     );

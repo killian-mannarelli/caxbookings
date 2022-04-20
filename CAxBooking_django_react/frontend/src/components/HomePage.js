@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Login from "./LoginComponent/LoginPageComponent";
 
 import {
   BrowserRouter as Router,
@@ -27,6 +28,12 @@ export default class HomePage extends Component {
             <div>
                 hello2
               </div>
+
+            
+            </Route>
+
+            <Route path={'/login'}>
+              <Login />
             </Route>
           </Switch>
         </Router>
