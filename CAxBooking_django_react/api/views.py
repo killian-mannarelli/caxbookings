@@ -12,4 +12,5 @@ from .models import Todo
 class TodoListView(generics.ListAPIView):
     model = Todo
     serializer_class = TodoSerializer
+
     
