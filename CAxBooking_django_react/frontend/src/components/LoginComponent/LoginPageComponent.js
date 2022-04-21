@@ -9,6 +9,7 @@ export default class Login extends Component {
 
     render() {
         return(
+            <div className="login-container">
             <div className="container">
                 <header>
                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Logo_Jade_Hochschule.jpg"></img>
@@ -25,6 +26,7 @@ export default class Login extends Component {
                     <br />
                     <input type="button" value="LOGIN" onClick={this.login} className="loginbutton"/>
                 </form>
+            </div>
             </div>
             
         );

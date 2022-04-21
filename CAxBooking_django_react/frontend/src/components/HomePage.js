@@ -37,7 +37,7 @@ export default class HomePage extends Component {
             <Route path={'/login'}>
               <Login />
             </Route>
-           <Route path = {'/room'}>
+           <Route path = {'/room/:id'}>
               <RoomLayout />
             </Route>
           </Switch>

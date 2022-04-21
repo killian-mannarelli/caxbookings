@@ -14,7 +14,7 @@ function NumberList(props) {
 }
 
 export default class RoomLayout extends Component {
-    //make of int in state
+    
     rooms = [];
     
   constructor(props) {
@@ -38,19 +38,21 @@ export default class RoomLayout extends Component {
   }
 
    fetchApi(){
-    fetch("http://127.0.0.1:8000/api/computersearch?room_id=2", { 
+    let url = window.location.href;
+     let id = url.substring(url.lastIndexOf('/') + 1);
+
+
+    fetch("http://127.0.0.1:8000/api/computersearch?room_id="+id, { 
         method: "GET"
       }).then(function(response) {
         return response.text();
       }).then(function(data) {
-        //make a list of all items of the main list of the json
         var list = JSON.parse(data);
         var listItems = list.map((item) =>
             <li key={item.id}>
                 {item.id}
             </li>
         );
-        //set the state of the list
         this.setState({computerids: listItems});
         }.bind(this));
     }
