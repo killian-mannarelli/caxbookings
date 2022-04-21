@@ -1,6 +1,6 @@
 
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 # Create your views here.
 from django.shortcuts import render
@@ -14,9 +14,16 @@ from .models import Computers
 
 
 class ComputerListView(generics.ListAPIView):
-    model = Computers
-    serializer_class = ComputerSerializer
+    #check if the user is authenticated
+    #if not redirect to login page
+    #if authenticated then return the list of computers
     queryset = Computers.objects.all()
+    serializer_class = ComputerSerializer
+    def get(self, request, *args, **kwargs):
+        if(request.user.is_authenticated):
+            return self.list(request, *args, **kwargs)
+        else:
+            return redirect('/login')
 
 
 class ComputerSearchView(generics.ListAPIView):
