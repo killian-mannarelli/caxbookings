@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Login from "./LoginComponent/LoginPageComponent";
+import RoomLayout from "./RoomLayoutComponent/RoomLayoutComponent";
 
 import {
   BrowserRouter as Router,
@@ -15,6 +16,7 @@ export default class HomePage extends Component {
   }
 
   render() {
+
     return (
         <Router>
           <Switch>
@@ -34,6 +36,9 @@ export default class HomePage extends Component {
 
             <Route path={'/login'}>
               <Login />
+            </Route>
+           <Route path = {'/room/:id'}>
+              <RoomLayout />
             </Route>
           </Switch>
         </Router>

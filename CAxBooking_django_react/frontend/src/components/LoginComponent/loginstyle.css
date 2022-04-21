@@ -1,6 +1,13 @@
 
 
-body {
+html body {
+    height: 100%;
+    width: 100%;
+}
+
+.login-container {
+    width: 100vw;
+    height: 100vh;
 
 display: flex;
 
@@ -8,6 +15,9 @@ justify-content: center;
 align-items: center;
 
 background-color: black;
+
+
+
 
 
 
