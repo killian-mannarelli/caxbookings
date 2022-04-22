@@ -5,9 +5,11 @@ from django.shortcuts import redirect, render
 # Create your views here.
 from django.shortcuts import render
 from rest_framework import generics, status
-from .serializers import ComputerSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import BookingsSerializer, ComputerSerializer, CreateBookingSerializer
 
-from .models import Computers
+from .models import Bookings, Computers
 # Create your views here.
 
 
@@ -40,6 +42,17 @@ class ComputerSearchView(generics.ListAPIView):
             queryset = queryset.filter(room=roomid)
         return queryset
             
+
+class BookingsCreateView(APIView):
+    serializer_class = CreateBookingSerializer
+    def post(self, request, format = None):
+        pass
+
+class BookingsListView(generics.ListAPIView):
+    queryset = Bookings.objects.all()
+    serializer_class = BookingsSerializer
+
+
 
 
 

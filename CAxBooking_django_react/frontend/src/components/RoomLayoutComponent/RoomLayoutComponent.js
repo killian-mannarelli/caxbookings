@@ -14,21 +14,21 @@ function NumberList(props) {
 }
 
 export default class RoomLayout extends Component {
-    
-    rooms = [];
-    
+
+  rooms = [];
+
   constructor(props) {
     super(props);
     this.fetchApi();
-    this.state = {computerids: []};
-    
+    this.state = { computerids: [] };
+
 
   }
 
 
   render() {
     return (
-        
+
       <div >
         <h1>RoomLayout</h1>
         <NumberList numbers={this.state.computerids} />
@@ -37,25 +37,25 @@ export default class RoomLayout extends Component {
     );
   }
 
-   fetchApi(){
+  fetchApi() {
     let url = window.location.href;
-     let id = url.substring(url.lastIndexOf('/') + 1);
+    let id = url.substring(url.lastIndexOf('/') + 1);
 
 
-    fetch("http://127.0.0.1:8000/api/computersearch?room_id="+id, { 
-        method: "GET"
-      }).then(function(response) {
-        return response.text();
-      }).then(function(data) {
-        var list = JSON.parse(data);
-        var listItems = list.map((item) =>
-            <li key={item.id}>
-                {item.id}
-            </li>
-        );
-        this.setState({computerids: listItems});
-        }.bind(this));
-    }
+    fetch("http://127.0.0.1:8000/api/computersearch?room_id=" + id, {
+      method: "GET"
+    }).then(function (response) {
+      return response.text();
+    }).then(function (data) {
+      var list = JSON.parse(data);
+      var listItems = list.map((item) =>
+        <li key={item.id}>
+          {item.id}
+        </li>
+      );
+      this.setState({ computerids: listItems });
+    }.bind(this));
+  }
 }
 
 
