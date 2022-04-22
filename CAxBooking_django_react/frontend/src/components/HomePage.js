@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import Login from "./LoginComponent/LoginPageComponent";
 import RoomLayout from "./RoomLayoutComponent/RoomLayoutComponent";
+import MainPage from "./MainPageComponent/MainPage";
 
 import {
   BrowserRouter as Router,
@@ -10,38 +11,26 @@ import {
   Redirect,
 } from "react-router-dom";
 
-export default class HomePage extends Component {
-  constructor(props) {
-    super(props);
-  }
+export default function HomePage() {
 
-  render() {
 
-    return (
-        <Router>
-          <Switch>
-            <Route exact path={'/'}>
-              <div>
-                hello1
-              </div>
-            </Route>
+  return (
+    <Router>
+      <Switch>
+        <Route exact path={'/'}>
+          <MainPage /> 
+        </Route>
 
-            <Route path={'/join'}>
-            <div>
-                hello2
-              </div>
+        <Route path={'/login'}>
+          <Login />
+        </Route>
 
-            
-            </Route>
+        <Route path={'/room/:id'}>
+          <RoomLayout />
+        </Route>
 
-            <Route path={'/login'}>
-              <Login />
-            </Route>
-           <Route path = {'/room/:id'}>
-              <RoomLayout />
-            </Route>
-          </Switch>
-        </Router>
-    );
-  }
+      </Switch>
+    </Router>
+  );
+
 }

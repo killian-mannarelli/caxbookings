@@ -1,0 +1,98 @@
+.RoomDisplay {
+    margin-top: 2vh;
+    display: block;
+    flex-direction: column;
+    min-height: 80vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.RoomDisplay p {
+    margin-top: 0px;
+}
+
+
+.content-table {
+    margin: 0%;
+    padding: 10px;
+    color: #595850;
+    background: #FFFFFF;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #595850;
+    border-radius: 40px;
+    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
+    font-size: 18px;
+
+}
+
+.content-table th {
+    font-weight: bold;
+    background-color: #D0D0D0;  
+    border-radius: 40px;
+}
+
+.content-table tbody tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.content-table tbody {
+    display: block;
+    height: calc(100vh - 500px);
+    overflow: auto;
+}
+
+.content-table thead{
+    display: table;
+    table-layout: fixed;
+    width: calc( 100% - 20px );
+    margin-bottom: 10px;
+}
+
+.content-table th,
+.content-table td {
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.content-table tr td {
+    background-color: #f0f0f0;
+}
+
+.content-table tr td:first-of-type {
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+}
+
+.content-table tr td:last-of-type {
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+.content-table tr:nth-of-type(even) td {
+    background: #D0D0D0;
+}
+
+.CAxButton {
+    background-color: #d6001d;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.25);
+    border-radius: 61px;
+}
+
+.content-table .CAxButton {
+    width: 100%;
+}
+
+.CAxButton:hover {
+    background-color: #b3061d;
+}
