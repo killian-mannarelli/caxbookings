@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import "./roomlayout.css";
+import Header from "../MainPageComponent/Header";
 
-function NumberList(props) {
-  const numbers = props.numbers;
-  const listItems = numbers.map((number) =>
-    <li key={number.toString()}>
-      {number}
+function ComputerList(props) {
+  const pcs = props.pcs;
+  const listItems = pcs.map((pc) =>
+    <li key={pc.id}>
+      {pc.name + " " + pc.status}
     </li>
+    
   );
   return (
     <ul>{listItems}</ul>
@@ -19,8 +21,11 @@ export default class RoomLayout extends Component {
 
   constructor(props) {
     super(props);
+    this.state = { computers: [] };
     this.fetchApi();
-    this.state = { computerids: [] };
+    
+
+
   }
 
 
@@ -28,9 +33,9 @@ export default class RoomLayout extends Component {
     return (
 
       <div >
-        <h1>RoomLayout</h1>
+        <Header />
         <div className = "container ">
-        <NumberList numbers={this.state.computerids} />
+        <ComputerList pcs={this.state.computers} />
         </div>
       </div>
     );
@@ -47,12 +52,8 @@ export default class RoomLayout extends Component {
       return response.text();
     }).then(function (data) {
       var list = JSON.parse(data);
-      var listItems = list.map((item) =>
-        <li key={item.id}>
-          {item.id}
-        </li>
-      );
-      this.setState({ computerids: listItems });
+      
+      this.setState({ computers: list });
     }.bind(this));
   }
 }

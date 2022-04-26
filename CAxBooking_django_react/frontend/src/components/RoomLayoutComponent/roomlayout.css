@@ -1,5 +1,11 @@
-.container > ul{
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: calc(10px + 2vmin);
+    color: #595850;
+}
+
+ul{
     display: flex;
-    flex-direction : row;
+    flex-direction : column;
     justify-content: space-around;
 }
