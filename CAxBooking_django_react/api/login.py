@@ -1,4 +1,3 @@
-
 import http.client
 from pyexpat import model
 from datetime import datetime
@@ -11,7 +10,7 @@ from .models import Users
 
 
 
-
+ 
 def check_db_if_user_exist(username):
     """Check if the user is already present in the database"""
     UserL = Users.objects.filter(username=username)

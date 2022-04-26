@@ -1,5 +1,3 @@
-
-
 from django.shortcuts import redirect, render
 
 # Create your views here.
@@ -11,7 +9,7 @@ from .serializers import BookingsSerializer, ComputerSerializer, CreateBookingSe
 
 from .models import Bookings, Computers
 # Create your views here.
-
+ 
 
 
 
@@ -43,10 +41,34 @@ class ComputerSearchView(generics.ListAPIView):
         return queryset
             
 
+class BookingSearchView(generics.ListAPIView):
+    model = Bookings
+    serializer_class = BookingsSerializer 
+    def get_queryset(self):
+        queryset = Bookings.objects.all()
+        id = self.request.query_params.get('book_id')
+        userId = self.request.query_params.get('user_id')
+        if id is not None:
+            queryset = queryset.filter(id=id)
+        if userId is not None:
+            queryset = queryset.filter(user=userId)
+        return queryset
+        
+
 class BookingsCreateView(APIView):
     serializer_class = CreateBookingSerializer
     def post(self, request, format = None):
-        pass
+        if(self.request.user.is_authenticated):
+            serializer = self.serializer_class(request.data)
+            if(serializer.is_valid()):
+                computer = serializer.data.computer
+                start = serializer.data.start
+                end = serializer.data.end
+                user = self.request.user
+                booking = Bookings(user=user,computer=computer, start=start, end=end)
+                booking.save()
+                return Response(BookingsSerializer(booking).data,status=status.HTTP_201_CREATED)
+
 
 class BookingsListView(generics.ListAPIView):
     queryset = Bookings.objects.all()
