@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BookingSearchView, BookingsCreateView, BookingsListView, ComputerListView, ComputerSearchView
+from .views import BookingSearchView, BookingsCreateView, BookingsListView, ComputerInRoomListView, ComputerListView, ComputerSearchView
 from .login import login_verify
 
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     path('bookings/create', BookingsCreateView.as_view()),
     path('bookings/list', BookingsListView.as_view()),
     path('bookings/search', BookingSearchView.as_view()),
+    path('computerinroom',ComputerInRoomListView.as_view()),
 
    
 ]

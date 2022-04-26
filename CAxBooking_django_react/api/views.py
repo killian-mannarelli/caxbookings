@@ -1,13 +1,15 @@
+from pyexpat import model
 from django.shortcuts import redirect, render
+from dateutil import parser
 
 # Create your views here.
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import BookingsSerializer, ComputerSerializer, CreateBookingSerializer
+from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer
 
-from .models import Bookings, Computers
+from .models import Bookings, ComputerInRoom, Computers
 # Create your views here.
  
 
@@ -81,6 +83,36 @@ class BookingsCreateView(APIView):
 class BookingsListView(generics.ListAPIView):
     queryset = Bookings.objects.all()
     serializer_class = BookingsSerializer
+
+
+class ComputerInRoomListView(generics.ListAPIView):
+    model = ComputerInRoom
+    serializer_class = ComputerInRoomSerializer
+    def get_queryset(self):
+        queryset = Computers.objects.all()
+        listtoreturn = []
+        room_id = self.request.query_params.get('room_id')
+        time_span_start = self.request.query_params.get('time_span_start')
+        time_span_end = self.request.query_params.get('time_span_end')
+        if room_id is not None:
+            queryset = queryset.filter(room=room_id)
+            if time_span_start is not None and time_span_end is not None:
+                for (computer) in queryset:
+                    #create a ComputerInRoom object for each computer in the room
+                    #search in Bookings if there is one for that computer in that time span
+                    #if there is one then set the status to 1
+                    #else set the status to 0
+                    computerInRoomI = ComputerInRoom(computer_id = computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
+                    #search for bookings for that computer in that time span
+                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lt=parser.parse(time_span_end))
+                    if(bookings.count() > 0):
+                        computerInRoomI.computer_status = 1
+                    listtoreturn.append(computerInRoomI)
+                    
+
+
+        return listtoreturn
+    
 
 
 

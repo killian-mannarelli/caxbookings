@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Computers
+from .models import ComputerInRoom, Computers
 from .models import Bookings
 
 
@@ -20,3 +20,8 @@ class CreateBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = ('computer', 'start', 'end')
+
+class ComputerInRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ComputerInRoom
+        fields = ('computer_id', 'computer_status', 'computer_name', 'room_id')
