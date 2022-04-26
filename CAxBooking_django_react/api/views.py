@@ -29,11 +29,19 @@ class ComputerListView(generics.ListAPIView):
 class ComputerSearchView(generics.ListAPIView):
     model = Computers
     serializer_class = ComputerSerializer
-    
+    #check if the user is authenticated
+    #if not redirect to login page
+    #if authenticated then return the list of computers
+
+
+
     def get_queryset(self):
         queryset = Computers.objects.all()
         id = self.request.query_params.get('computer_id')
         roomid = self.request.query_params.get('room_id')
+        if(not self.request.user.is_authenticated):
+            return redirect('/login')
+
         if id is not None:
             queryset = queryset.filter(id=id)
         if roomid is not None:

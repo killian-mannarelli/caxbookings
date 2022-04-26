@@ -31,8 +31,9 @@ export default class RoomLayout extends Component {
         
       <div >
         <h1>RoomLayout</h1>
+        <div className = "container ">
         <NumberList numbers={this.state.computerids} />
-
+        </div>
       </div>
     );
   }

@@ -1,3 +1,5 @@
-body {
-    background-color: white;
+.container > ul{
+    display: flex;
+    flex-direction : row;
+    justify-content: space-around;
 }
