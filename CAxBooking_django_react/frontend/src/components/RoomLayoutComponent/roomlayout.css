@@ -6,6 +6,11 @@ body {
 
 ul{
     display: flex;
-    flex-direction : column;
-    justify-content: space-around;
+    flex-direction : row;
+    list-style-type: none;
+}
+
+img{
+    width: 34.627831715210355vh;
+    height: 23.78640776699029vh;
 }
