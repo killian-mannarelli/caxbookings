@@ -8,9 +8,12 @@ function ComputerList(props) {
     <li key={pc.computer_id}>
       {pc.computer_status == 0 && 
        <img src="https://i.imgur.com/Rw4jZaq.png"/>}
+       
       {pc.computer_status == 1 && 
       <img src = "https://i.imgur.com/bT42Ju5.png"  alt= "Not free"/> }
+      <p>{pc.computer_name}</p>
     </li>
+    
     
   );
   return (

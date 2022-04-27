@@ -8,6 +8,7 @@ ul{
     display: flex;
     flex-direction : row;
     list-style-type: none;
+    margin: 0;
 }
 
 img{
