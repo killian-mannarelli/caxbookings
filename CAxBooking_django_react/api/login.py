@@ -36,7 +36,7 @@ def login_verify(request, *args, **kwargs):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                SSOLogin(request)
+                SSOLogin(request, username, password)
                 return JsonResponse({'status': 'ok', 'username': username})
                 
            
@@ -56,7 +56,7 @@ def login_verify(request, *args, **kwargs):
                     date_joined=datetime.now(), last_login=datetime.now())
                 authuser.save()
                 login(request, authuser)
-                SSOLogin(request)
+                SSOLogin(request, username, password)
                 userDB.save()
 
 
@@ -88,7 +88,7 @@ def authentificate_using_cumulus(username, password):
     result = response.read()
     return response.status
 
-def SSOLogin(request):
+def SSOLogin(request, username, password):
     reqUrl = "https://sciauth-core.scientia.com/issue/oauth?response_type=token&client_id=JADEHS_38649741103712&redirect_uri=https%3A%2F%2Frbs.jade-hs.de%2F&scope=50D3EB5E-6BD2-44F1-830C-F5725CAF7F49"
 
     headersList = {
@@ -123,7 +123,7 @@ def SSOLogin(request):
 
     csrf = response.text.split('<input type="hidden" name="csrf_token" value="')[1].split('" />')[0]
 
-    payload = "j_username=ki2206&j_password=Iosys987!&csrf_token="+csrf+"&_eventId_proceed="
+    payload = "j_username="+username+"&j_password="+password+"&csrf_token="+csrf+"&_eventId_proceed="
 
     response = requests.request("POST", verify_link, data=payload,  headers=headersList  , cookies=cookies2)
 
