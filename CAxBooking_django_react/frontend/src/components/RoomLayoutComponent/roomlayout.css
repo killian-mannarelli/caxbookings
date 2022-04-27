@@ -4,14 +4,13 @@ body {
     color: #595850;
 }
 
-ul{
-    display: flex;
-    flex-direction : row;
-    list-style-type: none;
-    margin: 0;
+.pc {
+    transition: all .5s ease;
+    
 }
 
-img{
-    width: 34.627831715210355vh;
-    height: 23.78640776699029vh;
+.pc:hover {
+    transform: scale(1.1);
 }
+
+

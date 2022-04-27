@@ -7,7 +7,7 @@ from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer
+from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomsSerializer
 
 from .models import Bookings, ComputerInRoom, Computers, Rooms
 # Create your views here.
@@ -52,7 +52,7 @@ class ComputerSearchView(generics.ListAPIView):
 
 class RoomsSearchView(generics.ListAPIView):
     model = Rooms
-    serializer_class = ComputerSerializer
+    serializer_class = RoomsSerializer
     
     def get_queryset(self):
         queryset = Rooms.objects.all()
