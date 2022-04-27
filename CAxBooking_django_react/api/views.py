@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import BookingsSerializer, ComputerSerializer, CreateBookingSerializer
 
-from .models import Bookings, Computers
+from .models import Bookings, Computers, Rooms
 # Create your views here.
  
 
@@ -39,7 +39,17 @@ class ComputerSearchView(generics.ListAPIView):
         if roomid is not None:
             queryset = queryset.filter(room=roomid)
         return queryset
-            
+
+class RoomsSearchView(generics.ListAPIView):
+    model = Rooms
+    serializer_class = ComputerSerializer
+    
+    def get_queryset(self):
+        queryset = Rooms.objects.all()
+        id = self.request.query_params.get('room_id')
+        if id is not None:
+            queryset = queryset.filter(id=id)
+        return queryset         
 
 class BookingSearchView(generics.ListAPIView):
     model = Bookings
@@ -54,7 +64,6 @@ class BookingSearchView(generics.ListAPIView):
             queryset = queryset.filter(user=userId)
         return queryset
         
-
 class BookingsCreateView(APIView):
     serializer_class = CreateBookingSerializer
     def post(self, request, format = None):
@@ -68,7 +77,6 @@ class BookingsCreateView(APIView):
                 booking = Bookings(user=user,computer=computer, start=start, end=end)
                 booking.save()
                 return Response(BookingsSerializer(booking).data,status=status.HTTP_201_CREATED)
-
 
 class BookingsListView(generics.ListAPIView):
     queryset = Bookings.objects.all()

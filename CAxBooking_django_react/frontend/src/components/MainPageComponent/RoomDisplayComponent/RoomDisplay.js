@@ -49,7 +49,7 @@ export default function RoomDisplay() {
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="">
+                                    <a href="http://127.0.0.1:8000/room/room_id=1&start=2002-07-13T16:30:00Z&stop=2002-07-13T18:00:00Z">
                                         <button className="checkout-button CAxButton">Checkout</button>
                                     </a>
                                 </td>

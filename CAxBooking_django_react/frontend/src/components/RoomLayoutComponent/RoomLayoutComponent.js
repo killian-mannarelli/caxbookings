@@ -21,8 +21,6 @@ export default class RoomLayout extends Component {
     super(props);
     this.fetchApi();
     this.state = { computerids: [] };
-
-
   }
 
 
@@ -42,7 +40,7 @@ export default class RoomLayout extends Component {
     let id = url.substring(url.lastIndexOf('/') + 1);
 
 
-    fetch("http://127.0.0.1:8000/api/computersearch?room_id=" + id, {
+    fetch("http://127.0.0.1:8000/api/computers/search?room_id=" + id , {
       method: "GET"
     }).then(function (response) {
       return response.text();

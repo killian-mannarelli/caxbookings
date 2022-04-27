@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./LoginComponent/LoginPageComponent";
 import RoomLayout from "./RoomLayoutComponent/RoomLayoutComponent";
-import MainPage from "./MainPageComponent/MainPage";
+import MainPage from "./MainPageComponent/MainPage"
 
 import {
   BrowserRouter as Router,
@@ -18,7 +18,7 @@ export default function HomePage() {
     <Router>
       <Switch>
         <Route exact path={'/'}>
-          <MainPage /> 
+          <MainPage />
         </Route>
 
         <Route path={'/login'}>

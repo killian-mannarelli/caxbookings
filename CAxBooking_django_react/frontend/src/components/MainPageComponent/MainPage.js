@@ -9,7 +9,7 @@ export default function MainPage() {
   return (
     <div className="MainPage">
       <Header />
-      <Bookings />
+      <Bookings user_id={2}/>
       <TimeSpan />
       <RoomDisplay />
 

@@ -348,6 +348,7 @@ class RoleEdges(models.Model):
 
 
 class Rooms(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
