@@ -348,6 +348,7 @@ class RoleEdges(models.Model):
 
 
 class Rooms(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
@@ -618,3 +619,13 @@ class Users(models.Model):
     class Meta:
         managed = False
         db_table = 'users'
+
+class ComputerInRoom(models.Model):
+    computer_id = models.IntegerField(primary_key=True)
+    computer_name = models.CharField(max_length=255, blank=True, null=True)
+    room_id = models.IntegerField()
+    computer_status = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'computer_in_room'

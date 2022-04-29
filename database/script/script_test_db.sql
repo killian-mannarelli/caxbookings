@@ -49,3 +49,5 @@ INSERT INTO computers (`status`, `name`, `room_id`) VALUES (0, 'Computer 1', 2);
 INSERT INTO computers (`status`, `name`, `room_id`) VALUES (0, 'Computer 2', 2);
 INSERT INTO computers (`status`, `name`, `room_id`) VALUES (0, 'Computer 3', 2);
 INSERT INTO computers (`status`, `name`, `room_id`) VALUES (0, 'Computer 4', 2);
+
+INSERT INTO bookings (`user_id`, `computer_id`, `start`, `end`) VALUES (1, 1, '2018-01-01 00:00:00', '2018-01-01 01:30:00');
