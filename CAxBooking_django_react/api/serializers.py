@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Computers
 from .models import Bookings
 from .models import Rooms
+from .models import Users
 
 
 
@@ -26,3 +27,8 @@ class CreateBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = ('computer', 'start', 'end')
+        
+class SearchUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = ('id', 'username', 'admin_level')

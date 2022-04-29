@@ -5,7 +5,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import moment, { min } from 'moment';
+import moment from 'moment';
 
 export default function TimePickers() {
     const MINIMUM_BOOKING_TIME = 30;
@@ -26,6 +26,7 @@ export default function TimePickers() {
                             minDate={moment(new Date())}
                             onChange={(newValue) => {
                                 setValueDay(newValue);
+                                
                             }}
                             renderInput={(params) => <TextField {...params} />}
                             disableOpenPicker={false}

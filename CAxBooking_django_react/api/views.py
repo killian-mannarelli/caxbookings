@@ -5,12 +5,21 @@ from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import BookingsSerializer, ComputerSerializer, CreateBookingSerializer
+from .serializers import BookingsSerializer, ComputerSerializer, CreateBookingSerializer, SearchUserSerializer
 
-from .models import Bookings, Computers, Rooms
+from .models import Bookings, Computers, Rooms, Users
 # Create your views here.
  
 
+class UserSearchView(generics.ListAPIView):
+    model = Users
+    serializer_class = SearchUserSerializer
+    
+    def get_queryset(self):
+        if(self.request.user.is_authenticated):
+            return Users.objects.all().filter(id=self.request.user.id)
+        else:
+            return None
 
 
 class ComputerListView(generics.ListAPIView):

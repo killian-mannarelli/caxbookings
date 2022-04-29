@@ -2,30 +2,14 @@ import './Bookings.css'
 import React from 'react';
 import Booking from './Booking';
 
-const data = [
-    { room_name: "PC1 - H133 - 14H - 12/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-    { room_name: "PC1 - H133 - 14H - 15/02" },
-]
-
 export default function Bookings(props) {
 
 
     let [books, setBookings] = React.useState(fetchBookings);
 
     function fetchBookings() {
-
-        fetch("http://127.0.0.1:8000/api/bookings/search?user_id=" + props.user_id , {
+        console.log(props.user_id)
+        fetch("http://127.0.0.1:8000/api/bookings/search?user_id=" + props.user_id, {
             method: "GET"
         }).then(function (response) {
             return response.text();
@@ -33,7 +17,13 @@ export default function Bookings(props) {
             let list = JSON.parse(data);
             setBookings(list.map((val, key) => {
                 return <tr key={key}>
-                    <td> <Booking computer={val.computer}/></td>
+                    <td>
+                        <Booking
+                            computer={val.computer}
+                            start={val.start}
+                            end={val.end}
+                            booking={val.id} />
+                    </td>
                 </tr>
             }))
 
@@ -42,6 +32,8 @@ export default function Bookings(props) {
 
     return (
         <div className="Bookings">
+
+            <div id='popup-back'></div>
             <p>Ongoing Bookings : </p>
             <table className="content-table">
                 <tbody>

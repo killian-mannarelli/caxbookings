@@ -8,11 +8,9 @@
     align-content: center;
     justify-content: center;
 }
- 
-/* .Bookings p{
-    clear: both;
+
+
+.Booking a{
+    display: block;
 }
 
-.Bookings .content-table{
-    height: 100%;
-} */

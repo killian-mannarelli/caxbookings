@@ -613,6 +613,7 @@ class User(models.Model):
 
 
 class Users(models.Model):
+    id = models.AutoField(primary_key=True)
     admin_level = models.IntegerField(blank=True, null=True)
     username = models.CharField(max_length=255, blank=True, null=True)
 
