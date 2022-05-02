@@ -32,14 +32,18 @@ export default function TimePickers(props) {
     }, [valueRoom]);
 
     useEffect(() => {
-        if (valueRoom == null) return;
+
+        if (valueRoom == null ) return;
+        if (valueDay.isSame(moment(), 'day') && valueDay.isSame(moment(), 'hour')&& valueDay.isSame(moment(), 'minute'))  return;
         if (props.callback != undefined) {
+            
                 //convert valueDay to Date
                 let date = valueDay.toDate();
                 //convert valueTimeStart to Date
                 let start = valueTimeStart.toDate();
                 //convert valueTimeEnd to Date
                 let end = valueTimeEnd.toDate();
+                if(valueDay.isSame(moment(props.start), 'day') && valueTimeStart.isSame(moment(props.start), 'hour') && valueTimeStart.isSame(moment(props.start), 'minute')) return;
                 props.callback(date, start, end);
             }
             
