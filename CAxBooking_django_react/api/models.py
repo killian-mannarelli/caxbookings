@@ -14,6 +14,7 @@ class Bookings(models.Model):
     computer = models.ForeignKey('Computers', models.DO_NOTHING, blank=True, null=True)
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
+    status = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -613,6 +614,7 @@ class User(models.Model):
 
 
 class Users(models.Model):
+    id = models.AutoField(primary_key=True)
     admin_level = models.IntegerField(blank=True, null=True)
     username = models.CharField(max_length=255, blank=True, null=True)
 

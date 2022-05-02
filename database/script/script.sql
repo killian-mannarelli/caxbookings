@@ -8,6 +8,7 @@ CREATE TABLE `bookings` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `user_id` int,
   `computer_id` int,
+  `status` int,
   `start` datetime,
   `end` datetime
 );

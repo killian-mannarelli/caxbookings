@@ -1,15 +1,19 @@
+import json
 from pyexpat import model
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from dateutil import parser
 
 # Create your views here.
 from django.shortcuts import render
+from urllib3 import HTTPResponse
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomsSerializer
 
-from .models import Bookings, ComputerInRoom, Computers, Rooms
+from .models import Bookings, ComputerInRoom, Computers, Rooms, Users
 # Create your views here.
  
 
@@ -41,9 +45,6 @@ class ComputerSearchView(generics.ListAPIView):
         queryset = Computers.objects.all()
         id = self.request.query_params.get('computer_id')
         roomid = self.request.query_params.get('room_id')
-        if(not self.request.user.is_authenticated):
-            return redirect('/login')
-
         if id is not None:
             queryset = queryset.filter(id=id)
         if roomid is not None:
@@ -73,20 +74,42 @@ class BookingSearchView(generics.ListAPIView):
         if userId is not None:
             queryset = queryset.filter(user=userId)
         return queryset
+
+class OnGoingUserBookings(generics.ListAPIView):
+    model = Bookings
+    serializer_class = BookingsSerializer
+    def get_queryset(self):
+        queryset = Bookings.objects.all()
+        user = Users.objects.get(username=self.request.user.username)
         
-class BookingsCreateView(APIView):
-    serializer_class = CreateBookingSerializer
-    def post(self, request, format = None):
-        if(self.request.user.is_authenticated):
-            serializer = self.serializer_class(request.data)
-            if(serializer.is_valid()):
-                computer = serializer.data.computer
-                start = serializer.data.start
-                end = serializer.data.end
-                user = self.request.user
-                booking = Bookings(user=user,computer=computer, start=start, end=end)
-                booking.save()
-                return Response(BookingsSerializer(booking).data,status=status.HTTP_201_CREATED)
+        if id is not None:
+            queryset = queryset.filter(user=user.id)
+            queryset = queryset.filter(status = 1)
+        return queryset
+
+def add_bookings(request):
+
+        
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        computer = json_body['computer']
+        start = json_body['start']
+        end = json_body['end']
+        if computer is not None and start is not None and end is not None:
+            # get the Users related to the connected user username
+            user = Users.objects.get(username=request.user.username)
+            # get the Computer related to the computer_id
+            computer = Computers.objects.get(id=computer)
+            bookingtoAdd = Bookings(user=user, computer=computer, start=start, end=end, status=1)
+            bookingtoAdd.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
+    
+    
+        
+    
 
 class BookingsListView(generics.ListAPIView):
     queryset = Bookings.objects.all()
@@ -112,7 +135,7 @@ class ComputerInRoomListView(generics.ListAPIView):
                     #else set the status to 0
                     computerInRoomI = ComputerInRoom(computer_id = computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
                     #search for bookings for that computer in that time span
-                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lt=parser.parse(time_span_end))
+                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lte=parser.parse(time_span_end))
                     if(bookings.count() > 0):
                         computerInRoomI.computer_status = 1
                     listtoreturn.append(computerInRoomI)
