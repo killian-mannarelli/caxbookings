@@ -3,22 +3,23 @@ import React, { Component, useEffect } from "react";
 import TextField from '@mui/material/TextField';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import moment, { min } from 'moment';
 import { areDayPropsEqual } from '@mui/x-date-pickers/PickersDay/PickersDay';
 
 export default function TimePickers(props) {
     const MINIMUM_BOOKING_TIME = 30;
+    const MAXIMUM_BOOKING_TIME = 3;
 
-    let [valueDay, setValueDay] = React.useState(null);
-    let [valueTimeStart, setValueStart] = React.useState(null);
-    let [valueTimeEnd, setValueEnd] = React.useState(null);
+    let [valueDay, setValueDay] = React.useState(moment());
+    let [valueTimeStart, setValueStart] = React.useState(moment());
+    let [valueTimeEnd, setValueEnd] = React.useState(moment(new Date().setMinutes(new Date().getMinutes() + MINIMUM_BOOKING_TIME)));
     let [valueRoom, setValueRoom] = React.useState(null);
 
     useEffect(() => {
-        setValueDay(moment(new Date()));
-        setValueStart(moment(new Date()));
+        setValueDay(moment());
+        setValueStart(moment());
         setValueEnd(moment(new Date().setMinutes(new Date().getMinutes() + MINIMUM_BOOKING_TIME)));
         setValueRoom(0);
     }, []);
@@ -33,36 +34,82 @@ export default function TimePickers(props) {
 
     useEffect(() => {
 
-        if (valueRoom == null ) return;
-        if (valueDay.isSame(moment(), 'day') && valueDay.isSame(moment(), 'hour')&& valueDay.isSame(moment(), 'minute'))  return;
+        if (valueRoom == null) return;
+        if (valueDay.isSame(moment(), 'day') && valueDay.isSame(moment(), 'hour') && valueDay.isSame(moment(), 'minute')) return;
         if (props.callback != undefined) {
-            
-                //convert valueDay to Date
-                let date = valueDay.toDate();
-                //convert valueTimeStart to Date
-                let start = valueTimeStart.toDate();
-                //convert valueTimeEnd to Date
-                let end = valueTimeEnd.toDate();
-                if(valueDay.isSame(moment(props.start), 'day') && valueTimeStart.isSame(moment(props.start), 'hour') && valueTimeStart.isSame(moment(props.start), 'minute')) return;
-                props.callback(date, start, end);
-            }
-            
+
+            //convert valueDay to Date
+            let date = valueDay.toDate();
+            //convert valueTimeStart to Date
+            let start = valueTimeStart.toDate();
+            //convert valueTimeEnd to Date
+            let end = valueTimeEnd.toDate();
+            if (valueDay.isSame(moment(props.start), 'day') && valueTimeStart.isSame(moment(props.start), 'hour') && valueTimeStart.isSame(moment(props.start), 'minute')) return;
+            props.callback(date, start, end);
+        }
+
     }, [valueDay, valueTimeStart, valueTimeEnd]);
+
+    function isTimeStartOK(timeValue, clockType) {
+        if (clockType == 'minutes') {
+            if (moment().dayOfYear() == valueDay.dayOfYear()) {
+                if (valueTimeStart.hours() == moment().hours()) {
+                    if (timeValue < moment().minutes()) {
+                        return true;
+                    }
+                }
+            }
+        } else if (clockType == 'hours') {
+            if (moment().dayOfYear() == valueDay.dayOfYear() && timeValue < moment().hours()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function isTimeEndOK(timeValue, clockType) {
+        if (clockType == 'minutes') {
+            if (valueTimeStart.minutes() + MINIMUM_BOOKING_TIME < 60) {
+                if (valueTimeEnd.hours() == valueTimeStart.hours() && timeValue < valueTimeStart.minutes() + MINIMUM_BOOKING_TIME) {
+                    return true;
+                } else if (valueTimeEnd.hours() == valueTimeStart.hours() + MAXIMUM_BOOKING_TIME && timeValue > valueTimeStart.minutes()) {
+                    return true;
+                }
+            } else {
+                if (valueTimeEnd.hours() == valueTimeStart.hours() + 1 && timeValue < (valueTimeStart.minutes() + MINIMUM_BOOKING_TIME) % 60) {
+                    return true;
+                } else if (valueTimeEnd.hours() == valueTimeStart.hours() + MAXIMUM_BOOKING_TIME && timeValue > valueTimeStart.minutes()) {
+                    return true;
+                }
+            }
+        } else if (clockType == 'hours') {
+            if (valueTimeStart.minutes() + MINIMUM_BOOKING_TIME < 60) {
+                if (timeValue < valueTimeStart.hours() || timeValue > valueTimeStart.hours() + MAXIMUM_BOOKING_TIME) {
+                    return true;
+                }
+            } else {
+                if (timeValue <= valueTimeStart.hours() || timeValue > valueTimeStart.hours() + MAXIMUM_BOOKING_TIME) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     return (
         <div className='TimeSpan'>
             <p>Select a day and a time span : </p>
             <div className='pickers'>
                 <LocalizationProvider dateAdapter={AdapterMoment}>
-
                     <div className='picker'>
-                        <DesktopDatePicker
-                            label="For desktop"
-                            value={valueDay ?? moment(new Date())}
-                            minDate={moment(new Date())}
+                        <DatePicker
+                            label="Select a date"
+                            views={['day', 'month', 'year']}
+                            value={valueDay ?? moment()}
+                            minDate={moment()}
                             onChange={(newValue) => {
                                 setValueDay(newValue);
-                                
+
                             }}
                             renderInput={(params) => <TextField {...params} />}
                             disableOpenPicker={false}
@@ -70,20 +117,15 @@ export default function TimePickers(props) {
                     </div>
 
                     <div className='picker'>
-                        <DesktopTimePicker
+                        <TimePicker
                             label="Start"
-                            value={valueTimeStart ?? moment(new Date())}
+                            value={valueTimeStart ?? moment()}
                             onChange={(newValue) => {
                                 setValueStart(newValue);
                             }}
 
                             shouldDisableTime={(timeValue, clockType) => {
-                                //let sameHour = valueTimeStart.hour() === moment().hour();
-
-                                return (valueDay?.dayOfYear() ?? moment(new Date()).dayOfYear() === moment().dayOfYear()) &&
-                                    ((clockType === "hours" && timeValue < moment().hour()) ||
-                                        (clockType === "minutes" && timeValue < moment().minute()))
-
+                                return isTimeStartOK(timeValue, clockType);
                             }}
 
                             minTime={moment(new Date(0, 0, 0, 7))}
@@ -93,22 +135,15 @@ export default function TimePickers(props) {
                     </div>
 
                     <div className='picker'>
-                        <DesktopTimePicker
+                        <TimePicker
                             label="End"
-                            value={valueTimeEnd ?? moment(new Date())}
+                            value={valueTimeEnd ?? moment().setMinutes(new Date().getMinutes() + MINIMUM_BOOKING_TIME)}
                             onChange={(newValue) => {
                                 setValueEnd(newValue);
                             }}
                             shouldDisableTime={(timeValue, clockType) => {
 
-                                const minTime = valueTimeStart?.minutes() ?? moment(new Date()).minutes() + MINIMUM_BOOKING_TIME;
-                                const sameHour = valueTimeStart?.hour() ?? moment(new Date()).hour() + Math.floor(minTime / 60) === moment().hour()
-
-                                return ((clockType === "hours" && (timeValue < valueTimeStart?.hour() ?? moment(new Date()).hour() + Math.floor(minTime / 60))) ||
-                                    (clockType === "minutes" &&
-                                        (sameHour && (minTime < 60 && timeValue < minTime) ||
-                                            (minTime > 60 && timeValue < minTime % 60)
-                                        )));
+                                return isTimeEndOK(timeValue, clockType);
 
                             }}
                             minTime={moment(new Date(0, 0, 0, 7, 30))}

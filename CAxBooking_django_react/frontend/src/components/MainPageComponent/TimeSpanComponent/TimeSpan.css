@@ -13,4 +13,5 @@
 .TimeSpan .picker{
     margin: 5px;
     width: 12vw;
+    min-width: 150px;
 }

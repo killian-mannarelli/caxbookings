@@ -27,7 +27,7 @@ export default function RoomLayout(props) {
   useEffect(() => {
     getOngoingBookings();
     scrapUrl();
-    
+
 
   }, []
 
@@ -44,7 +44,6 @@ export default function RoomLayout(props) {
     return;
   }, [computers]);
 
-  
   const callBackFromTimeSpan = (day, start, end) => {
 
     let StartDate = new Date(day.toISOString());
@@ -57,14 +56,15 @@ export default function RoomLayout(props) {
     EndDate.setSeconds(end.getSeconds());
 
 
-   let newUrlInfos = {
-      roomId : urlInfos.roomId,
-      startTime : StartDate,
-      endTime : EndDate,
-      day : day
+    let newUrlInfos = {
+      roomId: urlInfos.roomId,
+      startTime: StartDate,
+      endTime: EndDate,
+      day: day
     }
     setUrlInfos(newUrlInfos);
   }
+
   const fetchApi = () => {
 
     let startStringIso = urlInfos.startTime.toISOString();
@@ -87,7 +87,7 @@ export default function RoomLayout(props) {
 
   }
 
-  const scrapUrl =  () => {
+  const scrapUrl = () => {
     let url = window.location.href;
 
     let newUrlInfos = {
@@ -100,10 +100,9 @@ export default function RoomLayout(props) {
     setUrlInfos(newUrlInfos);
   }
 
-
   const handleClickOpen = (data) => {
     setSelectedComputer(data);
-    if(data.computer_status == 1 ){
+    if (data.computer_status == 1) {
       return;
     }
     setOpen(true);
@@ -151,28 +150,28 @@ export default function RoomLayout(props) {
       }
     }, []);
 
-    if(checkIfUserHas3Hours()){
+    if (checkIfUserHas3Hours()) {
       alert("You already have 3 hours of bookings ! ");
       return;
     }
 
-    if ( ongoingBooking.length > 0  ) {
+    if (ongoingBooking.length > 0) {
       alert("You already have a booking at this time ! ");
       return;
     }
-    
+
 
     Axios.post("http://127.0.0.1:8000/api/bookings/create", {
       computer: selectedComputer.computer_id,
       start: startStringIso,
       end: endStringIso,
-  }
-  ).then(res => {
-    setOpen(false);
-    setSelectedComputer(null);
-  
-    
-  });
+    }
+    ).then(res => {
+      setOpen(false);
+      setSelectedComputer(null);
+
+
+    });
   }
 
 
@@ -184,61 +183,63 @@ export default function RoomLayout(props) {
 
 
 
-  
-  
+
+
 
   return (
 
-    <div >
+    <div className="page">
 
       <Header />
-      <p>{roomName}</p>
+      <p id="roomName">{roomName + ' :'}</p>
       <TimeSpan
         day={urlInfos?.day}
         start={urlInfos?.startTime}
         end={urlInfos?.endTime}
         callback={callBackFromTimeSpan}
       />
+      <div className="roomLayout">
 
-      <Container>
-        <Box sx={{
-          border: '1px solid #595850',
-          borderRadius: '40px',
-        }}>
+        <Container id='RoomLayout'>
+          <Box sx={{
+            border: '1px solid #595850',
+            borderRadius: '40px',
+          }}>
 
-          <Grid container spacing={3} wrap="wrap" direction="row" alignItems="center">
-            {computers.map((pc) =>
-              <PcComponent pc={pc} onClick =  {handleClickOpen}/>
-            )}
+            <Grid container spacing={3} wrap="wrap" direction="row" alignItems="center">
+              {computers.map((pc) =>
+                <PcComponent pc={pc} onClick={handleClickOpen} />
+              )}
 
-          </Grid>
-        </Box>
-        <Dialog
-        open={open}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"Book this computer ?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Do you want to book this computer for this time :
-            {selectedComputer?.computer_name ?? "placeholder"} ,
-            from {urlInfos?.startTime.toLocaleString() ?? "placeholder"} to {urlInfos?.endTime.toLocaleString() ?? "placeholder"}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleNo}>No</Button>
-          <Button onClick={handleClose}>Yes</Button>
-        </DialogActions>
-      </Dialog>
-      </Container>
+            </Grid>
+          </Box>
+          <Dialog
+            open={open}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{"Book this computer ?"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                Do you want to book this computer for this time :
+                {selectedComputer?.computer_name ?? "placeholder"} ,
+                from {urlInfos?.startTime.toLocaleString() ?? "placeholder"} to {urlInfos?.endTime.toLocaleString() ?? "placeholder"}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleNo}>No</Button>
+              <Button onClick={handleClose}>Yes</Button>
+            </DialogActions>
+          </Dialog>
+        </Container>
+      </div>
     </div>
   );
 
-  
 
-  
+
+
 
 
 

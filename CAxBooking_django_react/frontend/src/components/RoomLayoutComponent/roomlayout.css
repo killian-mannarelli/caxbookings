@@ -7,11 +7,40 @@ body {
 
 .pc {
     transition: all .5s ease;
-    
+}
+
+#RoomLayout {
+    margin: 25px;
+    margin-right: 25px;
+    padding: 0;
+}
+
+#roomName {
+    margin-top: 0;
+    margin-right: 10vw;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.timeSpan p {
+    margin-top: 0;
+}
+
+.roomLayout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2vw;
 }
 
 .pc:hover {
     transform: scale(1.1);
 }
-
-

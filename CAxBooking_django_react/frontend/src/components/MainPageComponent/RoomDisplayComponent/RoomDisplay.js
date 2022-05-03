@@ -1,5 +1,6 @@
 import "./RoomDisplayStyle.css"
 import React from 'react';
+
 const data = [
     { room_name: "H133", availability: "19h - 20h", computer_number: "19/20" },
     { room_name: "H113", availability: "12h - 16h", computer_number: "9/13" },
@@ -23,6 +24,7 @@ const data = [
 
 
 export default function RoomDisplay() {
+
     return (
         <div className="RoomDisplay">
             <p>Available Rooms :</p>

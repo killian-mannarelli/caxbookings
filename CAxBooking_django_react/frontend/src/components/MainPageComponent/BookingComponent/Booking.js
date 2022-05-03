@@ -21,6 +21,7 @@ export default function Booking(props) {
     useEffect(() => {
         fetchComputer()
         fetchRoom();
+        
     }, [computerRoom]);
 
     function fetchComputer() {
