@@ -631,3 +631,14 @@ class ComputerInRoom(models.Model):
     class Meta:
         managed = False
         db_table = 'computer_in_room'
+
+class RoomSearch(models.Model):
+    room_id = models.IntegerField(primary_key=True)
+    room_name = models.CharField(max_length=255, blank=True, null=True)
+    room_capacity = models.IntegerField(blank=True, null=True)
+    room_current_capacity = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'room_search'
+

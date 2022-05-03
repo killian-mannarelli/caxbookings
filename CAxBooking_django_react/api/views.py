@@ -10,8 +10,8 @@ from urllib3 import HTTPResponse
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomsSerializer, SearchUserSerializer
-from .models import Bookings, ComputerInRoom, Computers, Rooms, Users
+from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomSearchSerializer, RoomsSerializer, SearchUserSerializer
+from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms, Users
 # Create your views here.
  
 
@@ -63,16 +63,68 @@ class ComputerSearchView(generics.ListAPIView):
 
 #endregion
 
-class RoomsSearchView(generics.ListAPIView):
+class SpecificRoomsSearch(generics.ListAPIView):
     model = Rooms
     serializer_class = RoomsSerializer
-    
     def get_queryset(self):
         queryset = Rooms.objects.all()
         id = self.request.query_params.get('room_id')
         if id is not None:
             queryset = queryset.filter(id=id)
-        return queryset         
+        return queryset
+
+class RoomsSearchView(generics.ListAPIView):
+    model = RoomSearch
+    serializer_class = RoomSearchSerializer
+
+  
+
+    
+    def get_queryset(self):
+        queryset = Rooms.objects.all()
+        id = self.request.query_params.get('room_id')
+        timestart = self.request.query_params.get('time_start')
+        timeend = self.request.query_params.get('time_end')
+
+        listtoreturn = []
+        if id is not None:
+            queryset = queryset.filter(id=id)
+            RoomSearchI = RoomSearch(room_id = id, room_name = queryset[0].name)
+            if timestart is not None and timeend is not None:
+                RoomSearchI = RoomSearch(room_id = id, room_name = queryset[0].name , room_capacity = get_room_capacity(id), room_current_capacity = get_room_current_capacity(id, parser.parse(timestart), parser.parse(timeend)))
+                listtoreturn.append(RoomSearchI)
+                return listtoreturn
+            
+
+            
+        for (i) in queryset:
+            RoomSearchI = RoomSearch(room_id = i.id, room_name = i.name, room_capacity = get_room_capacity(i.id), room_current_capacity = get_room_current_capacity(i.id, parser.parse(timestart), parser.parse(timeend)))
+            listtoreturn.append(RoomSearchI)
+        return listtoreturn
+
+        
+
+
+
+
+def get_room_current_capacity(room_id,time_start,time_end):
+    """A method that counts the number of computer that are not in a booking during this timespan and return the number of computer"""
+    computers = Computers.objects.filter(room=room_id)
+    computers_in_booking = []
+    for computer in computers:
+        bookings = Bookings.objects.filter(computer=computer, start__gte=time_start, end__lte=time_end, status=1)
+        if len(bookings) > 0:
+            computers_in_booking.append(computer)
+        
+    return len(computers) - len(computers_in_booking)
+
+
+def get_room_capacity(room_id):
+    """A method that counts the number of computer that have this room id and return the number of computers"""
+    computers = Computers.objects.filter(room=room_id)
+    return len(computers)
+
+
 
 #region bookings
 """Can list all views if no parameters is given, if book_id set, returns the info of the bokking, 
