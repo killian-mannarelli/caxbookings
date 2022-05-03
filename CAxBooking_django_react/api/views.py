@@ -2,6 +2,7 @@ import json
 from pyexpat import model
 from django.http import JsonResponse
 from django.shortcuts import redirect
+from dateutil import parser
 
 # Create your views here.
 from urllib3 import HTTPResponse
@@ -9,7 +10,6 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomsSerializer, SearchUserSerializer
-
 from .models import Bookings, ComputerInRoom, Computers, Rooms, Users
 # Create your views here.
  

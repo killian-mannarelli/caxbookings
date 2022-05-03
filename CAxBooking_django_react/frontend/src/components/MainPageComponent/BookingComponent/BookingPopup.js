@@ -23,14 +23,20 @@ export default function BookingPopup(props) {
                 {infoBox("Date", props.date)}
                 {infoBox("Duration", props.duration)}
             </div>
-            <button className='CAxButton' onClick={props.close}>Close</button>
+            <button className='CAxButton' onClick={() => {
+
+                props.close();
+                console.log(props.id)
+            }}>Close</button>
             <button className='CAxButton' onClick={() => {
                 fetch('http://127.0.0.1:8000/api/bookings/delete?book_id=' + props.id, {
                     method: "GET"
                 }).then(respnose => {
                     return respnose.text;
                 });
+                console.log(props.id)
                 props.close();
+                props.cancel(props.id);
             }}>Cancel</button>
         </div>
     );
