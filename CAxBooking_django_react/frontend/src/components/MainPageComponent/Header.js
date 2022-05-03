@@ -8,7 +8,7 @@ export default function Header() {
       <h1>Computer booking service</h1>
 
       <a href="http://127.0.0.1:8000/logout">
-        <button className="login-logout CAxButton">Login / Logout</button>
+        <button className="login-logout CAxButton">Logout</button>
       </a>
     </div>
   );
