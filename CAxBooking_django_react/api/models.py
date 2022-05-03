@@ -14,6 +14,7 @@ class Bookings(models.Model):
     computer = models.ForeignKey('Computers', models.DO_NOTHING, blank=True, null=True)
     start = models.DateTimeField(blank=True, null=True)
     end = models.DateTimeField(blank=True, null=True)
+    status = models.IntegerField()
 
     class Meta:
         managed = True

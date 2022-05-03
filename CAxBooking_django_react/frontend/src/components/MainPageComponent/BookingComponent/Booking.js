@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BookingPopup from './BookingPopup';
 
 export default function Booking(props) {
@@ -6,16 +6,21 @@ export default function Booking(props) {
     const [computerName, setComputerName] = useState();
     const [computerRoom, setComputerRoom] = useState();
     const [roomName, setRoomName] = useState();
+
+
     const dateString = splitStart();
     const dateEnd = stringToDate(props.end);
     const dateStart = stringToDate(props.start);
     let duration = (dateEnd.getTime() - dateStart.getTime()) / 60000;
-    let durationMinutes = duration ;
+    let durationMinutes = duration;
     let durationHours = Math.floor(durationMinutes / 60);
     durationMinutes = durationMinutes % 60;
 
-    const popUpID = "bookingNb" + props.booking;
-    fetchComputer();
+    const popUpID = "PopupBookingNb" + props.booking;
+
+    useEffect(() => {
+        fetchComputer();
+    }, []);
 
     function fetchComputer() {
         fetch("http://127.0.0.1:8000/api/computers/search?computer_id=" + props.computer, {
@@ -48,7 +53,7 @@ export default function Booking(props) {
     }
 
     function splitStart() {
-        let d = stringToDate(props.start)
+        let d = stringToDate(props.start);
         d = d.toLocaleDateString() + " - " + d.toLocaleTimeString();
         d = d.split(":");
         return (d[0] + ":" + d[1]);
@@ -63,15 +68,16 @@ export default function Booking(props) {
 
 
     return (
-        <div className='Booking'>
-            <p onClick={popUp}>{computerName} - {roomName} - {dateString}</p>
+        <div className='Booking' id={'BookingNb' + props.booking}>
+            <p onClick={popUp}>{computerName && computerName} - {roomName} - {dateString}</p>
             <BookingPopup
-                id={popUpID}
-                computer={computerName}
+                id={props.booking}
+                computer={computerName && computerName}
                 room={roomName}
                 date={dateString}
                 close={popUp}
-                duration={durationHours+"h"+durationMinutes+"min"} />
+                reload={props.reload()}
+                duration={durationHours + "h" + durationMinutes + "min"} />
         </div>
     )
 }

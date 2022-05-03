@@ -10,12 +10,11 @@ export default function BookingPopup(props) {
                 <hr />
                 <p>{data}</p>
             </div>
-        )
+        );
     }
 
-
     return (
-        <div className='popup' id={props.id}>
+        <div className='popup' id={"PopupBookingNb" + props.id}>
 
             <h1>Reservation Information</h1>
             <div className='info'>
@@ -25,7 +24,14 @@ export default function BookingPopup(props) {
                 {infoBox("Duration", props.duration)}
             </div>
             <button className='CAxButton' onClick={props.close}>Close</button>
-            <button className='CAxButton'>Cancel</button>
+            <button className='CAxButton' onClick={() => {
+                fetch('http://127.0.0.1:8000/api/bookings/delete?book_id=' + props.id, {
+                    method: "GET"
+                }).then(respnose => {
+                    return respnose.text;
+                });
+                props.close();
+            }}>Cancel</button>
         </div>
     );
 }

@@ -2,7 +2,6 @@ import React from "react";
 import Login from "./LoginComponent/LoginPageComponent";
 import RoomLayout from "./RoomLayoutComponent/RoomLayoutComponent";
 import MainPage from "./MainPageComponent/MainPage"
-import BookingPopup from "./MainPageComponent/BookingComponent/BookingPopup";
 
 import {
   BrowserRouter as Router,

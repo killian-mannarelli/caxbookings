@@ -16,7 +16,7 @@ class ComputerSerializer(serializers.ModelSerializer):
 class BookingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
-        fields = ('id', 'user', 'computer', 'start', 'end')
+        fields = ('id', 'user_id', 'computer', 'start', 'end', 'status')
 
 class RoomsSerializer(serializers.ModelSerializer):
     class Meta:

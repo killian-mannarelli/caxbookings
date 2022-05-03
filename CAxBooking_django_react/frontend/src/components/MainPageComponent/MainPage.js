@@ -16,8 +16,6 @@ export default function MainPage() {
       return response.text();
     }).then(data => {
       let item = JSON.parse(data);
-      console.log(item)
-      console.log(item[0])
       setUser(item[0]);
     });
   };
@@ -29,7 +27,7 @@ export default function MainPage() {
   return (
     <div className="MainPage">
       <Header />
-      {user && <Bookings user_id={user?.id ?? 0} />}
+      {user && <Bookings user_id={user.id} />}
       <TimeSpan />
       <RoomDisplay />
 

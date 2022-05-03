@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 
 # Create your views here.
 from django.shortcuts import render
+from requests import request
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -17,10 +18,13 @@ class UserSearchView(generics.ListAPIView):
     
     def get_queryset(self):
         if(self.request.user.is_authenticated):
-            return Users.objects.all().filter(id=self.request.user.id)
+            query = Users.objects.all()
+            query = query.filter(username=self.request.user.username)
+            return query
         else:
             return None
 
+#region computers
 
 class ComputerListView(generics.ListAPIView):
     #check if the user is authenticated
@@ -49,6 +53,8 @@ class ComputerSearchView(generics.ListAPIView):
             queryset = queryset.filter(room=roomid)
         return queryset
 
+#endregion
+
 class RoomsSearchView(generics.ListAPIView):
     model = Rooms
     serializer_class = ComputerSerializer
@@ -60,6 +66,9 @@ class RoomsSearchView(generics.ListAPIView):
             queryset = queryset.filter(id=id)
         return queryset         
 
+#region bookings
+"""Can list all views if no parameters is given, if book_id set, returns the info of the bokking, 
+if user_id is set returns the list of ongoing bookings of the user"""
 class BookingSearchView(generics.ListAPIView):
     model = Bookings
     serializer_class = BookingsSerializer 
@@ -70,9 +79,20 @@ class BookingSearchView(generics.ListAPIView):
         if id is not None:
             queryset = queryset.filter(id=id)
         if userId is not None:
-            queryset = queryset.filter(user=userId)
+            queryset = queryset.filter(user_id=userId, status=1)
         return queryset
-        
+
+class BookingCancelView(generics.ListAPIView):
+    model = Bookings
+    serializer_class = BookingsSerializer 
+    def get_queryset(self):
+        id = self.request.query_params.get('book_id')
+        if id is not None:
+            booking = Bookings.objects.get(id=id, 
+                                           user_id = Users.objects.all().filter(username=self.request.user.username)[0].id)
+            booking.status=3    
+            booking.save()
+
 class BookingsCreateView(APIView):
     serializer_class = CreateBookingSerializer
     def post(self, request, format = None):
@@ -83,14 +103,16 @@ class BookingsCreateView(APIView):
                 start = serializer.data.start
                 end = serializer.data.end
                 user = self.request.user
-                booking = Bookings(user=user,computer=computer, start=start, end=end)
+                booking = Bookings(user_id=user,computer=computer, start=start, end=end)
                 booking.save()
                 return Response(BookingsSerializer(booking).data,status=status.HTTP_201_CREATED)
+
 
 class BookingsListView(generics.ListAPIView):
     queryset = Bookings.objects.all()
     serializer_class = BookingsSerializer
 
+#endregion  
 
 
 
