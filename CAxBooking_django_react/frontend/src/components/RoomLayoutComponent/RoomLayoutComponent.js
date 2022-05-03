@@ -37,6 +37,7 @@ export default function RoomLayout(props) {
     if (urlInfos == null) return;
     fetchApi();
     fetchToGetRoom();
+    getOngoingBookings();
   }, [urlInfos, open]);
 
   useEffect(() => {
@@ -116,6 +117,26 @@ export default function RoomLayout(props) {
     setOpen(false);
   };
 
+  const checkIfUserHas3Hours = () => {
+    //Use ongoinguserbookings
+    //for each object in ongoinguserbookings
+    //calculate the time between start and end and add it to a variable
+    //if the variable is greater than 3 hours return true
+    //else return false
+    let time = 0;
+    for (let i = 0; i < ongoinguserbookings.length; i++) {
+      let start = new Date(ongoinguserbookings[i].start);
+      let end = new Date(ongoinguserbookings[i].end);
+      time += (end - start) / 3600000;
+    }
+    console.log(time);
+    if (time > 3) {
+      return true;
+    }
+    return false;
+
+  }
+
 
   const makeBooking = () => {
     let startStringIso = urlInfos.startTime.toISOString();
@@ -130,10 +151,16 @@ export default function RoomLayout(props) {
       }
     }, []);
 
-    if (ongoingBooking.length > 0) {
+    if(checkIfUserHas3Hours()){
+      alert("You already have 3 hours of bookings ! ");
+      return;
+    }
+
+    if ( ongoingBooking.length > 0  ) {
       alert("You already have a booking at this time ! ");
       return;
     }
+    
 
     Axios.post("http://127.0.0.1:8000/api/bookings/create", {
       computer: selectedComputer.computer_id,

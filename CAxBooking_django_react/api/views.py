@@ -2,7 +2,7 @@ import json
 from pyexpat import model
 from django.http import JsonResponse
 from django.shortcuts import redirect
-
+from dateutil import parser
 # Create your views here.
 from urllib3 import HTTPResponse
 from rest_framework import generics, status
@@ -175,7 +175,7 @@ class ComputerInRoomListView(generics.ListAPIView):
                     #else set the status to 0
                     computerInRoomI = ComputerInRoom(computer_id = computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
                     #search for bookings for that computer in that time span
-                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lte=parser.parse(time_span_end))
+                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lte=parser.parse(time_span_end), status=1)
                     if(bookings.count() > 0):
                         computerInRoomI.computer_status = 1
                     listtoreturn.append(computerInRoomI)
