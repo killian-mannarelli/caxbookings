@@ -76,7 +76,7 @@ export default function RoomLayout(props) {
 
   const fetchToGetRoom = () => {
     //fetch the room name
-    fetch("http://127.0.0.1:8000/api/rooms/search?room_id=" + urlInfos.roomId, {
+    fetch("http://127.0.0.1:8000/api/rooms/search/specific?room_id=" + urlInfos.roomId, {
       method: "GET"
     }).then(function (response) {
       return response.text();
