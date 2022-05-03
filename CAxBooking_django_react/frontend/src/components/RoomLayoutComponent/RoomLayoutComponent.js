@@ -49,11 +49,13 @@ export default function RoomLayout(props) {
     let StartDate = new Date(day.toISOString());
     StartDate.setHours(start.getHours());
     StartDate.setMinutes(start.getMinutes());
-    StartDate.setSeconds(start.getSeconds());
+    StartDate.setSeconds(0);
+    StartDate.setMilliseconds(0);
     let EndDate = new Date(day.toISOString());
     EndDate.setHours(end.getHours());
-    EndDate.setMinutes(end.getMinutes());
-    EndDate.setSeconds(end.getSeconds());
+    EndDate.setMinutes(end.getMinutes()+1);
+    EndDate.setSeconds(0);
+    EndDate.setMilliseconds(0);
 
 
     let newUrlInfos = {
