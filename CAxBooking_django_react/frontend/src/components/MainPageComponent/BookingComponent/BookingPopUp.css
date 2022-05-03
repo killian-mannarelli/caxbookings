@@ -1,0 +1,91 @@
+.popup {
+    position: absolute;
+    z-index: 20;
+    top: 10%;
+    left: 25%;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    border: 2px solid #595850;
+    border-radius: 20px;
+    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
+}
+
+#popup-back{
+    visibility: hidden;
+    position: absolute;
+    z-index: 5;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(89, 88, 80, 0.25);
+}
+
+.info {
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.info-box {
+    padding: 10px;
+    width: 20%;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding: 2vw;
+    background-color: #ffffff;
+    border: 1px solid #595850;
+    border-radius: 20px;
+    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
+}
+
+.popup .CAxButton {
+    width: 20%;
+    margin: 5px;
+}
+
+
+
+.Booking .popup {
+    visibility: hidden;
+}
+
+.Bookings .show {
+    visibility: visible !important;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

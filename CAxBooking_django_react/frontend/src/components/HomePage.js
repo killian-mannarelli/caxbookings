@@ -23,7 +23,7 @@ export default function HomePage() {
 
         <Route path={'/login'}>
           <Login />
-        </Route>
+        </Route> 
 
         <Route path={'/room/room_id=:id&start=:tss&stop=:tse'}>
           <RoomLayout />

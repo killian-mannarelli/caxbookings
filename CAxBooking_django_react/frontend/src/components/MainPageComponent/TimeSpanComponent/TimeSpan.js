@@ -62,6 +62,7 @@ export default function TimePickers(props) {
                             minDate={moment(new Date())}
                             onChange={(newValue) => {
                                 setValueDay(newValue);
+                                
                             }}
                             renderInput={(params) => <TextField {...params} />}
                             disableOpenPicker={false}
