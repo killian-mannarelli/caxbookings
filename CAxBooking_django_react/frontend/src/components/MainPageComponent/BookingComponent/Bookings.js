@@ -15,14 +15,14 @@ export default function Bookings(props) {
         }).then(function (data) {
             let list = JSON.parse(data);
             setBookings(list.map((val, key) => {
-                return <tr key={key}>
+                return <tr id={"bookingNb" + val.id} key={key}>
                     <td>
                         <Booking
                             computer={val.computer}
                             start={val.start}
                             end={val.end}
                             booking={val.id}
-                            reload={fetchBookings} />
+                            cancel={cancelBbooking} />
                     </td>
                 </tr>
             }));
@@ -31,13 +31,16 @@ export default function Bookings(props) {
     };
 
     useEffect(() => {
-
+        fetchBookings()
         console.log(books);
     }, [])
 
+    function cancelBbooking(idBook) {
+        let child = document.getElementById("bookingNb" + idBook);
+        let parent = document.getElementById("BookingsList");
 
-    function cancelBooking(){
-
+        // Delete child
+        parent.removeChild(child);
     }
 
     return (
@@ -46,7 +49,7 @@ export default function Bookings(props) {
             <div id='popup-back'></div>
             <p>Ongoing Bookings : </p>
             <table className="content-table">
-                <tbody>
+                <tbody id='BookingsList'>
                     {books && books}
                 </tbody>
             </table>

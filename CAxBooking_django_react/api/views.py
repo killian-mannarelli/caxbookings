@@ -3,13 +3,14 @@ from pyexpat import model
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from dateutil import parser
+
+
 # Create your views here.
 from urllib3 import HTTPResponse
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomsSerializer, SearchUserSerializer
-
 from .models import Bookings, ComputerInRoom, Computers, Rooms, Users
 # Create your views here.
  
@@ -102,8 +103,6 @@ class OnGoingUserBookings(generics.ListAPIView):
         return queryset
 
 def add_bookings(request):
-
-        
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)
@@ -175,7 +174,7 @@ class ComputerInRoomListView(generics.ListAPIView):
                     #else set the status to 0
                     computerInRoomI = ComputerInRoom(computer_id = computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
                     #search for bookings for that computer in that time span
-                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lte=parser.parse(time_span_end), status=1)
+                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lte=parser.parse(time_span_end))
                     if(bookings.count() > 0):
                         computerInRoomI.computer_status = 1
                     listtoreturn.append(computerInRoomI)

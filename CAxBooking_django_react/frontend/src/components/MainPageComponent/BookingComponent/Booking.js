@@ -19,8 +19,9 @@ export default function Booking(props) {
     const popUpID = "PopupBookingNb" + props.booking;
 
     useEffect(() => {
-        fetchComputer();
-    }, []);
+        fetchComputer()
+        fetchRoom();
+    }, [computerRoom]);
 
     function fetchComputer() {
         fetch("http://127.0.0.1:8000/api/computers/search?computer_id=" + props.computer, {
@@ -31,7 +32,6 @@ export default function Booking(props) {
             let list = JSON.parse(data);
             setComputerName(list[0].name);
             setComputerRoom(list[0].room);
-            fetchRoom();
         }.bind(this));
     }
 
@@ -69,14 +69,14 @@ export default function Booking(props) {
 
     return (
         <div className='Booking' id={'BookingNb' + props.booking}>
-            <p onClick={popUp}>{computerName && computerName} - {roomName} - {dateString}</p>
+            <p onClick={popUp}>{computerName && computerName} - {roomName  && roomName} - {dateString}</p>
             <BookingPopup
                 id={props.booking}
                 computer={computerName && computerName}
-                room={roomName}
+                room={roomName && roomName}
                 date={dateString}
                 close={popUp}
-                reload={props.reload()}
+                cancel={props.cancel}
                 duration={durationHours + "h" + durationMinutes + "min"} />
         </div>
     )
