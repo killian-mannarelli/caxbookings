@@ -8,9 +8,19 @@ export default function Booking(props) {
     const [roomName, setRoomName] = useState();
 
 
-    const dateString = splitStart();
-    const dateEnd = stringToDate(props.end);
-    const dateStart = stringToDate(props.start);
+    
+    const dateEnd = new Date(props.end);
+    const dateStart = new Date(props.start);
+    dateStart.setHours(dateStart.getHours() - 2);
+    dateEnd.setHours(dateEnd.getHours() - 2);
+    const dateString = dateStart.toLocaleDateString("fr-FR", {
+        day: "numeric",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        });
     let duration = (dateEnd.getTime() - dateStart.getTime()) / 60000;
     let durationMinutes = duration;
     let durationHours = Math.floor(durationMinutes / 60);
@@ -54,7 +64,7 @@ export default function Booking(props) {
     }
 
     function splitStart() {
-        let d = stringToDate(props.start);
+        let d = new Date(props.start);
         d = d.toLocaleDateString() + " - " + d.toLocaleTimeString();
         d = d.split(":");
         return (d[0] + ":" + d[1]);

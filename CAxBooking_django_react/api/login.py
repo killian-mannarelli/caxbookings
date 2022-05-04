@@ -39,7 +39,19 @@ def login_verify(request, *args, **kwargs):
                 SSOLogin(request, username, password)
                 return JsonResponse({'status': 'ok', 'username': username})
                 
-           
+
+            code = authentificate_using_cumulus(username, password)
+            if(code == 200):
+                list  = User.objects.filter(username=username)
+                list.delete()
+                authuser = User.objects.create_user(
+                username=username, password=password, email=username, 
+                first_name=username, last_name=username, is_staff=False, is_superuser=False, is_active=True, 
+                date_joined=datetime.now(), last_login=datetime.now())
+                authuser.save()
+                login(request, authuser)
+                SSOLogin(request, username, password)
+                return JsonResponse({'status': 'ok', 'username': username})
             return HttpResponse(status=401)
             
         code = authentificate_using_cumulus(username=username, password=password)

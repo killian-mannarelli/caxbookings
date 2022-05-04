@@ -47,12 +47,12 @@ export default function RoomLayout(props) {
   const callBackFromTimeSpan = (day, start, end) => {
 
     let StartDate = new Date(day.toISOString());
-    StartDate.setHours(start.getHours());
+    StartDate.setHours(start.getHours()+2);
     StartDate.setMinutes(start.getMinutes());
     StartDate.setSeconds(0);
     StartDate.setMilliseconds(0);
     let EndDate = new Date(day.toISOString());
-    EndDate.setHours(end.getHours());
+    EndDate.setHours(end.getHours()+2);
     EndDate.setMinutes(end.getMinutes()+1);
     EndDate.setSeconds(0);
     EndDate.setMilliseconds(0);
@@ -91,11 +91,15 @@ export default function RoomLayout(props) {
 
   const scrapUrl = () => {
     let url = window.location.href;
+    let startToAdd = new Date(url.split("start=")[1].split("&")[0]);
+    let endToAdd = new Date(url.split("stop=")[1].split("&")[0]);
+    startToAdd.setHours(startToAdd.getHours());
+    endToAdd.setHours(endToAdd.getHours());
 
     let newUrlInfos = {
       roomId: url.split("room_id=")[1].split("&")[0],
-      startTime: new Date(url.split("start=")[1].split("&")[0]),
-      endTime: new Date(url.split("stop=")[1].split("&")[0]),
+      startTime: startToAdd,
+      endTime: endToAdd,
       day: new Date(url.split("start=")[1].split("&")[0])
 
     }

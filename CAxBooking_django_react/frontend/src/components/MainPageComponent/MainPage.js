@@ -52,11 +52,11 @@ export default function MainPage() {
   const callBackFromTimeSpan = (day, start, end) => {
 
     let StartDate = new Date(day.toISOString());
-    StartDate.setHours(start.getHours());
+    StartDate.setHours(start.getHours()+2);
     StartDate.setMinutes(start.getMinutes());
     StartDate.setSeconds(start.getSeconds());
     let EndDate = new Date(day.toISOString());
-    EndDate.setHours(end.getHours());
+    EndDate.setHours(end.getHours()+2);
     EndDate.setMinutes(end.getMinutes());
     EndDate.setSeconds(end.getSeconds());
     setStartDate(StartDate);

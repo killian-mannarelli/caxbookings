@@ -26,10 +26,13 @@ export default function TimePickers(props) {
 
     useEffect(() => {
         if (valueDay == null || valueTimeStart == null || valueTimeEnd == null) return;
-
-        setValueDay(moment(props.start));
-        setValueStart(moment(props.start));
-        setValueEnd(moment(props.end));
+        let momentstart = moment(props.start)
+        let momentend = moment(props.end)
+        momentstart.hours(momentstart.hours() - 2)
+        momentend.hours(momentend.hours() - 2)
+        setValueDay(momentstart);
+        setValueStart(momentstart);
+        setValueEnd(momentend);
     }, [valueRoom]);
 
     useEffect(() => {
