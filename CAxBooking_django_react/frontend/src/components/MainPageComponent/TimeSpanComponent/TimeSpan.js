@@ -56,7 +56,9 @@ export default function TimePickers(props) {
     function isTimeStartOK(timeValue, clockType) {
         if (clockType == 'minutes') {
             if (moment().dayOfYear() == valueDay.dayOfYear()) {
-                if (valueTimeStart.hours() == moment().hours()) {
+                if (timeValue % 15 != 0) {
+                    return true;
+                } else if (valueTimeStart.hours() == moment().hours()) {
                     if (timeValue < moment().minutes()) {
                         return true;
                     }
@@ -72,7 +74,9 @@ export default function TimePickers(props) {
 
     function isTimeEndOK(timeValue, clockType) {
         if (clockType == 'minutes') {
-            if (valueTimeStart.minutes() + MINIMUM_BOOKING_TIME < 60) {
+            if (timeValue % 15 != 0) {
+                return true;
+            } else if (valueTimeStart.minutes() + MINIMUM_BOOKING_TIME < 60) {
                 if (valueTimeEnd.hours() == valueTimeStart.hours() && timeValue < valueTimeStart.minutes() + MINIMUM_BOOKING_TIME) {
                     return true;
                 } else if (valueTimeEnd.hours() == valueTimeStart.hours() + MAXIMUM_BOOKING_TIME && timeValue > valueTimeStart.minutes()) {
