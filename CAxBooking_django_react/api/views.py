@@ -172,6 +172,35 @@ def add_bookings(request):
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
     
+    def add_room(request):
+        #take the same model as the one used in the add_bookings
+        if request.method == 'POST':
+            json_body = request.body.decode('utf-8')
+            json_body = json.loads(json_body)
+            print(json_body)
+            roomname = json_body['room_name']
+            if roomname is not None:
+                roomtoAdd = Rooms(name=roomname)
+                roomtoAdd.save()
+                return JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'error'})
+        
+    def add_pc_in_room(request):
+        if request.method == 'POST':
+            json_body = request.body.decode('utf-8')
+            json_body = json.loads(json_body)
+            print(json_body)
+            room_id = json_body['room_id']
+            pc_name = json_body['pc_name']
+            if room_id is not None and pc_name is not None:
+                room = Rooms.objects.get(id=room_id)
+                pc = Computers(name=pc_name, room=room)
+                pc.save()
+                return JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'error'})
+
+
+    
     
         
     

@@ -14,13 +14,15 @@ export default function TimePickers(props) {
 
     let [valueDay, setValueDay] = React.useState(moment());
     let [valueTimeStart, setValueStart] = React.useState(moment());
-    let [valueTimeEnd, setValueEnd] = React.useState(moment(new Date().setMinutes(new Date().getMinutes() + MINIMUM_BOOKING_TIME)));
-    let [valueRoom, setValueRoom] = React.useState(null);
+    let [valueTimeEnd, setValueEnd] = React.useState(moment());
+    let [valueRoom, setValueRoom] = React.useState(moment());
 
     useEffect(() => {
+
+       
         setValueDay(moment());
         setValueStart(moment());
-        setValueEnd(moment(new Date().setMinutes(new Date().getMinutes() + MINIMUM_BOOKING_TIME)));
+        setValueEnd(moment());
         setValueRoom(0);
     }, []);
 
@@ -28,8 +30,25 @@ export default function TimePickers(props) {
         if (valueDay == null || valueTimeStart == null || valueTimeEnd == null) return;
         let momentstart = moment(props.start)
         let momentend = moment(props.end)
-        momentstart.hours(momentstart.hours() - 2)
-        momentend.hours(momentend.hours() - 2)
+        if(props.start != undefined){
+        momentstart.hours(momentstart.hours() -2)
+        momentend.hours(momentend.hours() -2)
+        
+    }
+    else {
+        let roundstartHour = new Date();
+        let roundendHour = new Date();
+        roundstartHour.setHours(roundstartHour.getHours()+1);
+        roundstartHour.setMinutes(0);
+        roundstartHour.setSeconds(0);
+        roundstartHour.setMilliseconds(0);
+        roundendHour.setHours(roundendHour.getHours()+1);
+         roundendHour.setMinutes(30);
+         roundendHour.setSeconds(0);
+         roundendHour.setMilliseconds(0);
+         momentstart = moment(roundstartHour);
+            momentend = moment(roundendHour);
+    }
         setValueDay(momentstart);
         setValueStart(momentstart);
         setValueEnd(momentend);
