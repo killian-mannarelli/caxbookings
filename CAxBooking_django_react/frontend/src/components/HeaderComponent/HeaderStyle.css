@@ -10,10 +10,10 @@
 
 .Header {
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr 0.5fr;
+    grid-template-columns: 1fr 1fr 2fr 0.5fr 0.5fr;
     grid-template-rows: auto;
     grid-template-areas:
-      "image . title login";
+      "image . title admin login";
     width: 100%;
     border-radius: 10vh;
 }
@@ -25,10 +25,22 @@
     
 }
 
-#CAxLink{
+#Admin-button{
+    align-self: center;
+    align-items: center;
+    grid-area: admin;
+    margin: 15px;
+}
+
+#Admin-button .CAxButton{
+    padding: 10px;
+}
+
+#Logout-button{
     align-self: center;
     align-items: center;
     grid-area: login;
+    margin: 15px;
 }
 
 .Header .CAxButton{

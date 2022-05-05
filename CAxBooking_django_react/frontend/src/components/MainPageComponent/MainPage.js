@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import RoomDisplay from './RoomDisplayComponent/RoomDisplay';
 import TimeSpan from './TimeSpanComponent/TimeSpan';
 import Bookings from './BookingComponent/Bookings';
-import Header from './Header';
+import Header from '../HeaderComponent/Header';
 import axios from 'axios';
 
 export default function MainPage() {

@@ -32,8 +32,8 @@ export default function RoomDisplay(props) {
                     {props.rooms.map((val,key) => {
                         return (
                             <tr key = {key}>
-                                <td>{val?.room_name ?? "Placeholder"}</td>
-                                <td>8-12</td>
+                                <td>{val?.room_name ?? "Placeholder"}</td>{/* 
+                                <td>8-12</td> */}
                                 <td>{val?.room_current_capacity ?? 0}/{val?.room_capacity ?? 0}</td>
                                 <td>
                                     <a href="">
