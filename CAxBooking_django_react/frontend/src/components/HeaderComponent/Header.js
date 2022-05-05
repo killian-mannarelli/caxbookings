@@ -9,10 +9,10 @@ export default function Header() {
       </a>
       <h1>Computer booking service</h1>
 
-      <a href="http://127.0.0.1:8000/logout" id="Admin-button">
+      <a href="http://127.0.0.1:8000/admin" id="Admin-button">
         <button className="login-logout CAxButton">Admin</button>
       </a>
-      <a href="http://127.0.0.1:8000/admin" id="Logout-button">
+      <a href="http://127.0.0.1:8000/logout" id="Logout-button">
         <button className="login-logout CAxButton">Logout</button>
       </a>
     </div>
