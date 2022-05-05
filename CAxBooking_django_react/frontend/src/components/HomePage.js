@@ -1,4 +1,5 @@
 import React from "react";
+import './style.css'
 import Login from "./LoginComponent/LoginPageComponent";
 import RoomLayout from "./RoomLayoutComponent/RoomLayoutComponent";
 import MainPage from "./MainPageComponent/MainPage"

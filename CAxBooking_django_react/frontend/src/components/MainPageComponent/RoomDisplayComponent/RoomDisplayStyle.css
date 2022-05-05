@@ -75,24 +75,3 @@
 .content-table tr:nth-of-type(even) td {
     background: #D0D0D0;
 }
-
-.CAxButton {
-    background-color: #d6001d;
-    border: none;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.25);
-    border-radius: 61px;
-}
-
-.content-table .CAxButton {
-    width: 100%;
-}
-
-.CAxButton:hover {
-    background-color: #b3061d;
-}
