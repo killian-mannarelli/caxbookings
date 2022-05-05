@@ -53,7 +53,7 @@ export default function RoomLayout(props) {
     StartDate.setMilliseconds(0);
     let EndDate = new Date(day.toISOString());
     EndDate.setHours(end.getHours()+2);
-    EndDate.setMinutes(end.getMinutes()+1);
+    EndDate.setMinutes(end.getMinutes());
     EndDate.setSeconds(0);
     EndDate.setMilliseconds(0);
 
