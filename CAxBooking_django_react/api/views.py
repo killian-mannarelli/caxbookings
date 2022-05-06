@@ -172,18 +172,30 @@ def add_bookings(request):
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
     
-    def add_room(request):
-        #take the same model as the one used in the add_bookings
-        if request.method == 'POST':
-            json_body = request.body.decode('utf-8')
-            json_body = json.loads(json_body)
-            print(json_body)
-            roomname = json_body['room_name']
-            if roomname is not None:
-                roomtoAdd = Rooms(name=roomname)
-                roomtoAdd.save()
-                return JsonResponse({'status': 'success'})
-            return JsonResponse({'status': 'error'})
+def add_room(request):
+    #take the same model as the one used in the add_bookings
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        roomname = json_body['room_name']
+        if roomname is not None:
+            roomtoAdd = Rooms(name=roomname)
+            roomtoAdd.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
+
+def delete_room(request):
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        room_id = json_body['room_id']
+        if room_id is not None:
+            roomtoDelete = Rooms.objects.get(id=room_id[0])
+            roomtoDelete.delete()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
         
     def add_pc_in_room(request):
         if request.method == 'POST':
