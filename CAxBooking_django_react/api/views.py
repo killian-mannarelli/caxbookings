@@ -101,9 +101,6 @@ class SpecificRoomsSearch(generics.ListAPIView):
 class RoomsSearchView(generics.ListAPIView):
     model = RoomSearch
     serializer_class = RoomSearchSerializer
-
-  
-
     
     def get_queryset(self):
         queryset = Rooms.objects.all()
@@ -119,8 +116,6 @@ class RoomsSearchView(generics.ListAPIView):
                 RoomSearchI = RoomSearch(room_id = id, room_name = queryset[0].name , room_capacity = get_room_capacity(id), room_current_capacity = get_room_current_capacity(id, parser.parse(timestart), parser.parse(timeend)))
                 listtoreturn.append(RoomSearchI)
                 return listtoreturn
-            
-
             
         for (i) in queryset:
             RoomSearchI = RoomSearch(room_id = i.id, room_name = i.name, room_capacity = get_room_capacity(i.id), room_current_capacity = get_room_current_capacity(i.id, parser.parse(timestart), parser.parse(timeend)))
@@ -142,6 +137,33 @@ def get_room_capacity(room_id):
     """A method that counts the number of computer that have this room id and return the number of computers"""
     computers = Computers.objects.filter(room=room_id)
     return len(computers)
+
+def add_room(request):
+    #take the same model as the one used in the add_bookings
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        roomname = json_body['room_name']
+        if roomname is not None:
+            roomtoAdd = Rooms(name=roomname)
+            roomtoAdd.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
+
+def delete_room(request):
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        room_id = json_body['room_id']
+        if room_id is not None:
+            roomtoDelete = Rooms.objects.get(id=room_id[0])
+            roomtoDelete.delete()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
+        
+
 
 #endregion
 
