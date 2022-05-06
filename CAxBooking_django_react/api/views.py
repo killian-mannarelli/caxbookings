@@ -13,8 +13,7 @@ from rest_framework.response import Response
 from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomSearchSerializer, RoomsSerializer, SearchUserSerializer
 from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms, Users
 # Create your views here.
- 
-
+  
 class UserSearchView(generics.ListAPIView):
     model = Users
     serializer_class = SearchUserSerializer
