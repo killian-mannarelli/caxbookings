@@ -8,7 +8,7 @@ export default function Booking(props) {
     const [roomName, setRoomName] = useState();
 
 
-    
+
     const dateEnd = new Date(props.end);
     const dateStart = new Date(props.start);
     dateStart.setHours(dateStart.getHours() - 2);
@@ -20,7 +20,7 @@ export default function Booking(props) {
         day: "numeric",
         hour: "numeric",
         minute: "numeric",
-        });
+    });
     let duration = (dateEnd.getTime() - dateStart.getTime()) / 60000;
     let durationMinutes = duration;
     let durationHours = Math.floor(durationMinutes / 60);
@@ -31,7 +31,7 @@ export default function Booking(props) {
     useEffect(() => {
         fetchComputer()
         fetchRoom();
-        
+
     }, [computerRoom]);
 
     function fetchComputer() {
@@ -58,18 +58,6 @@ export default function Booking(props) {
             }.bind(this));
     }
 
-    function stringToDate(date) {
-        let t = date.replace("T", " ").replace("Z", "").split(/[- :]/);
-        return new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
-    }
-
-    function splitStart() {
-        let d = new Date(props.start);
-        d = d.toLocaleDateString() + " - " + d.toLocaleTimeString();
-        d = d.split(":");
-        return (d[0] + ":" + d[1]);
-    }
-
     function popUp() {
         let popup = document.getElementById(popUpID);
         let popupBack = document.getElementById("popup-back");
@@ -80,7 +68,7 @@ export default function Booking(props) {
 
     return (
         <div className='Booking' id={'BookingNb' + props.booking}>
-            <p onClick={popUp}>{computerName && computerName} - {roomName  && roomName} - {dateString}</p>
+            <p onClick={popUp}>{computerName && computerName} - {roomName && roomName} - {dateString}</p>
             <BookingPopup
                 id={props.booking}
                 computer={computerName && computerName}

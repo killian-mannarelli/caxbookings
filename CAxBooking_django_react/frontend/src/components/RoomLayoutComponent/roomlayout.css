@@ -1,12 +1,8 @@
-body {
-    font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: calc(10px + 2vmin);
-    color: #595850;
-    margin: 2vw;
-}
+
 
 .pc {
     transition: all .5s ease;
+    margin: 5px;
 }
 
 #RoomLayout {
@@ -43,4 +39,5 @@ body {
 
 .pc:hover {
     transform: scale(1.1);
+    cursor: pointer;
 }

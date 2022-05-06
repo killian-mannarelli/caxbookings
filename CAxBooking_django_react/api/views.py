@@ -41,7 +41,6 @@ class ComputerListView(generics.ListAPIView):
         else:
             return redirect('/login')
 
-
 class ComputerSearchView(generics.ListAPIView):
     model = Computers
     serializer_class = ComputerSerializer
@@ -61,7 +60,34 @@ class ComputerSearchView(generics.ListAPIView):
             queryset = queryset.filter(room=roomid)
         return queryset
 
+class ComputerInRoomListView(generics.ListAPIView):
+    model = ComputerInRoom
+    serializer_class = ComputerInRoomSerializer
+    def get_queryset(self):
+        queryset = Computers.objects.all()
+        listtoreturn = []
+        room_id = self.request.query_params.get('room_id')
+        time_span_start = self.request.query_params.get('time_span_start')
+        time_span_end = self.request.query_params.get('time_span_end')
+        if room_id is not None:
+            queryset = queryset.filter(room=room_id)
+            if time_span_start is not None and time_span_end is not None:
+                for (computer) in queryset:
+                    #create a ComputerInRoom object for each computer in the room
+                    #search in Bookings if there is one for that computer in that time span
+                    #if there is one then set the status to 1
+                    #else set the status to 0
+                    computerInRoomI = ComputerInRoom(computer_id = computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
+                    #search for bookings for that computer in that time span
+                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lte=parser.parse(time_span_end), status=1)
+                    if(bookings.count() > 0):
+                        computerInRoomI.computer_status = 1
+                    listtoreturn.append(computerInRoomI)
+        return listtoreturn
+
 #endregion
+
+#region rooms
 
 class SpecificRoomsSearch(generics.ListAPIView):
     model = Rooms
@@ -102,11 +128,6 @@ class RoomsSearchView(generics.ListAPIView):
             listtoreturn.append(RoomSearchI)
         return listtoreturn
 
-        
-
-
-
-
 def get_room_current_capacity(room_id,time_start,time_end):
     """A method that counts the number of computer that are not in a booking during this timespan and return the number of computer"""
     computers = Computers.objects.filter(room=room_id)
@@ -118,13 +139,12 @@ def get_room_current_capacity(room_id,time_start,time_end):
         
     return len(computers) - len(computers_in_booking)
 
-
 def get_room_capacity(room_id):
     """A method that counts the number of computer that have this room id and return the number of computers"""
     computers = Computers.objects.filter(room=room_id)
     return len(computers)
 
-
+#endregion
 
 #region bookings
 """Can list all views if no parameters is given, if book_id set, returns the info of the bokking, 
@@ -148,7 +168,6 @@ class OnGoingUserBookings(generics.ListAPIView):
     def get_queryset(self):
         queryset = Bookings.objects.all()
         user = Users.objects.get(username=self.request.user.username)
-        
         if id is not None:
             queryset = queryset.filter(user=user.id)
             queryset = queryset.filter(status = 1)
@@ -211,11 +230,6 @@ def delete_room(request):
                 return JsonResponse({'status': 'success'})
             return JsonResponse({'status': 'error'})
 
-
-    
-    
-        
-    
 class BookingCancelView(generics.ListAPIView):
     model = Bookings
     serializer_class = BookingsSerializer 
@@ -241,41 +255,12 @@ class BookingsCreateView(APIView):
                 booking.save()
                 return Response(BookingsSerializer(booking).data,status=status.HTTP_201_CREATED)
 
-
 class BookingsListView(generics.ListAPIView):
     queryset = Bookings.objects.all()
     serializer_class = BookingsSerializer
 
 #endregion  
 
-class ComputerInRoomListView(generics.ListAPIView):
-    model = ComputerInRoom
-    serializer_class = ComputerInRoomSerializer
-    def get_queryset(self):
-        queryset = Computers.objects.all()
-        listtoreturn = []
-        room_id = self.request.query_params.get('room_id')
-        time_span_start = self.request.query_params.get('time_span_start')
-        time_span_end = self.request.query_params.get('time_span_end')
-        if room_id is not None:
-            queryset = queryset.filter(room=room_id)
-            if time_span_start is not None and time_span_end is not None:
-                for (computer) in queryset:
-                    #create a ComputerInRoom object for each computer in the room
-                    #search in Bookings if there is one for that computer in that time span
-                    #if there is one then set the status to 1
-                    #else set the status to 0
-                    computerInRoomI = ComputerInRoom(computer_id = computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
-                    #search for bookings for that computer in that time span
-                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lte=parser.parse(time_span_end), status=1)
-                    if(bookings.count() > 0):
-                        computerInRoomI.computer_status = 1
-                    listtoreturn.append(computerInRoomI)
-                    
-
-
-        return listtoreturn
-    
 
 
 
