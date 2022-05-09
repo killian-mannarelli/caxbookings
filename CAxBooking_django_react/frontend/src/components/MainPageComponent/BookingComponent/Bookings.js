@@ -8,15 +8,16 @@ export default function Bookings(props) {
     let [books, setBookings] = useState();
 
     function fetchBookings() {
-        fetch("http://127.0.0.1:8000/api/bookings/search?user_id=" + props.user_id, {
+        fetch("http://127.0.0.1:8000/api/bookings/search?user_id=" + props.user_id + "&status2=2&status=1", {
             method: "GET"
         }).then(function (response) {
             return response.text();
         }).then(function (data) {
             let list = JSON.parse(data);
             setBookings(list.map((val, key) => {
-                return <tr id={"bookingNb" + val.id} key={key}>
-                    <td>
+
+                return <tr id={"bookingNb" + val.id} key={key}  >
+                    <td className={"status" + val.status}>
                         <Booking
                             computer={val.computer}
                             start={val.start}
@@ -27,7 +28,6 @@ export default function Bookings(props) {
                 </tr>
             }));
         }.bind(this));
-
     };
 
     useEffect(() => {

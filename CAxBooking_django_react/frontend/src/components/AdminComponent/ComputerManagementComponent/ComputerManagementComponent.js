@@ -1,9 +1,9 @@
 import React from "react"
 
-export default function ComputerManagement(){
+export default function ComputerManagement() {
     return (
         <div id="AccountManagement">
-ssssssssssssssssssssssssssssss
+            ssssssssssssssssssssssssssssss
         </div>
     )
 }

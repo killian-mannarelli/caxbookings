@@ -1,4 +1,4 @@
-.Bookings{
+.Bookings {
     margin-right: 2vw;
     width: 20vw;
     height: 100%;
@@ -10,10 +10,14 @@
 }
 
 
-.Booking a{
+.Booking a {
     display: block;
 }
 
-.Booking{
+.Booking {
     cursor: pointer;
+}
+
+.status2 {
+    background-color: #B6E5A5 !important;
 }

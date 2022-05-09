@@ -19,7 +19,7 @@ export default function TimePickers(props) {
 
     useEffect(() => {
 
-       
+
         setValueDay(moment());
         setValueStart(moment());
         setValueEnd(moment());
@@ -30,25 +30,25 @@ export default function TimePickers(props) {
         if (valueDay == null || valueTimeStart == null || valueTimeEnd == null) return;
         let momentstart = moment(props.start)
         let momentend = moment(props.end)
-        if(props.start != undefined){
-        momentstart.hours(momentstart.hours() -2)
-        momentend.hours(momentend.hours() -2)
-        
-    }
-    else {
-        let roundstartHour = new Date();
-        let roundendHour = new Date();
-        roundstartHour.setHours(roundstartHour.getHours()+1);
-        roundstartHour.setMinutes(0);
-        roundstartHour.setSeconds(0);
-        roundstartHour.setMilliseconds(0);
-        roundendHour.setHours(roundendHour.getHours()+1);
-         roundendHour.setMinutes(30);
-         roundendHour.setSeconds(0);
-         roundendHour.setMilliseconds(0);
-         momentstart = moment(roundstartHour);
+        if (props.start != undefined) {
+            momentstart.hours(momentstart.hours() - 2)
+            momentend.hours(momentend.hours() - 2)
+
+        }
+        else {
+            let roundstartHour = new Date();
+            let roundendHour = new Date();
+            roundstartHour.setHours(roundstartHour.getHours() + 1);
+            roundstartHour.setMinutes(0);
+            roundstartHour.setSeconds(0);
+            roundstartHour.setMilliseconds(0);
+            roundendHour.setHours(roundendHour.getHours() + 1);
+            roundendHour.setMinutes(30);
+            roundendHour.setSeconds(0);
+            roundendHour.setMilliseconds(0);
+            momentstart = moment(roundstartHour);
             momentend = moment(roundendHour);
-    }
+        }
         setValueDay(momentstart);
         setValueStart(momentstart);
         setValueEnd(momentend);
@@ -74,8 +74,8 @@ export default function TimePickers(props) {
 
     function isTimeStartOK(timeValue, clockType) {
         if (clockType == 'minutes') {
-            if (moment().dayOfYear() == valueDay.dayOfYear()) {
-                if (timeValue % 15 != 0) {
+            if (timeValue % 15 != 0) {
+                if (moment().dayOfYear() == valueDay.dayOfYear()) {
                     return true;
                 } else if (valueTimeStart.hours() == moment().hours()) {
                     if (timeValue < moment().minutes()) {
