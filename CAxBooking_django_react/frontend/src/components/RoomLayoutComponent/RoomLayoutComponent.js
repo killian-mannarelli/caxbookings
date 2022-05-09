@@ -195,7 +195,7 @@ export default function RoomLayout(props) {
   return (
 
     <div className="page">
-
+      
       <Header />
       <p id="roomName">{roomName + ' :'}</p>
       <TimeSpan

@@ -40,7 +40,7 @@ export default function RoomDisplayComponent(props) {
         {
             field: 'room_name',
             headerName: 'Room name',
-            width: '150',
+            flex : 1,
         },
     ];
     const setData = () => {
@@ -51,25 +51,32 @@ export default function RoomDisplayComponent(props) {
             }
         }
         );
-        console.log(data);
         return data;
     }
 
 
 
     return (
-        <div className="RoomDisplayComponent" style={{height:300, width:'100%'}}>
+        <Container className="RoomDisplayComponent" >
 
             <DataGrid
                 columns={columns}
                 rows={setData()}
+                autoHeight={true}
                 checkboxSelection={true}
+                hideFooter={true}
+                columnVisibilityModel={{
+                    columns: {
+                        room_name: true,
+                    }
+                }}
+
                 onSelectionModelChange={(newSelection) => {
                     console.log(newSelection);
                     selectedRoom = newSelection;
                  }  }  
             />
             <button className="login-logout CAxButton" onClick={deleteRoom}>Delete</button>
-        </div>
+        </Container>
     );
 }

@@ -157,12 +157,42 @@ def delete_room(request):
         json_body = json.loads(json_body)
         print(json_body)
         room_id = json_body['room_id']
+        
         if room_id is not None:
-            roomtoDelete = Rooms.objects.get(id=room_id[0])
-            roomtoDelete.delete()
+            for id in room_id:
+                roomtoDelete = Rooms.objects.get(id=id)
+                #find all the computers in this room 
+                #find all the bookings related to each computer of the room (for loop)
+                #delete every bookings related to this computer then delete the computer
+                computers = Computers.objects.filter(room=id)
+                for computer in computers:
+                    bookings = Bookings.objects.filter(computer=computer)
+                    for booking in bookings:
+                        booking.delete()
+                    computer.delete()
+            
+                roomtoDelete.delete()
+            
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
-        
+
+def delete_room_computer(request):
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        computer_id = json_body['computer_id']
+        if(computer_id is not None):
+            computertoDelete = Computers.objects.get(id=computer_id)
+            #find all the bookings related to this computer
+            #delete every bookings related to this computer then delete the computer
+            bookings = Bookings.objects.filter(computer=computer_id)
+            for booking in bookings:
+                booking.delete()
+            computertoDelete.delete()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
+
 
 
 #endregion
@@ -188,7 +218,11 @@ class OnGoingUserBookings(generics.ListAPIView):
     serializer_class = BookingsSerializer
     def get_queryset(self):
         queryset = Bookings.objects.all()
-        queryset = queryset.filter(status = 1)
+        user = Users.objects.get(username=self.request.user.username)
+        
+        if id is not None:
+            queryset = queryset.filter(user=user.id)
+            queryset = queryset.filter(status = 1)
         return queryset
 
 def add_bookings(request):
@@ -209,32 +243,32 @@ def add_bookings(request):
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
     
-    def add_room(request):
-        #take the same model as the one used in the add_bookings
-        if request.method == 'POST':
-            json_body = request.body.decode('utf-8')
-            json_body = json.loads(json_body)
-            print(json_body)
-            roomname = json_body['room_name']
-            if roomname is not None:
-                roomtoAdd = Rooms(name=roomname)
-                roomtoAdd.save()
-                return JsonResponse({'status': 'success'})
-            return JsonResponse({'status': 'error'})
+def add_room(request):
+    #take the same model as the one used in the add_bookings
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        roomname = json_body['room_name']
+        if roomname is not None:
+            roomtoAdd = Rooms(name=roomname)
+            roomtoAdd.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
         
-    def add_pc_in_room(request):
-        if request.method == 'POST':
-            json_body = request.body.decode('utf-8')
-            json_body = json.loads(json_body)
-            print(json_body)
-            room_id = json_body['room_id']
-            pc_name = json_body['pc_name']
-            if room_id is not None and pc_name is not None:
-                room = Rooms.objects.get(id=room_id)
-                pc = Computers(name=pc_name, room=room)
-                pc.save()
-                return JsonResponse({'status': 'success'})
-            return JsonResponse({'status': 'error'})
+def add_pc_in_room(request):
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        room_id = json_body['room_id'][0]
+        pc_name = json_body['pc_name']
+        if room_id is not None and pc_name is not None:
+            room = Rooms.objects.get(id=room_id)
+            pc = Computers(name=pc_name, room=room)
+            pc.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
 
 class BookingCancelView(generics.ListAPIView):
     model = Bookings
@@ -244,6 +278,7 @@ class BookingCancelView(generics.ListAPIView):
         if id is not None:
             booking = Bookings.objects.get(id=id, 
                                            user_id = Users.objects.all().filter(username=self.request.user.username)[0].id)
+
             booking.status=3    
             booking.save()
 

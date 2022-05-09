@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import "./style.css";
 
 export default function RoomCreationComponent(props) {
     //return a form that will create a room
@@ -15,6 +16,7 @@ export default function RoomCreationComponent(props) {
             room_name: roomName
         }).then(res => {
             console.log(res.data);
+
         });
             
             

@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../HeaderComponent/Header';
 import Selection from './SelectionComponent/SelectionComponent';
+import { Container } from '@mui/material';
 
 import './AdminStyle.css';
 
@@ -8,13 +9,16 @@ export default function Admin() {
   const [content, setContent] = React.useState()
 
   return (
-    <div className="Admin">
-      <Header />
+    <div className="Admin2">
+    <Header />
+    <Container className="Admin">
+      
       <Selection setContent={setContent} />
-      <div id='AdminContent'>
+      <Container id='AdminContent'>
         {content && content}
-      </div >
+      </Container >
 
+    </Container>
     </div>
   );
 }
