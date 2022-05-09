@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import BookingSearchView, BookingsListView, ComputerInRoomListView, ComputerListView, ComputerSearchView, OnGoingUserBookings, RoomsSearchView, SpecificRoomsSearch, add_bookings, BookingCancelView, UserSearchView, add_room, delete_room, add_pc_in_room, delete_room_computer
+from .views import BookingSearchView, BookingsListView, OnGoingUserBookings, ComputerInRoomListView, ComputerListView, ComputerSearchView, RoomsSearchView
+from .views import SpecificRoomsSearch, add_bookings, BookingCancelView, UserSearchView, add_room, delete_room, bookingsFromStatus
 from .login import login_verify
 
 urlpatterns = [
@@ -23,4 +25,6 @@ urlpatterns = [
     path('bookings/list', BookingsListView.as_view()),
     path('bookings/search', BookingSearchView.as_view()),
     path('bookings/delete', BookingCancelView.as_view()),
+    path('bookings/user/ongoing', OnGoingUserBookings.as_view()),
+    path('bookings/status', bookingsFromStatus),
 ]

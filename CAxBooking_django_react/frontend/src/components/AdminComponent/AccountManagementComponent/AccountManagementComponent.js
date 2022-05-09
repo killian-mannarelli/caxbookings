@@ -1,9 +1,9 @@
 import React from "react"
 
-export default function AccountManagement(){
+export default function AccountManagement() {
     return (
         <div id="AccountManagement">
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         </div>
     )
 }

@@ -27,8 +27,6 @@ export default function RoomLayout(props) {
   useEffect(() => {
     getOngoingBookings();
     scrapUrl();
-
-
   }, []
 
   );
@@ -47,12 +45,12 @@ export default function RoomLayout(props) {
   const callBackFromTimeSpan = (day, start, end) => {
 
     let StartDate = new Date(day.toISOString());
-    StartDate.setHours(start.getHours()+2);
+    StartDate.setHours(start.getHours() + 2);
     StartDate.setMinutes(start.getMinutes());
     StartDate.setSeconds(0);
     StartDate.setMilliseconds(0);
     let EndDate = new Date(day.toISOString());
-    EndDate.setHours(end.getHours()+2);
+    EndDate.setHours(end.getHours() + 2);
     EndDate.setMinutes(end.getMinutes());
     EndDate.setSeconds(0);
     EndDate.setMilliseconds(0);
@@ -68,7 +66,6 @@ export default function RoomLayout(props) {
   }
 
   const fetchApi = () => {
-
     let startStringIso = urlInfos.startTime.toISOString();
     let endStringIso = urlInfos.endTime.toISOString();
     Axios.get("http://127.0.0.1:8000/api/computerinroom?room_id=" + urlInfos.roomId + "&time_span_start=" + startStringIso + "&time_span_end=" + endStringIso).then(res => {
@@ -180,17 +177,11 @@ export default function RoomLayout(props) {
     });
   }
 
-
   const getOngoingBookings = () => {
     Axios.get("http://127.0.0.1:8000/api/bookings/user/ongoing").then(res => {
       setOngoingUserBookings(res.data);
     });
   }
-
-
-
-
-
 
   return (
 
