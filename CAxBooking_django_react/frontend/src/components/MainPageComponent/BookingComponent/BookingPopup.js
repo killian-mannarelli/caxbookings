@@ -26,7 +26,6 @@ export default function BookingPopup(props) {
             <button className='CAxButton' onClick={() => {
 
                 props.close();
-                console.log(props.id)
             }}>Close</button>
             <button className='CAxButton' onClick={() => {
                 fetch('http://127.0.0.1:8000/api/bookings/delete?book_id=' + props.id, {
@@ -34,7 +33,6 @@ export default function BookingPopup(props) {
                 }).then(respnose => {
                     return respnose.text;
                 });
-                console.log(props.id)
                 props.close();
                 props.cancel(props.id);
             }}>Cancel</button>

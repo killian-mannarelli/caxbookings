@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from "react";
 import "./roomlayout.css";
-import Header from "../MainPageComponent/Header";
+import Header from "../HeaderComponent/Header";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import PcComponent from "./PcComponent";
@@ -195,7 +195,7 @@ export default function RoomLayout(props) {
   return (
 
     <div className="page">
-
+      
       <Header />
       <p id="roomName">{roomName + ' :'}</p>
       <TimeSpan
