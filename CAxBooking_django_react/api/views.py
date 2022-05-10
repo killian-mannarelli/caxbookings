@@ -11,6 +11,7 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomSearchSerializer, RoomsSerializer, SearchUserSerializer
+from django.db.models import Q
 from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms, Users
 # Create your views here.
   
@@ -78,7 +79,7 @@ class ComputerInRoomListView(generics.ListAPIView):
                     #else set the status to 0
                     computerInRoomI = ComputerInRoom(computer_id = computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
                     #search for bookings for that computer in that time span
-                    bookings = Bookings.objects.filter(computer=computer.id, start__gte=parser.parse(time_span_start), end__lte=parser.parse(time_span_end), status=1)
+                    bookings = Bookings.objects.filter( Q(start__gte=parser.parse(time_span_start)) | Q(end__lte=parser.parse(time_span_end)) , Q(status = 1) | Q(status=2) , computer=computer.id)
                     if(bookings.count() > 0):
                         computerInRoomI.computer_status = 1
                     listtoreturn.append(computerInRoomI)
@@ -127,7 +128,7 @@ def get_room_current_capacity(room_id,time_start,time_end):
     computers = Computers.objects.filter(room=room_id)
     computers_in_booking = []
     for computer in computers:
-        bookings = Bookings.objects.filter(computer=computer, start__gte=time_start, end__lte=time_end, status=1)
+        bookings = Bookings.objects.filter( Q(start__gte=time_start) | Q(end__lte=time_end) , Q(status = 1) | Q(status=2) , computer=computer.id)
         if len(bookings) > 0:
             computers_in_booking.append(computer)
         
