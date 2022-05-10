@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'CAxBooking_django_react.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mysql',
+        'NAME': 'caxbooking',
         'USER'    : 'root',
         'PASSWORD': 'pwd',
         'HOST'    : '139.13.250.121',

@@ -4,52 +4,78 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from dateutil import parser
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 # Create your views here.
 from urllib3 import HTTPResponse
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomSearchSerializer, RoomsSerializer, SearchUserSerializer
+from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomSearchSerializer, RoomsSerializer, UserSerializer
 from django.db.models import Q
-from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms, Users
+from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms
 # Create your views here.
+
+# region users
 
 
 class CurrentUserSearchView(generics.ListAPIView):
-    model = Users
-    serializer_class = SearchUserSerializer
+    model = User
+    serializer_class = UserSerializer
 
     def get_queryset(self):
         if(self.request.user.is_authenticated):
-            query = Users.objects.all()
+            query = User.objects.all()
             query = query.filter(username=self.request.user.username)
             return query
         else:
             return None
-        
+
+
 class UserSearchView(generics.ListAPIView):
-    model = Users
-    serializer_class = SearchUserSerializer
+    model = User
+    serializer_class = UserSerializer
+
     def get_queryset(self):
-        if(Users.objects.all().filter(username = self.request.user.username)[0].admin_level == 1):
-            id = int(self.request.query_params.get('id'))
-            username = str(self.request.query_params.get('username'))
-            admin = int(self.request.query_params.get('admin_level'))
-            query = Users.objects.all()
+        if(User.objects.all().filter(username=self.request.user.username)[0].is_superuser == True):
+            id = self.request.query_params.get('id')
+            username = self.request.query_params.get('username')
+            admin = self.request.query_params.get('admin_level')
+            query = User.objects.all()
             if(id is not None):
-                return query.filter(id = id)
+                return query.filter(id=id)
             elif(username is not None):
-                return query.filter(username = username)
+                return query.filter(username=username)
             elif admin is not None:
-                return query.filter(admin_level = admin)
+                return query.filter(is_superuser=admin)
             return query
         else:
             return None
 
+
+def delete_user(request):
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        user_id = json_body['user_id']
+        
+        if(user_id is not None):
+            for id in user_id:
+                userToDelete = User.objects.get(id=id)
+                print(userToDelete.username)
+                # find all the bookings related to this computer
+                # delete every bookings related to this computer then delete the computer
+                bookings = Bookings.objects.filter(user=id)
+                for booking in bookings:
+                    booking.delete()
+                userToDelete.delete()
+                return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
+# endregion
+
+
 # region computers
-
-
 class ComputerListView(generics.ListAPIView):
     # check if the user is authenticated
     # if not redirect to login page
@@ -96,17 +122,38 @@ class ComputerInRoomListView(generics.ListAPIView):
             queryset = queryset.filter(room=room_id)
             if time_span_start is not None and time_span_end is not None:
                 for (computer) in queryset:
-                    #create a ComputerInRoom object for each computer in the room
-                    #search in Bookings if there is one for that computer in that time span
-                    #if there is one then set the status to 1
-                    #else set the status to 0
-                    computerInRoomI = ComputerInRoom(computer_id = computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
-                    #search for bookings for that computer in that time span
-                    bookings = Bookings.objects.filter( Q(start__gte=parser.parse(time_span_start)) | Q(end__lte=parser.parse(time_span_end)) , Q(status = 1) | Q(status=2) , computer=computer.id)
+                    # create a ComputerInRoom object for each computer in the room
+                    # search in Bookings if there is one for that computer in that time span
+                    # if there is one then set the status to 1
+                    # else set the status to 0
+                    computerInRoomI = ComputerInRoom(
+                        computer_id=computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
+                    # search for bookings for that computer in that time span
+                    bookings = Bookings.objects.filter(Q(start__gte=parser.parse(time_span_start)) | Q(
+                        end__lte=parser.parse(time_span_end)), Q(status=1) | Q(status=2), computer=computer.id)
                     if(bookings.count() > 0):
                         computerInRoomI.computer_status = 1
                     listtoreturn.append(computerInRoomI)
         return listtoreturn
+
+
+def delete_room_computer(request):
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        print(json_body)
+        computer_id = json_body['computer_id']
+        if(computer_id is not None):
+            computertoDelete = Computers.objects.get(id=computer_id)
+            # find all the bookings related to this computer
+            # delete every bookings related to this computer then delete the computer
+            bookings = Bookings.objects.filter(computer=computer_id)
+            for booking in bookings:
+                booking.delete()
+            computertoDelete.delete()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
+
 
 # endregion
 
@@ -153,11 +200,12 @@ class RoomsSearchView(generics.ListAPIView):
 
 
 def get_room_current_capacity(room_id, time_start, time_end):
-    """A method that counts the number of computer that are not in a booking during this timespan and return the number of computer"""
+    #A method that counts the number of computer that are not in a booking during this timespan and return the number of computer
     computers = Computers.objects.filter(room=room_id)
     computers_in_booking = []
     for computer in computers:
-        bookings = Bookings.objects.filter( Q(start__gte=time_start) | Q(end__lte=time_end) , Q(status = 1) | Q(status=2) , computer=computer.id)
+        bookings = Bookings.objects.filter(Q(start__gte=time_start) | Q(
+            end__lte=time_end), Q(status=1) | Q(status=2), computer=computer.id)
         if len(bookings) > 0:
             computers_in_booking.append(computer)
 
@@ -165,7 +213,7 @@ def get_room_current_capacity(room_id, time_start, time_end):
 
 
 def get_room_capacity(room_id):
-    """A method that counts the number of computer that have this room id and return the number of computers"""
+    #A method that counts the number of computer that have this room id and return the number of computers
     computers = Computers.objects.filter(room=room_id)
     return len(computers)
 
@@ -190,47 +238,31 @@ def delete_room(request):
         json_body = json.loads(json_body)
         print(json_body)
         room_id = json_body['room_id']
-        
+
         if room_id is not None:
             for id in room_id:
                 roomtoDelete = Rooms.objects.get(id=id)
-                #find all the computers in this room 
-                #find all the bookings related to each computer of the room (for loop)
-                #delete every bookings related to this computer then delete the computer
+                # find all the computers in this room
+                # find all the bookings related to each computer of the room (for loop)
+                # delete every bookings related to this computer then delete the computer
                 computers = Computers.objects.filter(room=id)
                 for computer in computers:
                     bookings = Bookings.objects.filter(computer=computer)
                     for booking in bookings:
                         booking.delete()
                     computer.delete()
-            
-                roomtoDelete.delete()
-            
-            return JsonResponse({'status': 'success'})
-        return JsonResponse({'status': 'error'})
 
-def delete_room_computer(request):
-    if request.method == 'POST':
-        json_body = request.body.decode('utf-8')
-        json_body = json.loads(json_body)
-        print(json_body)
-        computer_id = json_body['computer_id']
-        if(computer_id is not None):
-            computertoDelete = Computers.objects.get(id=computer_id)
-            #find all the bookings related to this computer
-            #delete every bookings related to this computer then delete the computer
-            bookings = Bookings.objects.filter(computer=computer_id)
-            for booking in bookings:
-                booking.delete()
-            computertoDelete.delete()
+                roomtoDelete.delete()
+
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
 
 # endregion
 
+
 # region bookings
-"""Can list all views if no parameters is given, if book_id set, returns the info of the bokking, 
-if user_id is set returns the list of ongoing bookings of the user"""
+#Can list all views if no parameters is given, if book_id set, returns the info of the bokking, 
+#if user_id is set returns the list of ongoing bookings of the user
 
 
 class BookingSearchView(generics.ListAPIView):
@@ -263,11 +295,11 @@ class OnGoingUserBookings(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = Bookings.objects.all()
-        user = Users.objects.get(username=self.request.user.username)
-        
+        user = User.objects.get(username=self.request.user.username)
+
         if id is not None:
             queryset = queryset.filter(user=user.id)
-            queryset = queryset.filter(status = 1)
+            queryset = queryset.filter(status=1)
         return queryset
 
 
@@ -275,8 +307,6 @@ def bookingsFromStatus(request):
     if request.method == 'GET':
         status = int(request.GET.get('book_status', -1))
         count = bool(request.GET.get('count', False))
-        print(status)
-        print(count)
         bookings = Bookings.objects.all()
         if status is not None and count is not None:
             bookings = bookings.filter(status=status)
@@ -290,13 +320,12 @@ def add_bookings(request):
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)
-        print(json_body)
         computer = json_body['computer']
         start = json_body['start']
         end = json_body['end']
         if computer is not None and start is not None and end is not None:
-            # get the Users related to the connected user username
-            user = Users.objects.get(username=request.user.username)
+            # get the User related to the connected user username
+            user = User.objects.get(username=request.user.username)
             # get the Computer related to the computer_id
             computer = Computers.objects.get(id=computer)
             bookingtoAdd = Bookings(
@@ -304,9 +333,9 @@ def add_bookings(request):
             bookingtoAdd.save()
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
-    
+
 def add_room(request):
-    #take the same model as the one used in the add_bookings
+    # take the same model as the one used in the add_bookings
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)
@@ -317,7 +346,8 @@ def add_room(request):
             roomtoAdd.save()
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
-        
+
+
 def add_pc_in_room(request):
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
@@ -332,7 +362,6 @@ def add_pc_in_room(request):
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
 
-
 class BookingCancelView(generics.ListAPIView):
     model = Bookings
     serializer_class = BookingsSerializer
@@ -341,7 +370,7 @@ class BookingCancelView(generics.ListAPIView):
         id = self.request.query_params.get('book_id')
         if id is not None:
             booking = Bookings.objects.get(id=id,
-                                           user_id=Users.objects.all().filter(username=self.request.user.username)[0].id)
+                                           user=User.objects.all().filter(username=self.request.user.username)[0].id)
             booking.status = 4
             booking.save()
 
@@ -358,7 +387,7 @@ class BookingsCreateView(APIView):
                 end = serializer.data.end
                 user = self.request.user
                 booking = Bookings(
-                    user_id=user, computer=computer, start=start, end=end)
+                    user=user.id, computer=computer, start=start, end=end)
                 booking.save()
                 return Response(BookingsSerializer(booking).data, status=status.HTTP_201_CREATED)
 
