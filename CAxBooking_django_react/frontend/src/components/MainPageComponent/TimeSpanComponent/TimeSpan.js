@@ -73,8 +73,8 @@ export default function TimePickers(props) {
     }, [valueDay, valueTimeStart, valueTimeEnd]);
 
     function isTimeStartOK(timeValue, clockType) {
-        if (clockType == 'minutes') {
-            if (timeValue % 15 != 0) {
+        if (timeValue % 15 != 0) {
+            if (clockType == 'minutes') {
                 if (moment().dayOfYear() == valueDay.dayOfYear()) {
                     return true;
                 } else if (valueTimeStart.hours() == moment().hours()) {

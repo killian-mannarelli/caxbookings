@@ -64,7 +64,7 @@ export default function AccountManagement() {
             return {
                 id: users.id,
                 username : users.username,
-                admin_level: users.admin_level,
+                admin_level: users.is_superuser,
                 bookings_count: 888,
                 avg_booking_time: '3h',
             }
