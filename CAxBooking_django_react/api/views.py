@@ -131,6 +131,7 @@ class ComputerInRoomListView(generics.ListAPIView):
                     computerInRoomI = ComputerInRoom(
                         computer_id=computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
                     # search for bookings for that computer in that time span
+                    print(parser.parse(time_span_start))
                     bookings = Bookings.objects.filter(Q(start__gte=parser.parse(time_span_start)) | Q(
                         end__lte=parser.parse(time_span_end)), Q(status=1) | Q(status=2), computer=computer.id)
                     if(bookings.count() > 0):
@@ -279,13 +280,13 @@ class BookingSearchView(generics.ListAPIView):
         status2 = self.request.query_params.get('status2')
         if userId is not None:
             if id is not None:
-                return queryset.filter(user_id=userId, id=id)
+                return queryset.filter(user=userId, id=id)
             elif status is not None:
                 if status2 is not None:
-                    return queryset.filter(Q(status=status) | Q(status=status2), user_id=userId)
+                    return queryset.filter(Q(status=status) | Q(status=status2), user=userId)
 
                 return queryset.filter(user_id=userId, status=status)
-            return queryset.filter(user_id=userId)
+            return queryset.filter(user=userId)
         elif id is not None:
             return queryset.filter(id=id)
 

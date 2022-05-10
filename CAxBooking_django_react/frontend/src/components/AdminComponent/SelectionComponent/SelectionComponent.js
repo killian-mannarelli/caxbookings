@@ -3,6 +3,7 @@ import AccountManagement from '../AccountManagementComponent/AccountManagementCo
 import ComputerManagement from '../ComputerManagementComponent/ComputerManagementComponent';
 import RoomManagement from '../RoomManagementComponent/RoomManagementComponent';
 import Stats from '../StatsComponent/StatsComponent';
+import "./style.css";
 
 export default function Selection(props) {
 
