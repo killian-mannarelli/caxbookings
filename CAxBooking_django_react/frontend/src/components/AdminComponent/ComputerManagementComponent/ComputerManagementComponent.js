@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import { TextField } from "@mui/material";
 
 
+<<<<<<< HEAD
 export default function ComputerManagement(){
     const [rooms, setRooms] = React.useState([]);
     const [computers, setComputers] = React.useState([]);
@@ -200,6 +201,12 @@ export default function ComputerManagement(){
               <Button onClick={deleteComputer}>Delete</Button>
             </DialogActions>
           </Dialog>
+=======
+export default function ComputerManagement() {
+    return (
+        <div id="AccountManagement">
+            ssssssssssssssssssssssssssssss
+>>>>>>> 9f329224c311128c729c58932e9928933d4e2111
         </div>
     )
 }

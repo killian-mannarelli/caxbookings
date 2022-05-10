@@ -31,6 +31,8 @@ class CurrentUserSearchView(generics.ListAPIView):
         else:
             return None
 
+# region computers
+
 
 class UserSearchView(generics.ListAPIView):
     model = User
@@ -275,7 +277,6 @@ class BookingSearchView(generics.ListAPIView):
         userId = self.request.query_params.get('user_id')
         status = self.request.query_params.get('status')
         status2 = self.request.query_params.get('status2')
-
         if userId is not None:
             if id is not None:
                 return queryset.filter(user_id=userId, id=id)
@@ -361,6 +362,7 @@ def add_pc_in_room(request):
             pc.save()
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
+
 
 class BookingCancelView(generics.ListAPIView):
     model = Bookings
