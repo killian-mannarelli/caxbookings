@@ -16,7 +16,7 @@ from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms, User
 # Create your views here.
 
 
-class UserSearchView(generics.ListAPIView):
+class CurrentUserSearchView(generics.ListAPIView):
     model = Users
     serializer_class = SearchUserSerializer
 
@@ -24,6 +24,25 @@ class UserSearchView(generics.ListAPIView):
         if(self.request.user.is_authenticated):
             query = Users.objects.all()
             query = query.filter(username=self.request.user.username)
+            return query
+        else:
+            return None
+        
+class UserSearchView(generics.ListAPIView):
+    model = Users
+    serializer_class = SearchUserSerializer
+    def get_queryset(self):
+        if(Users.objects.all().filter(username = self.request.user.username)[0].admin_level == 1):
+            id = int(self.request.query_params.get('id'))
+            username = str(self.request.query_params.get('username'))
+            admin = int(self.request.query_params.get('admin_level'))
+            query = Users.objects.all()
+            if(id is not None):
+                return query.filter(id = id)
+            elif(username is not None):
+                return query.filter(username = username)
+            elif admin is not None:
+                return query.filter(admin_level = admin)
             return query
         else:
             return None
@@ -224,14 +243,14 @@ class BookingSearchView(generics.ListAPIView):
         userId = self.request.query_params.get('user_id')
         status = self.request.query_params.get('status')
         status2 = self.request.query_params.get('status2')
-        
+
         if userId is not None:
             if id is not None:
                 return queryset.filter(user_id=userId, id=id)
             elif status is not None:
                 if status2 is not None:
-                    return queryset.filter(Q(status=status)| Q(status=status2), user_id=userId)
-                    
+                    return queryset.filter(Q(status=status) | Q(status=status2), user_id=userId)
+
                 return queryset.filter(user_id=userId, status=status)
             return queryset.filter(user_id=userId)
         elif id is not None:

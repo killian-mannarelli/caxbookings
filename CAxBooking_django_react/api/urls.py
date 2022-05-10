@@ -1,13 +1,23 @@
 from django.urls import path
+<<<<<<< HEAD
 from .views import BookingSearchView, BookingsListView, ComputerInRoomListView, ComputerListView, ComputerSearchView, OnGoingUserBookings, RoomsSearchView, SpecificRoomsSearch, add_bookings, BookingCancelView, UserSearchView, add_room, delete_room, add_pc_in_room, delete_room_computer
 from .views import BookingSearchView, BookingsListView, OnGoingUserBookings, ComputerInRoomListView, ComputerListView, ComputerSearchView, RoomsSearchView
 from .views import SpecificRoomsSearch, add_bookings, BookingCancelView, UserSearchView, add_room, delete_room, bookingsFromStatus
+=======
+from .views import BookingSearchView, BookingsListView, OnGoingUserBookings, ComputerInRoomListView, ComputerListView, ComputerSearchView, RoomsSearchView, UserSearchView
+from .views import SpecificRoomsSearch, add_bookings, BookingCancelView, CurrentUserSearchView, add_room, delete_room, bookingsFromStatus
+>>>>>>> account back
 from .login import login_verify
 
 urlpatterns = [
     path('login/', login_verify),
+<<<<<<< HEAD
     path('users/getCurrent', UserSearchView.as_view()),
     path('bookings/user/ongoing', OnGoingUserBookings.as_view()),
+=======
+    path('users/getCurrent', CurrentUserSearchView.as_view()),
+    path('users/getUsers', UserSearchView.as_view()),
+>>>>>>> account back
     
     path('computers/list',ComputerListView.as_view()),
     path('computers/search', ComputerSearchView.as_view()), 
