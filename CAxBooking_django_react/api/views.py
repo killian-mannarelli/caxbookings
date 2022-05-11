@@ -131,11 +131,18 @@ class ComputerInRoomListView(generics.ListAPIView):
                     computerInRoomI = ComputerInRoom(
                         computer_id=computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
                     # search for bookings for that computer in that time span
-                    print(parser.parse(time_span_start))
+                    #print("parsering time span")
+                    #print(parser.parse(time_span_start))
                     bookings = Bookings.objects.filter(Q(start__gte=parser.parse(time_span_start)) | Q(
                         end__lte=parser.parse(time_span_end)), Q(status=1) | Q(status=2), computer=computer.id)
-                    if(bookings.count() > 0):
-                        computerInRoomI.computer_status = 1
+                    for(booking) in bookings:
+                       if(booking.start >= parser.parse(time_span_start) and booking.end <= parser.parse(time_span_end)):
+                            computerInRoomI.computer_status = 1
+                       elif(booking.start <= parser.parse(time_span_start) and booking.end >= parser.parse(time_span_start)):
+                            computerInRoomI.computer_status = 1
+                       elif(booking.start >= parser.parse(time_span_start) and booking.start <= parser.parse(time_span_end) and booking.end >= parser.parse(time_span_end)):
+                            computerInRoomI.computer_status = 1
+                        
                     listtoreturn.append(computerInRoomI)
         return listtoreturn
 
@@ -209,8 +216,16 @@ def get_room_current_capacity(room_id, time_start, time_end):
     for computer in computers:
         bookings = Bookings.objects.filter(Q(start__gte=time_start) | Q(
             end__lte=time_end), Q(status=1) | Q(status=2), computer=computer.id)
-        if len(bookings) > 0:
-            computers_in_booking.append(computer)
+        for(booking) in bookings:
+                       if(booking.start >= time_start and booking.end <= time_end):
+                            computers_in_booking.append(computer)
+                            continue
+                       if(booking.start <= time_start and booking.end >= time_start):
+                           computers_in_booking.append(computer)
+                           continue
+                       if(booking.start >= time_start and booking.start <= time_end and booking.end >= time_end):
+                            computers_in_booking.append(computer)
+                            continue
 
     return len(computers) - len(computers_in_booking)
 

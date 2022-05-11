@@ -151,6 +151,12 @@ export default function RoomLayout(props) {
       if (startDate.getTime() >= urlInfos.startTime.getTime() && endDate.getTime() <= urlInfos.endTime.getTime()) {
         return true;
       }
+      if(startDate().getTime() <= urlInfos.startTime.getTime() && endDate.getTime() >= urlInfos.endTime.getTime()){
+        return true;
+      }
+      if(startDate.getTime() >= urlInfos.startTime.getTime() && startDate.getTime() <= urlInfos.endTime.getTime() && endDate.getTime() >= urlInfos.startTime.getTime()){
+        return true;
+      }
     }, []);
 
     if (checkIfUserHas3Hours()) {
