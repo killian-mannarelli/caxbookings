@@ -12,12 +12,10 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomSearchSerializer, RoomsSerializer, UserSerializer
-from django.db.models import Q
 from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms
 # Create your views here.
 
 # region users
-
 
 class CurrentUserSearchView(generics.ListAPIView):
     model = User
@@ -30,8 +28,6 @@ class CurrentUserSearchView(generics.ListAPIView):
             return query
         else:
             return None
-
-# region computers
 
 
 class UserSearchView(generics.ListAPIView):
@@ -61,7 +57,7 @@ def delete_user(request):
         json_body = json.loads(json_body)
         print(json_body)
         user_id = json_body['user_id']
-        
+
         if(user_id is not None):
             for id in user_id:
                 userToDelete = User.objects.get(id=id)
@@ -159,6 +155,7 @@ def delete_room_computer(request):
 
 # endregion
 
+
 # region rooms
 
 
@@ -202,7 +199,7 @@ class RoomsSearchView(generics.ListAPIView):
 
 
 def get_room_current_capacity(room_id, time_start, time_end):
-    #A method that counts the number of computer that are not in a booking during this timespan and return the number of computer
+    # A method that counts the number of computer that are not in a booking during this timespan and return the number of computer
     computers = Computers.objects.filter(room=room_id)
     computers_in_booking = []
     for computer in computers:
@@ -215,7 +212,7 @@ def get_room_current_capacity(room_id, time_start, time_end):
 
 
 def get_room_capacity(room_id):
-    #A method that counts the number of computer that have this room id and return the number of computers
+    # A method that counts the number of computer that have this room id and return the number of computers
     computers = Computers.objects.filter(room=room_id)
     return len(computers)
 
@@ -263,10 +260,10 @@ def delete_room(request):
 
 
 # region bookings
-#Can list all views if no parameters is given, if book_id set, returns the info of the bokking, 
-#if user_id is set returns the list of ongoing bookings of the user
 
 
+# Can list all views if no parameters is given, if book_id set, returns the info of the bokking,
+# if user_id is set returns the list of ongoing bookings of the user
 class BookingSearchView(generics.ListAPIView):
     model = Bookings
     serializer_class = BookingsSerializer
@@ -279,13 +276,13 @@ class BookingSearchView(generics.ListAPIView):
         status2 = self.request.query_params.get('status2')
         if userId is not None:
             if id is not None:
-                return queryset.filter(user_id=userId, id=id)
+                return queryset.filter(user=userId, id=id)
             elif status is not None:
                 if status2 is not None:
-                    return queryset.filter(Q(status=status) | Q(status=status2), user_id=userId)
+                    return queryset.filter(Q(status=status) | Q(status=status2), user=userId)
 
-                return queryset.filter(user_id=userId, status=status)
-            return queryset.filter(user_id=userId)
+                return queryset.filter(user=userId, status=status)
+            return queryset.filter(user=userId)
         elif id is not None:
             return queryset.filter(id=id)
 
@@ -334,6 +331,7 @@ def add_bookings(request):
             bookingtoAdd.save()
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
+
 
 def add_room(request):
     # take the same model as the one used in the add_bookings
