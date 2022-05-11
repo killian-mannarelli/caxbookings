@@ -36,7 +36,7 @@ def login_verify(request, *args, **kwargs):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                SSOLogin(request, username, password)
+                #SSOLogin(request, username, password)
                 return JsonResponse({'status': 'ok', 'username': username})
                 
 
