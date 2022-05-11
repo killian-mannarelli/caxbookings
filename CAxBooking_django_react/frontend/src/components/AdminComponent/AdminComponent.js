@@ -11,7 +11,7 @@ export default function Admin() {
   return (
     <div className="Admin2">
     <Header />
-    <Container className="Admin">
+    <Container className="Admin" >
       
       <Selection setContent={setContent} />
       <Container id='AdminContent'>
