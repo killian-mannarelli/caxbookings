@@ -832,6 +832,7 @@ class Bookings(models.Model):
     start = models.DateTimeField(blank=True, null=True, db_column='start_time')
     end = models.DateTimeField(blank=True, null=True, db_column='end_time')
     status = models.IntegerField(blank=True, null=True, db_column='status')
+    
 
     class Meta:
         managed = True
