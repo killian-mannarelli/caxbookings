@@ -50,8 +50,7 @@ class RoomBookedSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomBooked
         fields = ('room_id', 'room_name' , 'room_booking_count')
-        fields = ('room_id', 'room_name', 'room_capacity',
-                  'room_current_capacity')
+
 
 
 class UserInfosSerialiser(serializers.ModelSerializer):

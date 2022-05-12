@@ -1,14 +1,13 @@
 import React from "react";
+import MostBookedRoomComponent from "./MostBookedRoomComponent";
+
 
 export default function Stats(){
 
 
     return(
         <div id="Statistics">
-            <div>oui</div>
-            <div>non</div>
-            <div>non</div>
-            <div>oui</div>
+            <MostBookedRoomComponent /> 
         </div>
     )
 }

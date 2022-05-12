@@ -231,7 +231,7 @@ export default function RoomLayout(props) {
             borderRadius: '40px',
           }}>
 
-            <Grid container spacing={3} wrap="wrap" direction="row" alignItems="center">
+            <Grid container spacing={12} wrap="wrap" direction="row" alignItems="center">
               {computers.map((pc) =>
                 <PcComponent pc={pc} onClick={handleClickOpen} />
               )}

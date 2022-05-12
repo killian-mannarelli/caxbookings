@@ -13,7 +13,7 @@ export default function Header(props) {
       <h1>Computer booking service</h1>
 
 
-      {(props.currentUser?.is_superuser  ?? false) || (props.currentUser?.is_staff  ?? false) && 
+      {((props.currentUser?.is_superuser  ?? false) || (props.currentUser?.is_staff  ?? false)) && 
       <a href="http://127.0.0.1:8000/admin" id="Admin-button">
         <button className="login-logout CAxButton">Admin</button>
       </a>}
