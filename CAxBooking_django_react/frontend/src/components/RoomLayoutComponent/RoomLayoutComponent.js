@@ -141,24 +141,31 @@ export default function RoomLayout(props) {
 
 
   const makeBooking = () => {
+    
     let startStringIso = urlInfos.startTime.toISOString();
     let endStringIso = urlInfos.endTime.toISOString();
     /**Look into the ongoingbookings if there is one at the same moment and if yes send an alert to the user */
     let ongoingBooking = ongoinguserbookings.filter(booking => {
+      console.log("oui")
+
       let startDate = new Date(booking.start);
       let endDate = new Date(booking.end);
-      console.log(startDate.toISOString());
+      console.log(urlInfos.startTime.getTime());
+      console.log(startDate.getTime())
+
       if (startDate.getTime() >= urlInfos.startTime.getTime() && endDate.getTime() <= urlInfos.endTime.getTime()) {
         return true;
       }
-      if(startDate().getTime() <= urlInfos.startTime.getTime() && endDate.getTime() >= urlInfos.endTime.getTime()){
+      if(startDate.getTime() <= urlInfos.startTime.getTime() && endDate.getTime() >= urlInfos.endTime.getTime()){
         return true;
       }
-      if(startDate.getTime() >= urlInfos.startTime.getTime() && startDate.getTime() <= urlInfos.endTime.getTime() && endDate.getTime() >= urlInfos.startTime.getTime()){
+      if(startDate.getTime() <= urlInfos.startTime.getTime() && endDate.getTime() <= urlInfos.endTime.getTime() && endDate.getTime() >= urlInfos.startTime.getTime()){
         return true;
       }
+
     }, []);
 
+    console.log(ongoingBooking);
     if (checkIfUserHas3Hours()) {
       alert("You already have 3 hours of bookings ! ");
       return;
@@ -178,7 +185,7 @@ export default function RoomLayout(props) {
     ).then(res => {
       setOpen(false);
       setSelectedComputer(null);
-
+      getOngoingBookings();
 
     });
   }

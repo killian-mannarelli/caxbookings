@@ -36,7 +36,7 @@ def login_verify(request, *args, **kwargs):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                SSOLogin(request, username, password)
+                #SSOLogin(request, username, password)
                 return JsonResponse({'status': 'ok', 'username': username})
                 
 
@@ -67,7 +67,7 @@ def login_verify(request, *args, **kwargs):
                     date_joined=datetime.now(), last_login=datetime.now())
                 authuser.save()
                 login(request, authuser)
-                SSOLogin(request, username, password)
+                #SSOLogin(request, username, password)
 
 
             return JsonResponse({'status': 'ok', 'username': username})
