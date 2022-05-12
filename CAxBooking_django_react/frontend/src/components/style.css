@@ -22,7 +22,7 @@
 
 body {
     font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: calc(10px + 2vmin);
+    font-size: clamp(16px, calc(10px + 2vmin), 22px);
     color: #595850;
     margin: 2vw;
 }

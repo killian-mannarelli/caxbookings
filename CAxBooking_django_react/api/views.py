@@ -138,6 +138,7 @@ class UserInfosView(generics.ListAPIView):
             avg = 0
             for booking in bookings:
                 avg += booking.end.timestamp() - booking.start.timestamp()
+            print("user " + str(user.id) + " ---avg " + str(avg))
             if bookings.count() > 0:
                 info.avg_booking_time = avg / bookings.count()
             else:
