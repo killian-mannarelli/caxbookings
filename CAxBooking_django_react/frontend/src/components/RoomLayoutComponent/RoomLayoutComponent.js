@@ -166,7 +166,7 @@ export default function RoomLayout(props) {
       let startDate = new Date(booking.start);
       let endDate = new Date(booking.end);
       console.log(urlInfos.startTime.getTime());
-      console.log(startDate.getTime())
+      console.log(startDate.getTime()) 
 
       if (startDate.getTime() >= urlInfos.startTime.getTime() && endDate.getTime() <= urlInfos.endTime.getTime()) {
         return true;
