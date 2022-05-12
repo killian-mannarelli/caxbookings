@@ -836,3 +836,12 @@ class Bookings(models.Model):
     class Meta:
         managed = True
         db_table = 'bookings'
+
+class RoomBooked(models.Model):
+    room_id = models.IntegerField(primary_key=True)
+    room_name = models.CharField(max_length=255, blank=True, null=True)
+    room_booking_count = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'room_booked'

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ComputerInRoom, Computers, RoomSearch
+from .models import ComputerInRoom, Computers, RoomSearch, RoomBooked
 from .models import Bookings
 from .models import Rooms
 from django.contrib.auth.models import User
@@ -42,3 +42,8 @@ class RoomSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomSearch
         fields = ('room_id', 'room_name' , 'room_capacity','room_current_capacity')
+
+class RoomBookedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomBooked
+        fields = ('room_id', 'room_name' , 'room_booking_count')

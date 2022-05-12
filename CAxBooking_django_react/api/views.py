@@ -11,9 +11,9 @@ from urllib3 import HTTPResponse
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomSearchSerializer, RoomsSerializer, UserSerializer
+from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomBookedSerializer, RoomSearchSerializer, RoomsSerializer, UserSerializer
 from django.db.models import Q
-from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms
+from .models import Bookings, ComputerInRoom, Computers, RoomBooked, RoomSearch, Rooms
 # Create your views here.
 
 # region users
@@ -179,6 +179,26 @@ class SpecificRoomsSearch(generics.ListAPIView):
         if id is not None:
             queryset = queryset.filter(id=id)
         return queryset
+
+
+class MostBookedRoomsSearch(generics.ListAPIView):
+    model = RoomBooked
+    serializer_class = RoomBookedSerializer
+
+
+    #take all the rooms in the DB, and for each room, find the number of bookings
+    # return the room in ascending order of the number of bookings
+    def get_queryset(self):
+        queryset = Rooms.objects.all()
+        listtoreturn = []
+        for room in queryset:
+            roomBooked = RoomBooked(room_id=room.id, room_name=room.name, room_booking_count=0)
+            computers = Computers.objects.filter(room=room.id)
+            bookings = Bookings.objects.filter(computer__in=computers)
+            roomBooked.room_booking_count = len(bookings)
+            listtoreturn.append(roomBooked)
+        listtoreturn = sorted(listtoreturn, key=lambda x: x.room_booking_count, reverse=True)
+        return listtoreturn
 
 
 class RoomsSearchView(generics.ListAPIView):

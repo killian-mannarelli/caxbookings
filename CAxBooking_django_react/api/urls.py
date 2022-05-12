@@ -18,6 +18,7 @@ urlpatterns = [
     path('rooms/search/specific', SpecificRoomsSearch.as_view()),
     path('rooms/create', add_room),
     path('rooms/delete', delete_room),
+    path('rooms/mostbooked', MostBookedRoomsSearch.as_view()),
 
 
     path('bookings/list', BookingsListView.as_view()),
