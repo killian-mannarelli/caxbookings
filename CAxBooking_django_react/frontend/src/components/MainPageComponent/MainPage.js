@@ -4,31 +4,32 @@ import RoomDisplay from './RoomDisplayComponent/RoomDisplay';
 import TimeSpan from './TimeSpanComponent/TimeSpan';
 import Bookings from './BookingComponent/Bookings';
 import Header from '../HeaderComponent/Header';
-import axios from 'axios';
+import Axios from 'axios';
 
 export default function MainPage() {
 
 
-  
-  const [user, setUser] = useState();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [rooms, setRooms] = React.useState([]);
+  let [currentUser, setCurrentUser] = React.useState(null);
 
-  function fetchUser() {
-    fetch("http://127.0.0.1:8000/api/users/getCurrent", {
-      method: "GET"
-    }).then(response => {
-      return response.text();
-    }).then(data => {
-      let item = JSON.parse(data);
-      setUser(item[0]);
-    });
-  };
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
+
+
+  const fetchCurrentUser = () => {
+    Axios.get("http://127.0.0.1:8000/api/users/getCurrent").then(res => {
+      console.log(res.data);
+      setCurrentUser(res.data[0]);
+    }
+    );
+  }
 
   useEffect(() => {
     fetchRooms();
-    fetchUser();
   }, []);
 
   useEffect(
@@ -44,7 +45,7 @@ export default function MainPage() {
   const fetchRooms = () => {
       let startDateIso = startDate.toISOString();
       let endDateIso = endDate.toISOString();
-      axios.get("http://127.0.0.1:8000/api/rooms/search?time_start="+startDateIso+"&time_end=" + endDateIso).then(res => {
+      Axios.get("http://127.0.0.1:8000/api/rooms/search?time_start="+startDateIso+"&time_end=" + endDateIso).then(res => {
           setRooms(res.data);
           
       });
@@ -70,8 +71,8 @@ export default function MainPage() {
 
   return (
     <div className="MainPage">
-      <Header />
-      {user && <Bookings user_id={user.id} />}
+      <Header currentUser={currentUser}/>
+      {currentUser && <Bookings user_id={currentUser.id} />}
       <TimeSpan callback = {callBackFromTimeSpan}/>
       <RoomDisplay start = {startDate.toISOString()} end = {endDate.toISOString()} rooms = {rooms}/>
 

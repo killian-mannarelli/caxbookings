@@ -10,25 +10,25 @@ export default function Selection(props) {
     return (
         <div id='Selection'>
             <div onClick={() => {
-                props.setContent(<Stats />)
+                props.setContent(<Stats currentUser={props.currentUser}/>)
             }} >
                 <button className="login-logout CAxButton">Stats</button>
             </div>
 
             <div onClick={() => {
-                props.setContent(<RoomManagement/>)
+                props.setContent(<RoomManagement currentUser={props.currentUser} />)
             }}>
                 <button className="login-logout CAxButton">Rooms</button>
             </div>
 
             <div onClick={() => {
-                props.setContent(<ComputerManagement/>)
+                props.setContent(<ComputerManagement currentUser={props.currentUser} />)
             }}>
                 <button className="login-logout CAxButton">Computers</button>
             </div>
 
             <div onClick={() => {
-                props.setContent(<AccountManagement/>)
+                props.setContent(<AccountManagement currentUser={props.currentUser} />)
             }}>
                 <button className="login-logout CAxButton">Users</button>
             </div>
