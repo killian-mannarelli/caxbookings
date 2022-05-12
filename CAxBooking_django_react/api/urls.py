@@ -6,7 +6,10 @@ urlpatterns = [
     path('login/', login_verify),
     path('users/getCurrent', CurrentUserSearchView.as_view()),
     path('users/getUsers', UserSearchView.as_view()),
+    path('users/usersInfos', UserInfosView.as_view()),
+    path('users/modifyUser', modify_user),
     path('users/deleteUser', delete_user),
+    path('users/deleteUsers', delete_users),
 
     path('computers/list', ComputerListView.as_view()),
     path('computers/search', ComputerSearchView.as_view()),

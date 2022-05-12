@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from pyexpat import model
 from django.conf import settings
 from django.db import models
 
@@ -832,8 +833,32 @@ class Bookings(models.Model):
     start = models.DateTimeField(blank=True, null=True, db_column='start_time')
     end = models.DateTimeField(blank=True, null=True, db_column='end_time')
     status = models.IntegerField(blank=True, null=True, db_column='status')
-    
 
     class Meta:
         managed = True
         db_table = 'bookings'
+
+
+class GlobalVariables(models.Model):
+    name = models.CharField(max_length=255, primary_key=True)
+    value = models.CharField(max_length=255, null=False)
+
+    class Meta:
+        managed = True
+        db_table = 'global_variables'
+
+
+class UserInfos(models.Model):
+    user_id = models.IntegerField(primary_key=True)
+    username = models.CharField(max_length=255, blank=True, null=True)
+    is_superuser = models.BooleanField(blank=True, null=True)
+    is_staff = models.BooleanField(blank=True, null=True)
+    nb_in_process_bookings = models.IntegerField(blank=True, null=True)
+    nb_total_bookings = models.IntegerField(blank=True, null=True)
+    nb_passed_bookings = models.IntegerField(blank=True, null=True)
+    nb_canceled_bookings = models.IntegerField(blank=True, null=True)
+    avg_booking_time = models.IntegerField(blank=True, null=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'user_info'

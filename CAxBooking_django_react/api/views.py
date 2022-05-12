@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from pyexpat import model
 from django.http import JsonResponse
@@ -11,11 +12,12 @@ from urllib3 import HTTPResponse
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import BookingsSerializer, ComputerInRoomSerializer, ComputerSerializer, CreateBookingSerializer, RoomSearchSerializer, RoomsSerializer, UserSerializer
-from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms
+from .serializers import *
+from .models import Bookings, ComputerInRoom, Computers, RoomSearch, Rooms, UserInfos
 # Create your views here.
 
 # region users
+
 
 class CurrentUserSearchView(generics.ListAPIView):
     model = User
@@ -35,7 +37,7 @@ class UserSearchView(generics.ListAPIView):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        if(User.objects.all().filter(username=self.request.user.username)[0].is_superuser == True):
+        if(self.request.user.is_staff or self.request.user.is_superuser):
             id = self.request.query_params.get('id')
             username = self.request.query_params.get('username')
             admin = self.request.query_params.get('admin_level')
@@ -51,25 +53,99 @@ class UserSearchView(generics.ListAPIView):
             return None
 
 
+def delete_users(request):
+    if request.method == 'POST':
+        if(request.user.is_superuser):
+            json_body = request.body.decode('utf-8')
+            json_body = json.loads(json_body)
+            print(json_body)
+            user_id = json_body['user_id']
+
+            if(user_id is not None):
+                for id in user_id:
+                    userToDelete = User.objects.get(id=id)
+                    print(userToDelete.username)
+                    # find all the bookings related to this computer
+                    # delete every bookings related to this computer then delete the computer
+                    bookings = Bookings.objects.filter(user=id)
+                    for booking in bookings:
+                        booking.delete()
+                    userToDelete.delete()
+                    return JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'error'})
+
+
 def delete_user(request):
     if request.method == 'POST':
-        json_body = request.body.decode('utf-8')
-        json_body = json.loads(json_body)
-        print(json_body)
-        user_id = json_body['user_id']
+        if(request.user.is_superuser):
+            json_body = request.body.decode('utf-8')
+            json_body = json.loads(json_body)
+            print(json_body)
+            user_id = json_body['user_id']
 
-        if(user_id is not None):
-            for id in user_id:
-                userToDelete = User.objects.get(id=id)
+            if(user_id is not None):
+                userToDelete = User.objects.get(id=user_id)
                 print(userToDelete.username)
                 # find all the bookings related to this computer
                 # delete every bookings related to this computer then delete the computer
-                bookings = Bookings.objects.filter(user=id)
+                bookings = Bookings.objects.filter(user=user_id)
                 for booking in bookings:
                     booking.delete()
                 userToDelete.delete()
                 return JsonResponse({'status': 'success'})
-        return JsonResponse({'status': 'error'})
+            return JsonResponse({'status': 'error'})
+
+
+def modify_user(request):
+    if(request.user.is_superuser):
+        if request.method == 'POST':
+            json_body = request.body.decode('utf-8')
+            json_body = json.loads(json_body)
+            print(json_body)
+            user_id = json_body['user_id']
+            is_superuser = json_body['is_super']
+            is_staff = json_body['is_staff']
+
+            if(user_id is not None):
+                userToModify = User.objects.get(id=user_id)
+                print(userToModify.username)
+                # find all the bookings related to this computer
+                # delete every bookings related to this computer then delete the computer
+                if is_superuser:
+                    userToModify.is_superuser = not userToModify.is_superuser
+                if is_staff:
+                    userToModify.is_staff = not userToModify.is_staff
+                userToModify.save()
+                return JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'error'})
+
+
+class UserInfosView(generics.ListAPIView):
+    model = UserInfos
+    serializer_class = UserInfosSerialiser
+
+    def get_queryset(self):
+        userList = []
+        for user in User.objects.all():
+            bookings = Bookings.objects.all().filter(user_id=user.id)
+            info = UserInfos(user_id=user.id, username=user.username,
+                             is_superuser=user.is_superuser, is_staff=user.is_staff)
+            info.nb_in_process_bookings = bookings.filter(
+                Q(status=1) | Q(status=2)).count()
+            info.nb_passed_bookings = bookings.filter(Q(status=3)).count()
+            info.nb_canceled_bookings = bookings.filter(Q(status=4)).count()
+            info.nb_total_bookings = bookings.count()
+            avg = 0
+            for booking in bookings:
+                avg += booking.end.timestamp() - booking.start.timestamp()
+            if bookings.count() > 0:
+                info.avg_booking_time = avg / bookings.count()
+            else:
+                info.avg_booking_time = 0
+            userList.append(info)
+        return userList
+
+
 # endregion
 
 
@@ -128,16 +204,17 @@ class ComputerInRoomListView(generics.ListAPIView):
                         computer_id=computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
                     # search for bookings for that computer in that time span
                     #print("parsering time span")
-                    #print(parser.parse(time_span_start))
-                    bookings = Bookings.objects.filter( Q(status=1) | Q(status=2), computer=computer.id)
+                    # print(parser.parse(time_span_start))
+                    bookings = Bookings.objects.filter(Q(start__gte=parser.parse(time_span_start)) | Q(
+                        end__lte=parser.parse(time_span_end)), Q(status=1) | Q(status=2), computer=computer.id)
                     for(booking) in bookings:
-                       if(booking.start >= parser.parse(time_span_start) and booking.end <= parser.parse(time_span_end)):
+                        if(booking.start >= parser.parse(time_span_start) and booking.end <= parser.parse(time_span_end)):
                             computerInRoomI.computer_status = 1
-                       elif(booking.start <= parser.parse(time_span_start) and booking.end >= parser.parse(time_span_start)):
+                        elif(booking.start <= parser.parse(time_span_start) and booking.end >= parser.parse(time_span_start)):
                             computerInRoomI.computer_status = 1
-                       elif(booking.start >= parser.parse(time_span_start) and booking.start <= parser.parse(time_span_end) and booking.end >= parser.parse(time_span_end)):
+                        elif(booking.start >= parser.parse(time_span_start) and booking.start <= parser.parse(time_span_end) and booking.end >= parser.parse(time_span_end)):
                             computerInRoomI.computer_status = 1
-                        
+
                     listtoreturn.append(computerInRoomI)
         return listtoreturn
 
@@ -210,17 +287,18 @@ def get_room_current_capacity(room_id, time_start, time_end):
     computers = Computers.objects.filter(room=room_id)
     computers_in_booking = []
     for computer in computers:
-        bookings = Bookings.objects.filter( Q(status=1) | Q(status=2), computer=computer.id)
+        bookings = Bookings.objects.filter(Q(start__gte=time_start) | Q(
+            end__lte=time_end), Q(status=1) | Q(status=2), computer=computer.id)
         for(booking) in bookings:
-                       if(booking.start >= time_start and booking.end <= time_end):
-                            computers_in_booking.append(computer)
-                            continue
-                       if(booking.start <= time_start and booking.end >= time_start):
-                           computers_in_booking.append(computer)
-                           continue
-                       if(booking.start >= time_start and booking.start <= time_end and booking.end >= time_end):
-                            computers_in_booking.append(computer)
-                            continue
+            if(booking.start >= time_start and booking.end <= time_end):
+                computers_in_booking.append(computer)
+                continue
+            if(booking.start <= time_start and booking.end >= time_start):
+                computers_in_booking.append(computer)
+                continue
+            if(booking.start >= time_start and booking.start <= time_end and booking.end >= time_end):
+                computers_in_booking.append(computer)
+                continue
 
     return len(computers) - len(computers_in_booking)
 
@@ -289,12 +367,9 @@ class BookingSearchView(generics.ListAPIView):
         status = self.request.query_params.get('status')
         status2 = self.request.query_params.get('status2')
         if userId is not None:
-            if id is not None:
-                return queryset.filter(user=userId, id=id)
-            elif status is not None:
+            if status is not None:
                 if status2 is not None:
                     return queryset.filter(Q(status=status) | Q(status=status2), user=userId)
-
                 return queryset.filter(user=userId, status=status)
             return queryset.filter(user=userId)
         elif id is not None:

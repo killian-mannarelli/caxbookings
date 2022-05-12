@@ -6,7 +6,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SecurityIcon from '@mui/icons-material/Security';
 
-export default function AccountManagement() {
+export default function AccountManagement(props) {
 
 
     const [users, setUsers] = React.useState([]);
@@ -15,6 +15,7 @@ export default function AccountManagement() {
 
     useEffect(() => {
         fetchUsers();
+        console.log(props.currentUser.is_superuser)
     }, []);
 
     useEffect(() => {
@@ -22,52 +23,69 @@ export default function AccountManagement() {
     }, [users]);
 
     const fetchUsers = () => {
-        Axios.get("http://127.0.0.1:8000/api/users/getUsers").then(res => {
+        Axios.get("http://127.0.0.1:8000/api/users/usersInfos").then(res => {
             setUsers(res.data);
         }
         );
     }
 
-    const deleteUser = () => {
-        if (selectedUser == null || selectedUser == undefined) return;
-        Axios.post("http://127.0.0.1:8000/api/users/deleteUser", {
-
-            user_id: selectedUser
+    const deleteUsers = (usersToDelete) => {
+        if (usersToDelete == null || usersToDelete == undefined) return;
+        Axios.post("http://127.0.0.1:8000/api/users/deleteUsers", {
+            user_id: usersToDelete
         }).then(res => {
             fetchUsers();
         }
         );
     }
 
-    const modifyUser = () => {
-        console.log("aaaa")
+    const deleteUser = (usersToDelete) => {
+        console.log(usersToDelete)
+        if (usersToDelete == null || usersToDelete == undefined) return;
+        Axios.post("http://127.0.0.1:8000/api/users/deleteUser", {
+            user_id: usersToDelete
+        }).then(res => {
+            fetchUsers();
+        }
+        );
     }
 
-    const toggleAdmin = () => {
-        console.log("Admin")
+    const toggleSuperUser = (id) => {
+        console.log(id)
+        Axios.post("http://127.0.0.1:8000/api/users/modifyUser", {
+            user_id: id,
+            is_staff: false,
+            is_super: true,
+        }).then(res => {
+            fetchUsers();
+        }
+        );
+    }
+
+    const toggleStaff = (id) => {
+        console.log(id)
+        Axios.post("http://127.0.0.1:8000/api/users/modifyUser", {
+            user_id: id,
+            is_staff: true,
+            is_super: false,
+        }).then(res => {
+            fetchUsers();
+        }
+        );
 
     }
 
-    const duplicateUser = () => {
-        console.log("Staff")
-
-    }
-
-    const columns = [
-        { field: 'id', headerName: 'id', flex: 1, editable: false },
-        { field: 'username', headerName: 'Username', flex: 1, editable: false },
-        { field: 'superuser', headerName: 'is_superuser', type: 'boolean', editable: true, flex: 1 },
-        { field: 'bookings_count', headerName: 'Bookings Count', editable: false, flex: 1 },
-        { field: 'avg_booking_time', headerName: 'avg bookings time', editable: false, flex: 1 },
-    ];
-
-    const columns2 = React.useMemo(
+    const columns = React.useMemo(
         () => [
-            { field: 'id', headerName: 'id', flex: 1, editable: false },
-            { field: 'username', headerName: 'Username', flex: 1, editable: false },
-            { field: 'superuser', headerName: 'is_superuser', type: 'boolean', editable: true, flex: 1 },
-            { field: 'bookings_count', headerName: 'Bookings Count', editable: false, flex: 1 },
-            { field: 'avg_booking_time', headerName: 'avg bookings time', editable: false, flex: 1 },
+            { field: 'id', headerName: 'id', flex: 1 },
+            { field: 'username', headerName: 'username', flex: 1 },
+            { field: 'superuser', headerName: 'is_superuser', type: 'boolean', flex: 1 },
+            { field: 'staff', headerName: 'is_staff', type: 'boolean', flex: 1 },
+            { field: 'bookings_count', headerName: 'total_bookings', flex: 1 },
+            { field: 'bookings_in_process', headerName: 'in_process', flex: 1 },
+            { field: 'bookings_passed', headerName: 'passed', flex: 1 },
+            { field: 'bookings_canceld', headerName: 'canceled', flex: 1 },
+            { field: 'avg_booking_time', headerName: 'avg_time', flex: 1 },
             {
                 field: 'actions', type: 'actions',
                 getActions: (params) => [
@@ -82,7 +100,7 @@ export default function AccountManagement() {
                         icon={<SecurityIcon />}
                         label="Toggle Admin"
                         onClick={() => {
-                            toggleAdmin(params.id)
+                            toggleSuperUser(params.id)
                         }}
                         showInMenu
                     />,
@@ -90,25 +108,30 @@ export default function AccountManagement() {
                         icon={<GroupAddIcon />}
                         label="Toggle Staff"
                         onClick={() => {
-                            duplicateUser(params.id)
+                            toggleStaff(params.id)
                         }}
                         showInMenu
                     />,
                 ],
             },
         ],
-        [deleteUser, toggleAdmin, duplicateUser],
+        [deleteUser, toggleSuperUser, toggleStaff],
     );
 
     const setData = () => {
         const data = users.map(users => {
 
+
             return {
-                id: users.id,
+                id: users.user_id,
                 username: users.username,
                 superuser: users.is_superuser,
-                bookings_count: 888,
-                avg_booking_time: '3h',
+                staff: users.is_staff,
+                bookings_count: users.nb_total_bookings,
+                bookings_in_process: users.nb_in_process_bookings,
+                bookings_passed: users.nb_passed_bookings,
+                bookings_canceld: users.nb_canceled_bookings,
+                avg_booking_time: users.avg_booking_time,
             }
         }
         );
@@ -119,7 +142,7 @@ export default function AccountManagement() {
         <Container className="AccountDisplayComponent" >
 
             <DataGrid
-                columns={columns2}
+                columns={columns}
                 rows={setData()}
                 autoHeight={true}
                 checkboxSelection={true}
@@ -129,21 +152,22 @@ export default function AccountManagement() {
                         id: true,
                         username: true,
                         superuser: true,
+                        staff: true,
                         bookings_count: true,
+                        bookings_in_process: true,
+                        bookings_passed: true,
+                        bookings_canceld: true,
                         avg_booking_time: true,
-                        actions: true,
+                        actions: props.currentUser.is_superuser,
                     }
                 }}
 
                 onSelectionModelChange={(newSelection) => {
                     console.log(newSelection);
-                    changeModification()
-
                     selectedUser = newSelection;
                 }}
             />
-            <button className="login-logout CAxButton" onClick={deleteUser}>Delete</button>
-            <button id="modifyButton" className="login-logout CAxButton" onClick={modifyUser}>Save Modifications</button>
+            <button className="login-logout CAxButton" onClick={() => { deleteUsers(selectedUser) }}>Delete</button>
         </Container>
     );
 }
