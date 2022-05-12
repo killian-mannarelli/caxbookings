@@ -2,14 +2,10 @@
 
 .pc {
     transition: all .5s ease;
-    margin: 5px;
+    
 }
 
-#RoomLayout {
-    margin: 25px;
-    margin-right: 25px;
-    padding: 0;
-}
+
 
 #roomName {
     margin-top: 0;
@@ -22,11 +18,7 @@
     margin-top: 0;
 }
 
-.roomLayout {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 .page {
     display: flex;
