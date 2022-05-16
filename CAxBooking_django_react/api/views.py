@@ -139,7 +139,6 @@ class UserInfosView(generics.ListAPIView):
             avg = 0
             for booking in bookings:
                 avg += booking.end.timestamp() - booking.start.timestamp()
-            print("user " + str(user.id) + " ---avg " + str(avg))
             if bookings.count() > 0:
                 info.avg_booking_time = avg / bookings.count()
             else:
@@ -205,7 +204,7 @@ class ComputerInRoomListView(generics.ListAPIView):
                     computerInRoomI = ComputerInRoom(
                         computer_id=computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0)
                     # search for bookings for that computer in that time span
-                    #print("parsering time span")
+                    # print("parsering time span")
                     # print(parser.parse(time_span_start))
                     bookings = Bookings.objects.filter(Q(start__gte=parser.parse(time_span_start)) | Q(
                         end__lte=parser.parse(time_span_end)), Q(status=1) | Q(status=2), computer=computer.id)
@@ -471,6 +470,17 @@ def add_pc_in_room(request):
             pc.save()
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
+
+
+def avg_booking_time():
+    bookings = Bookings.objects.all()
+    avg = 0
+    for booking in bookings:
+        avg += booking.end.timestamp() - booking.start.timestamp()
+    if bookings.count() > 0:
+        return avg / bookings.count()
+    else:
+        return 0
 
 
 class BookingCancelView(generics.ListAPIView):
