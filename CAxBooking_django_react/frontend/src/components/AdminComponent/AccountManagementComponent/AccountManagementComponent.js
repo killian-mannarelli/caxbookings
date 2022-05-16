@@ -12,10 +12,10 @@ export default function AccountManagement(props) {
     const [users, setUsers] = React.useState([]);
     const dataUsers = null;
     let selectedUser = null;
+    console.log(props.currentUser.is_superuser)
 
     useEffect(() => {
         fetchUsers();
-        console.log(props.currentUser.is_superuser)
     }, []);
 
     useEffect(() => {
