@@ -158,7 +158,7 @@ export default function AccountManagement(props) {
                         bookings_passed: true,
                         bookings_canceld: true,
                         avg_booking_time: true,
-                        actions: props.currentUser.is_superuser,
+                        actions: props.currentUser.is_super,
                     }
                 }}
 
