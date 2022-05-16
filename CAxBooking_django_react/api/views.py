@@ -507,4 +507,39 @@ class BookingsListView(generics.ListAPIView):
     queryset = Bookings.objects.all()
     serializer_class = BookingsSerializer
 
+
+
+def get_number_of_bookins_between_two_hours(start, end):
+    """
+    Returns the number of bookings between two hours
+    start is a int representing an hour like 9 or 10
+    end is a int representing an hour like 9 or 10
+    """
+    bookings = Bookings.objects.all()
+    tabtoreturn = []
+    for booking in bookings:
+        if booking.start.hour >= start and booking.start.hour < end:
+            tabtoreturn.append(booking)
+        elif booking.end.hour >= start and booking.end.hour < end:
+            tabtoreturn.append(booking)
+
+    return len(tabtoreturn)
+
+
+
 # endregion
+
+def get_busiest_time(request):
+    #Imagine that a day start at 7AM and end at 9PM
+    #For periods of one hour, we will have a list of the number of bookings of status 1 2 or 3 for each period
+    #HAve a dictionary with the period as key and the number of bookings as value
+    #Return the highest key and value as JSON
+    if request.method == 'GET':
+        tab = []
+        for i in range(7, 22):
+            tab.append(get_number_of_bookins_between_two_hours(i, i+1))
+        
+        #return the highest value and the corresponding time slot
+        timestring = tab.index(max(tab)).__str__() + ":00" + "-" + (tab.index(max(tab))+1).__str__() + ":00"
+        return JsonResponse({'time': timestring, 'number_of_bookings': max(tab)})
+        
