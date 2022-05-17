@@ -225,11 +225,8 @@ export default function RoomLayout(props) {
       />
       <div className="roomLayout">
 
-        <Container id='RoomLayout'>
-          <Box sx={{
-            border: '1px solid #595850',
-            borderRadius: '40px',
-          }}>
+        <Container id='RoomLayout' className="background">
+          <Box>
 
             <Grid container spacing={12} wrap="wrap" direction="row" alignItems="center">
               {computers.map((pc) =>

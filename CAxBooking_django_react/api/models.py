@@ -865,7 +865,7 @@ class UserInfos(models.Model):
     nb_total_bookings = models.IntegerField(blank=True, null=True)
     nb_passed_bookings = models.IntegerField(blank=True, null=True)
     nb_canceled_bookings = models.IntegerField(blank=True, null=True)
-    avg_booking_time = models.IntegerField(blank=True, null=True)
+    avg_booking_time = models.CharField(max_length=255, blank=True, null=True)
     
     class Meta:
         managed = False

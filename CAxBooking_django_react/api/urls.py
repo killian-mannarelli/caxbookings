@@ -38,10 +38,7 @@ urlpatterns = [
     path('times/mostbooked', get_busiest_time),
     
     path('bookings/status', bookingsFromStatus),         
-    path('bookings/avgBookingTime', avg_booking_time),     
-    path('bookings/stats-overall', statsOverall),     
-    path('bookings/overmonth', bookingOverMonth),     
-    path('bookings/overweek', bookingOverWeek),     
-    path('bookings/overday', bookingOverDay),     
+    path('bookings/avgBookingTime', avg_booking_time_ever),     
+    path('bookings/stats-overall', statsOverall),    
 ]
 

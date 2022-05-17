@@ -1,14 +1,6 @@
 #AdminContent {
     margin: 0%;
     padding: 20px;
-    color: #595850;
-    background: #FFFFFF;
-    border-collapse: separate;
-    border-spacing: 0;
-    border: 2px solid #595850;
-    border-radius: 40px;
-    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
-    font-size: 18px;
 }
 
 
@@ -19,12 +11,4 @@
 #Selection{
     padding-top: 10px;
     padding-bottom: 10px;
-    color: #595850;
-    background: #FFFFFF;
-    border-collapse: separate;
-    border-spacing: 0;
-    border: 2px solid #595850;
-    border-radius: 40px;
-    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
-    font-size: 18px;
 }

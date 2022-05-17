@@ -48,7 +48,7 @@ export default function Bookings(props) {
 
             <div id='popup-back'></div>
             <p>Ongoing Bookings : </p>
-            <table className="content-table">
+            <table className="content-table background">
                 <tbody id='BookingsList'>
                     {books && books}
                 </tbody>

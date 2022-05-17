@@ -42,13 +42,14 @@ export default function GraphsBookingOverX() {
             setWeekStats(res.data.week);
             setMonthStats(res.data.month);
             setYearStats(res.data.year);
+            console.log(offset, res.data.year)
         }
         );
     }
 
 
     return (
-        <div className='Graphs'>
+        <div className='Graphs background'>
 
             <div className='selectGraphRange'>
                 <button className="CAxButton" onClick={() => {
@@ -63,39 +64,36 @@ export default function GraphsBookingOverX() {
                 <button className="CAxButton" onClick={() => {
                     setMode(4);
                 }}>Year</button>
-            </div>
-            <div className='navigate'>
-                <button className="CAxButton" onClick={() => { setOffset(offset + 1) }}>+</button>
-                <button className="CAxButton" onClick={() => { setOffset(offset - 1) }}>-</button>
+
             </div>
 
             <div className='graph'>
-                {graphData && <Line
+                {graphData && <Line id='line'
                     data={{
                         labels: graphData.labels,
                         datasets: [
                             {
                                 label: 'All Bookings',
-                                backgroundColor: 'rgba(0,0,255,1)',
-                                borderColor: 'rgba(0,0,255,1)',
+                                backgroundColor: 'rgba(84,142,241,1)',
+                                borderColor: 'rgba(84,142,241,1)',
                                 borderWidth: 2,
-                                tension:0.2,
+                                tension: 0.2,
                                 data: graphData.allData,
                             },
                             {
                                 label: 'Bookings Canceled',
-                                backgroundColor: 'rgba(255,0,0,1)',
-                                borderColor: 'rgba(255,0,0,1)',
+                                backgroundColor: 'rgba(179, 6, 29, 1)',
+                                borderColor: 'rgba(179, 6, 29, 1)',
                                 borderWidth: 2,
-                                tension:0.5,
+                                tension: 0.5,
                                 data: graphData.canceledData,
                             },
                             {
                                 label: 'Ongoing Bookings',
-                                backgroundColor: 'rgba(0,255,0,1)',
-                                borderColor: 'rgba(0,255,0,1)',
+                                backgroundColor: 'rgba(122, 231, 84, 1)',
+                                borderColor: 'rgba(122, 231, 84, 1)',
                                 borderWidth: 2,
-                                tension:1,
+                                tension: 0.4,
                                 data: graphData.ongoingData,
                             }
                         ]
@@ -123,6 +121,39 @@ export default function GraphsBookingOverX() {
                     }
                 />}
 
+            </div>
+
+            <div className='navigate'>
+                <button className="CAxButton" onClick={() => { setOffset(offset + 1) }}>+</button>
+                <button className="CAxButton" onClick={() => { setOffset(offset - 1) }}>-</button>
+            </div>
+
+            <div className='CurrentGraphsStats'>
+                <div className='statOfGraph background'>
+                    <p>Total bookings</p>
+                    <hr />
+                    <p style={{ color: "#548EE7" }}>{graphData.nbBookTotal}</p>
+                </div>
+                <div className='statOfGraph background'>
+                    <p>Total cancel</p>
+                    <hr />
+                    <p style={{ color: "rgb(179, 6, 29, 1)" }}>{graphData.nbCancel}</p>
+                </div>
+                <div className='statOfGraph background'>
+                    <p>Total ongoing</p>
+                    <hr />
+                    <p style={{ color: "rgb(122, 231, 84, 1)" }}>{graphData.nbOngoing}</p>
+                </div>
+                <div className='statOfGraph background'>
+                    <p>Average booking nb over range</p>
+                    <hr />
+                    <p>{Math.ceil(graphData.nbAvgOverRange * 100) / 100}</p>
+                </div>
+                <div className='statOfGraph background'>
+                    <p>Average booking time over range</p>
+                    <hr />
+                    <p>{graphData.avgBookTime}</p>
+                </div>
             </div>
 
         </div>);

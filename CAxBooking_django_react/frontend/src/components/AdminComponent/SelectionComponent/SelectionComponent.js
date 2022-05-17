@@ -8,7 +8,7 @@ import "./style.css";
 export default function Selection(props) {
 
     return (
-        <div id='Selection'>
+        <div id='Selection' className='background'>
             <div onClick={() => {
                 props.setContent(<Stats currentUser={props.currentUser}/>)
             }} >

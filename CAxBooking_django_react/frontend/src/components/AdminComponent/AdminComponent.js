@@ -31,7 +31,7 @@ export default function Admin() {
       <div className="Admin" >
 
         <Selection setContent={setContent} currentUser={currentUser} />
-        <div id='AdminContent'>
+        <div id='AdminContent' className='background'>
           {content && content}
         </div>
 
