@@ -1,11 +1,12 @@
-
-
 .pc {
     transition: all .5s ease;
-    
 }
 
-
+#RoomLayout {
+    margin: 25px;
+    margin-right: 25px;
+    padding: 0;
+}
 
 #roomName {
     margin-top: 0;
@@ -18,18 +19,21 @@
     margin-top: 0;
 }
 
-
+.roomLayout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .page {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 2vw;
+    margin: 1.5vw;
 }
 
 .pc:hover {
     transform: scale(1.1);
-    cursor: pointer;
 }
