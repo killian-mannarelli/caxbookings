@@ -10,6 +10,7 @@
 .RoomDisplayComponent {
     justify-self: right;
     flex: 1;
+    margin-top: 20px;
     
 }
 

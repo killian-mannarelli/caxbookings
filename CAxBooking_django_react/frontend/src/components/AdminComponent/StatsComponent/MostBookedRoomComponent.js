@@ -53,7 +53,6 @@ export default function MostBookedRoomComponent(props) {
                 rows={setData()}
                 
                 autoHeight={true}
-                checkboxSelection={true}
                 hideFooter={true}
                 />
         </div>

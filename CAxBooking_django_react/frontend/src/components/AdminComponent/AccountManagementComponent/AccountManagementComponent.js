@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import Axios from "axios";
-import Container from '@mui/material/Container';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SecurityIcon from '@mui/icons-material/Security';
+import './AccountManagement.css'
 
 export default function AccountManagement(props) {
 
@@ -139,7 +139,7 @@ export default function AccountManagement(props) {
     }
 
     return (
-        <Container className="AccountDisplayComponent" >
+        <div className="AccountDisplayComponent" >
 
             <DataGrid
                 columns={columns}
@@ -167,7 +167,7 @@ export default function AccountManagement(props) {
                     selectedUser = newSelection;
                 }}
             />
-            <button className="login-logout CAxButton" onClick={() => { deleteUsers(selectedUser) }}>Delete</button>
-        </Container>
+            <button className="CAxButton" onClick={() => { deleteUsers(selectedUser) }}>Delete</button>
+        </div   >
     );
 }

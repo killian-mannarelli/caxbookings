@@ -22,7 +22,8 @@
     "@mui/x-data-grid": "^5.10.0",
     "@mui/x-date-pickers": "^5.0.0-alpha.1",
     "axios": "^0.26.1",
-    "moment": "^2.29.3"
+    "moment": "^2.29.3",
+    "react-chartjs-2": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "*",

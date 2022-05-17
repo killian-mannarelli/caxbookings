@@ -784,7 +784,7 @@ class TimeZoneTransitionType(models.Model):
 
 class Rooms(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255, blank=False, null=False, default="Ney Room")
 
     class Meta:
         managed = True
@@ -793,9 +793,9 @@ class Rooms(models.Model):
 
 class Computers(models.Model):
     id = models.AutoField(primary_key=True)
-    status = models.IntegerField(blank=True, null=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    room = models.ForeignKey('Rooms', models.DO_NOTHING, blank=True, null=True)
+    status = models.IntegerField(blank=True, null=False, default=1)
+    name = models.CharField(max_length=255, blank=True, null=False, default="New PC")
+    room = models.ForeignKey('Rooms', models.DO_NOTHING, blank=False, null=False)
 
     class Meta:
         managed = True
@@ -804,7 +804,7 @@ class Computers(models.Model):
 
 class ComputerInRoom(models.Model):
     computer_id = models.IntegerField(primary_key=True)
-    computer_name = models.CharField(max_length=255, blank=True, null=True)
+    computer_name = models.CharField(max_length=255, blank=True, null=False, default="New PC")
     room_id = models.IntegerField()
     computer_status = models.IntegerField()
 
@@ -829,10 +829,10 @@ class Bookings(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              models.DO_NOTHING, blank=True, null=True)
     computer = models.ForeignKey(
-        'Computers', models.DO_NOTHING, blank=True, null=True)
-    start = models.DateTimeField(blank=True, null=True, db_column='start_time')
-    end = models.DateTimeField(blank=True, null=True, db_column='end_time')
-    status = models.IntegerField(blank=True, null=True, db_column='status')
+        'Computers', models.DO_NOTHING, blank=False, null=False)
+    start = models.DateTimeField(blank=False, null=False, db_column='start_time')
+    end = models.DateTimeField(blank=False, null=False, db_column='end_time')
+    status = models.IntegerField(blank=True, null=False, db_column='status', default=1)
 
     class Meta:
         managed = True

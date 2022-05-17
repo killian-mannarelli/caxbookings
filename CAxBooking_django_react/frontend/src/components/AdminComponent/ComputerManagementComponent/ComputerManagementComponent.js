@@ -12,6 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { TextField } from "@mui/material";
+import './ComputerManagement.css'
 
 
 export default function ComputerManagement(){
@@ -112,7 +113,7 @@ export default function ComputerManagement(){
     }
 
     return (
-        <div id="AccountManagement">
+        <div id="ComputerManagement">
             <DataGrid
                 columns={columns}
                 rows={setData()}
@@ -133,9 +134,9 @@ export default function ComputerManagement(){
             <Box sx={{
             border: '1px solid #595850',
             borderRadius: '40px',
-          }}>
+          }} className="pcDisplay">
 
-            <Grid container spacing={3} wrap="wrap" direction="row" alignItems="center">
+            <Grid container spacing={3} wrap="wrap" direction="row" alignItems="center" >
               {computers.map((pc) =>
                 <PcComponent pc={pc} onClick = {handleClickOpenDelete}/>
               )}
