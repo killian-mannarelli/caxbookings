@@ -1,5 +1,7 @@
 import './TimeSpan.css';
 import React, { Component, useEffect } from "react";
+import "moment/locale/fr";
+import MomentUtils from "@date-io/moment";
 import TextField from '@mui/material/TextField';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -8,10 +10,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import moment, { min } from 'moment';
 import { areDayPropsEqual } from '@mui/x-date-pickers/PickersDay/PickersDay';
 
+
 export default function TimePickers(props) {
     const MINIMUM_BOOKING_TIME = 30;
     const MAXIMUM_BOOKING_TIME = 3;
 
+    moment.locale("fr");
     let [valueDay, setValueDay] = React.useState(moment());
     let [valueTimeStart, setValueStart] = React.useState(moment());
     let [valueTimeEnd, setValueEnd] = React.useState(moment());
@@ -73,11 +77,12 @@ export default function TimePickers(props) {
     }, [valueDay, valueTimeStart, valueTimeEnd]);
 
     function isTimeStartOK(timeValue, clockType) {
-        if (timeValue % 15 != 0) {
-            if (clockType == 'minutes') {
+        if (clockType == 'minutes') {
+            if (timeValue % 15 != 0) {
                 if (moment().dayOfYear() == valueDay.dayOfYear()) {
                     return true;
                 } else if (valueTimeStart.hours() == moment().hours()) {
+                    console.log(moment().minutes())
                     if (timeValue < moment().minutes()) {
                         return true;
                     }
@@ -126,11 +131,10 @@ export default function TimePickers(props) {
         <div className='TimeSpan'>
             <p>Select a day and a time span : </p>
             <div className='pickers'>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
+                <LocalizationProvider dateAdapter={AdapterMoment} utils={MomentUtils} locale={"fr"}>
                     <div className='picker'>
                         <DatePicker
                             label="Select a date"
-                            views={['day', 'month', 'year']}
                             value={valueDay ?? moment()}
                             minDate={moment()}
                             onChange={(newValue) => {

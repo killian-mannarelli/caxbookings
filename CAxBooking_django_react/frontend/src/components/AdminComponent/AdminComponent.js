@@ -5,11 +5,12 @@ import { Container } from '@mui/material';
 
 import './AdminStyle.css';
 import Axios from 'axios';
+import Stats from './StatsComponent/StatsComponent';
 
 export default function Admin() {
-  const [content, setContent] = React.useState()
-  let [currentUser, setCurrentUser] = React.useState(null);
-
+  const [content, setContent] = React.useState(<Stats />)
+  const [currentUser, setCurrentUser] = React.useState(null);
+ 
   useEffect(() => {
     fetchCurrentUser();
   }, []);
@@ -27,14 +28,14 @@ export default function Admin() {
   return (
     <div className="Admin2">
       <Header currentUser={currentUser} />
-      <Container className="Admin" >
+      <div className="Admin" >
 
         <Selection setContent={setContent} currentUser={currentUser} />
-        <Container id='AdminContent'>
+        <div id='AdminContent'>
           {content && content}
-        </Container >
+        </div>
 
-      </Container>
+      </div>
     </div>
   );
 }

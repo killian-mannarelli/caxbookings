@@ -1,0 +1,74 @@
+
+#Statistics{
+    display: flex;
+    flex-direction: column;
+}
+
+#MostBookedRoomComponent{
+    
+
+    margin-bottom: 10px;
+    padding: 20px;
+    color: #595850;
+    background: #FFFFFF;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #595850;
+    border-radius: 40px;
+    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
+    font-size: 18px;
+
+}
+
+.Graphs{
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px;
+    color: #595850;
+    background: #FFFFFF;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 2px solid #595850;
+    border-radius: 40px;
+    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
+    font-size: 18px;
+}
+
+.Graphs .selectGraphRange .CAxButton{
+    padding: 8px;
+    margin-left: 5px;
+}
+
+.Graphs .navigate .CAxButton{
+    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+.Graphs .selectGraphRange{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+}
+
+.Graphs .navigate{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.Graphs .graph{
+    height: 100%;
+    clear: both;
+}
+
+.otherStats{
+    grid-area: "others";
+}

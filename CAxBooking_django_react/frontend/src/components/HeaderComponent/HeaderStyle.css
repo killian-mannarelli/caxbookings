@@ -8,6 +8,10 @@
 
 }
 
+.Header:hover{
+    cursor: pointer;
+}
+
 .Header {
     display: grid;
     grid-template-columns: 1fr 1fr 2fr 0.5fr 0.5fr;
@@ -29,10 +33,7 @@
     align-self: center;
     align-items: center;
     grid-area: admin;
-    margin: 15px;
-}
-
-#Admin-button .CAxButton{
+    margin-left: 15px;
     padding: 10px;
 }
 
@@ -43,9 +44,6 @@
     margin: 15px;
 }
 
-.Header .CAxButton{
-    width: 100%;
-}
 .Header{
     margin: 15px;
 }

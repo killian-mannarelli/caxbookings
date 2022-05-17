@@ -1,6 +1,7 @@
 import React from "react";
-import MostBookedRoomComponent from "./MostBookedRoomComponent";
-
+import GraphsBookingOverX from "./GraphsBookingOverX";
+import MostBookedRoomComponent from "./MostBookedRoomComponent";    
+import './StatsComponent.css'
 
 export default function Stats(){
 
@@ -8,6 +9,8 @@ export default function Stats(){
     return(
         <div id="Statistics">
             <MostBookedRoomComponent /> 
+            <GraphsBookingOverX />
+            <div className="otherStats"></div>
         </div>
     )
 }

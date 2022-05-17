@@ -7,21 +7,24 @@ export default function Header(props) {
 
   return (
     <div className="Header">
-      <a href="http://127.0.0.1:8000/" id='logo-link'>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Logo_Jade_Hochschule.jpg"></img>
-      </a>
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Logo_Jade_Hochschule.jpg" onClick={() => {
+        window.location.replace("http://127.0.0.1:8000/")
+      }}></img>
+
       <h1>Computer booking service</h1>
 
 
 
       {((props.currentUser?.is_superuser ?? false) || (props.currentUser?.is_staff ?? false)) &&
-        <a href="http://127.0.0.1:8000/admin" id="Admin-button">
-          <button className="login-logout CAxButton">Admin</button>
-        </a>}
+        <button id='Admin-button' className="login-logout CAxButton" onClick={() => {
+          window.location.replace("http://127.0.0.1:8000/admin")
+        }}>Admin</button>
+      }
+      <button id='Logout-button' className="login-logout CAxButton" onClick={() => {
+        window.location.replace("http://127.0.0.1:8000/logout")
+      }}>Logout</button>
 
-      <a href="http://127.0.0.1:8000/logout" id="Logout-button">
-        <button className="login-logout CAxButton">Logout</button>
-      </a>
     </div>
   );
 }

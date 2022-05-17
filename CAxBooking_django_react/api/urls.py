@@ -1,5 +1,9 @@
 from django.urls import path
-from .views import *
+
+from api.views.BookingsViews import *
+from api.views.RoomsViews import *
+from api.views.UsersViews import *
+from .views.ComputersViews import *
 from .login import login_verify
 
 urlpatterns = [
@@ -32,5 +36,12 @@ urlpatterns = [
     path('bookings/status', bookingsFromStatus),   
 
     path('times/mostbooked', get_busiest_time),
+    
+    path('bookings/status', bookingsFromStatus),         
+    path('bookings/avgBookingTime', avg_booking_time),     
+    path('bookings/stats-overall', statsOverall),     
+    path('bookings/overmonth', bookingOverMonth),     
+    path('bookings/overweek', bookingOverWeek),     
+    path('bookings/overday', bookingOverDay),     
 ]
 

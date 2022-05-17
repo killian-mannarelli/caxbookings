@@ -1,5 +1,3 @@
-
-
 .RoomManagementComponent {
     display: flex;
     flex-direction: row;
@@ -10,6 +8,7 @@
 .RoomDisplayComponent {
     justify-self: right;
     flex: 1;
+    margin-top: 20px;
     
 }
 
