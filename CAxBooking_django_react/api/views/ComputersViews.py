@@ -22,6 +22,20 @@ class ComputerListView(generics.ListAPIView):
         else:
             return redirect('/login')
 
+class ComputerModifyView(generics.ListAPIView):
+
+    queryset = Computers.objects.all()
+    serializer_class = ComputerSerializer
+    def post(self, request, format=None):
+        computer_id = request.data['computer_id']
+        new_name = request.data['computer_name']
+        computer = Computers.objects.get(id=computer_id)
+        if(computer is None):
+            return JsonResponse({"error": "Computer does not exist"})
+        computer.name = new_name
+        computer.save()
+        return JsonResponse({"success": "Computer name changed"})
+
 
 class ComputerSearchView(generics.ListAPIView):
     model = Computers

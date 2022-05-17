@@ -217,15 +217,16 @@ export default function RoomLayout(props) {
       
       <Header currentUser={currentUser} />
       <p id="roomName">{roomName + ' :'}</p>
-      <TimeSpan
+     
+      <div className="roomLayout">
+
+        <Container id='RoomLayout'>
+        <TimeSpan
         day={urlInfos?.day}
         start={urlInfos?.startTime}
         end={urlInfos?.endTime}
         callback={callBackFromTimeSpan}
       />
-      <div className="roomLayout">
-
-        <Container id='RoomLayout'>
           <Box sx={{
             border: '1px solid #595850',
             borderRadius: '40px',

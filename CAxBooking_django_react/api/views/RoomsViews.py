@@ -4,7 +4,7 @@ from pyexpat import model
 from django.http import JsonResponse
 from dateutil import parser
 from django.db.models import Q
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from ..serializers import *
 from ..models import Bookings, Computers, RoomSearch, Rooms
 
@@ -41,6 +41,22 @@ class MostBookedRoomsSearch(generics.ListAPIView):
             listtoreturn.append(roomBooked)
         listtoreturn = sorted(listtoreturn, key=lambda x: x.room_booking_count, reverse=True)
         return listtoreturn
+
+
+
+#create a viewset for ROoms
+class RoomsViewSet(generics.ListAPIView):
+    queryset = Rooms.objects.all()
+    serializer_class = RoomsSerializer
+    def post(self, request, format=None):
+        room_id = request.data['room_id']
+        new_name = request.data['room_name']
+        room = Rooms.objects.get(id=room_id)
+        if(room is None):
+            return JsonResponse({"error": "Room does not exist"})
+        room.name = new_name
+        room.save()
+        return JsonResponse({"success": "Room name changed"})
 
 
 

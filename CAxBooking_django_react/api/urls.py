@@ -19,12 +19,14 @@ urlpatterns = [
     path('computers/search', ComputerSearchView.as_view()),
     path('computers/create', add_pc_in_room),
     path('computers/delete', delete_room_computer),
+    path('computers/modify', ComputerModifyView.as_view()),
     path('computerinroom', ComputerInRoomListView.as_view()),
 
     path('rooms/search', RoomsSearchView.as_view()), 
     path('rooms/search/specific', SpecificRoomsSearch.as_view()),
     path('rooms/create', add_room),
     path('rooms/delete', delete_room),
+    path('rooms/modify', RoomsViewSet.as_view()),
     path('rooms/mostbooked', MostBookedRoomsSearch.as_view()),
 
 
