@@ -1,0 +1,5 @@
+id;password;last_login;is_superuser;username;first_name;last_name;email;is_staff;is_active;date_joined;groups;user_permissions
+4;pbkdf2_sha256$320000$5y24YqntRDZiBKbgJZqgYb$TMTLYEZVtyn/x5AGmPhvD/icLbOYyp5maXP43TgAhsY=;2022-05-11 08:45:32.556187+00:00;True;le1021;le1021;le1021;le1021;False;True;2022-05-11 08:45:32.046455+00:00;Error retrieving value;Error retrieving value
+6;pbkdf2_sha256$320000$J5GZSAkgvcxTSOAc1dBuPO$CKg2xoY2vcshiF6XJNVzBGDd/AnwpY0DU7KlNm8tWEk=;2022-05-16 09:53:56.833021+00:00;True;ga2080;ga2080;ga2080;ga2080;False;True;2022-05-11 13:23:33.349631+00:00;Error retrieving value;Error retrieving value
+8;pbkdf2_sha256$320000$Kgv0ge8mXckYggxN6P29rz$RAXZUfiwIJ8Qe3Wh9xGgk3IAyK36MKyoISra6NqIdgY=;2022-05-12 11:41:20.553015+00:00;True;ki2206;ki2206;ki2206;ki2206;True;True;2022-05-11 13:23:55.060077+00:00;Error retrieving value;Error retrieving value
+10;pbkdf2_sha256$320000$pHFvRzOri0PrNMySRt6KDa$cbOvqnz9AS0Rd4AtMf+pBPeD5GVMTcRKlOLu+lJbdJM=;2022-05-16 17:33:40.523197+00:00;False;te2038;te2038;te2038;te2038;True;True;2022-05-11 13:54:47.180488+00:00;Error retrieving value;Error retrieving value

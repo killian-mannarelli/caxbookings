@@ -4,6 +4,7 @@ from api.views.BookingsViews import *
 from api.views.RoomsViews import *
 from api.views.UsersViews import *
 from .views.ComputersViews import *
+from .admin import *
 from .login import login_verify
 
 urlpatterns = [
@@ -44,6 +45,8 @@ urlpatterns = [
     path('bookings/stats-overall', statsOverall),     
     path('bookings/overmonth', bookingOverMonth),     
     path('bookings/overweek', bookingOverWeek),     
-    path('bookings/overday', bookingOverDay),     
+    path('bookings/overday', bookingOverDay),
+
+    path('db/bookings', export_csv)  
 ]
 
