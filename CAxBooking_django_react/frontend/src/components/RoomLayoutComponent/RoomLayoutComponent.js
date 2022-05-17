@@ -156,7 +156,7 @@ export default function RoomLayout(props) {
 
 
   const makeBooking = () => {
-    
+
     let startStringIso = urlInfos.startTime.toISOString();
     let endStringIso = urlInfos.endTime.toISOString();
     /**Look into the ongoingbookings if there is one at the same moment and if yes send an alert to the user */
@@ -166,15 +166,15 @@ export default function RoomLayout(props) {
       let startDate = new Date(booking.start);
       let endDate = new Date(booking.end);
       console.log(urlInfos.startTime.getTime());
-      console.log(startDate.getTime()) 
+      console.log(startDate.getTime())
 
       if (startDate.getTime() >= urlInfos.startTime.getTime() && endDate.getTime() <= urlInfos.endTime.getTime()) {
         return true;
       }
-      if(startDate.getTime() <= urlInfos.startTime.getTime() && endDate.getTime() >= urlInfos.endTime.getTime()){
+      if (startDate.getTime() <= urlInfos.startTime.getTime() && endDate.getTime() >= urlInfos.endTime.getTime()) {
         return true;
       }
-      if(startDate.getTime() <= urlInfos.startTime.getTime() && endDate.getTime() <= urlInfos.endTime.getTime() && endDate.getTime() >= urlInfos.startTime.getTime()){
+      if (startDate.getTime() <= urlInfos.startTime.getTime() && endDate.getTime() <= urlInfos.endTime.getTime() && endDate.getTime() >= urlInfos.startTime.getTime()) {
         return true;
       }
 
@@ -214,62 +214,55 @@ export default function RoomLayout(props) {
   return (
 
     <div className="page">
-      
+
       <Header currentUser={currentUser} />
       <p id="roomName">{roomName + ' :'}</p>
-     
+
       <div className="roomLayout">
 
         <Container id='RoomLayout'>
-        <TimeSpan
-        day={urlInfos?.day}
-        start={urlInfos?.startTime}
-        end={urlInfos?.endTime}
-        callback={callBackFromTimeSpan}
-      />
-          <Box sx={{
-            border: '1px solid #595850',
-            borderRadius: '40px',
-          }}>
+          <TimeSpan
+            day={urlInfos?.day}
+            start={urlInfos?.startTime}
+            end={urlInfos?.endTime}
+            callback={callBackFromTimeSpan}
+          />
+          <div className="roomLayout">
 
-            <Grid container spacing={12} wrap="wrap" direction="row" alignItems="center">
-              {computers.map((pc) =>
-                <PcComponent pc={pc} onClick={handleClickOpen} />
-              )}
+            <Container id='RoomLayout' className="background">
+              <Box>
 
-            </Grid>
-          </Box>
-          <Dialog
-            open={open}
-            keepMounted
-            onClose={handleClose}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle>{"Book this computer ?"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                Do you want to book this computer for this time :
-                {selectedComputer?.computer_name ?? "placeholder"} ,
-                from {urlInfos?.startTime.toLocaleString() ?? "placeholder"} to {urlInfos?.endTime.toLocaleString() ?? "placeholder"}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleNo}>No</Button>
-              <Button onClick={handleClose}>Yes</Button>
-            </DialogActions>
-          </Dialog>
-        </Container>
+                <Grid container spacing={12} wrap="wrap" direction="row" alignItems="center">
+                  {computers.map((pc) =>
+                    <PcComponent pc={pc} onClick={handleClickOpen} />
+                  )}
+
+                </Grid>
+              </Box>
+              <Dialog
+                open={open}
+                keepMounted
+                onClose={handleClose}
+                aria-describedby="alert-dialog-slide-description"
+              >
+                <DialogTitle>{"Book this computer ?"}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-slide-description">
+                    Do you want to book this computer for this time :
+                    {selectedComputer?.computer_name ?? "placeholder"} ,
+                    from {urlInfos?.startTime.toLocaleString() ?? "placeholder"} to {urlInfos?.endTime.toLocaleString() ?? "placeholder"}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleNo}>No</Button>
+                  <Button onClick={handleClose}>Yes</Button>
+                </DialogActions>
+              </Dialog>
+            </Container>
+          </div>
       </div>
     </div>
   );
-
-
-
-
-
-
-
-
 
 }
 

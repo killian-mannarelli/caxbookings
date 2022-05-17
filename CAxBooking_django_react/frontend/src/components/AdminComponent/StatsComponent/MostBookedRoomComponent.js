@@ -47,7 +47,7 @@ export default function MostBookedRoomComponent(props) {
     }
 
     return (
-        <div id="MostBookedRoomComponent">
+        <div id="MostBookedRoomComponent" className="background">
             <DataGrid
                 columns={columns}
                 rows={setData()}

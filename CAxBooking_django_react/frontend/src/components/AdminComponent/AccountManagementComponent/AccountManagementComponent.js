@@ -131,7 +131,7 @@ export default function AccountManagement(props) {
                 bookings_in_process: users.nb_in_process_bookings,
                 bookings_passed: users.nb_passed_bookings,
                 bookings_canceld: users.nb_canceled_bookings,
-                avg_booking_time: ((users.avg_booking_time - (users.avg_booking_time%3600)) / 3600) + "h" + (Math.floor(users.avg_booking_time / 60)%60 )   ,
+                avg_booking_time: users.avg_booking_time,
             }
         }
         ); 

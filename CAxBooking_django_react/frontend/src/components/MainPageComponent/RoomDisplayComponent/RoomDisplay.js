@@ -18,7 +18,7 @@ export default function RoomDisplay(props) {
     return (
         <div className="RoomDisplay">
             <p>Available Rooms :</p>
-            <table className="content-table">
+            <table className="content-table background">
                 <thead>
                     <tr>
                         <th>Room n°</th>

@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.db.models import Q
 from django.contrib.auth.models import User
 from rest_framework import generics
+
+from api.views.BookingsViews import avg_booking_time_in_selection
 from ..serializers import *
 from ..models import Bookings, UserInfos
 # Create your views here.
@@ -127,13 +129,7 @@ class UserInfosView(generics.ListAPIView):
             info.nb_passed_bookings = bookings.filter(Q(status=3)).count()
             info.nb_canceled_bookings = bookings.filter(Q(status=4)).count()
             info.nb_total_bookings = bookings.count()
-            avg = 0
-            for booking in bookings:
-                avg += booking.end.timestamp() - booking.start.timestamp()
-            if bookings.count() > 0:
-                info.avg_booking_time = avg / bookings.count()
-            else:
-                info.avg_booking_time = 0
+            info.avg_booking_time = avg_booking_time_in_selection(bookings)
             userList.append(info)
         return userList
 

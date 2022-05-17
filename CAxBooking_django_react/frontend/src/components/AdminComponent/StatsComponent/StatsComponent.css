@@ -5,44 +5,31 @@
 }
 
 #MostBookedRoomComponent{
-    
-
     margin-bottom: 10px;
     padding: 20px;
-    color: #595850;
-    background: #FFFFFF;
-    border-collapse: separate;
-    border-spacing: 0;
-    border: 2px solid #595850;
-    border-radius: 40px;
-    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
-    font-size: 18px;
-
 }
+
+#line{
+    width: 90% !important;
+    max-height: 1000px !important;
+    align-self: center;
+}
+
 
 .Graphs{
     margin: 5px;
     display: flex;
     flex-direction: column;
-
     padding: 20px;
-    color: #595850;
-    background: #FFFFFF;
-    border-collapse: separate;
-    border-spacing: 0;
-    border: 2px solid #595850;
-    border-radius: 40px;
-    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
-    font-size: 18px;
 }
 
 .Graphs .selectGraphRange .CAxButton{
-    padding: 8px;
+    padding: 1vh;
     margin-left: 5px;
 }
 
 .Graphs .navigate .CAxButton{
-    padding: 5px;
+    padding: 0.5vw;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -65,10 +52,44 @@
 }
 
 .Graphs .graph{
-    height: 100%;
-    clear: both;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .otherStats{
     grid-area: "others";
 }
+
+.CurrentGraphsStats{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.statOfGraph{
+    padding: 10px;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 20px;
+
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.statOfGraph :first-child{
+    font-weight: bold;
+    border-bottom: 1px;
+}
+
+.statOfGraph hr{
+    width: 80%;
+    margin: 0%;
+
+}
+
+
+
