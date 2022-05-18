@@ -78,12 +78,13 @@ class ComputerInRoomListView(generics.ListAPIView):
                     # search for bookings for that computer in that time span
                     # print("parsering time span")
                     # print(parser.parse(time_span_start))
-                    bookings = Bookings.objects.filter(Q(start__gte=parser.parse(time_span_start)) | Q(
-                        end__lte=parser.parse(time_span_end)), Q(status=1) | Q(status=2), computer=computer.id)
+                    bookings = Bookings.objects.filter( Q(status=1) | Q(status=2), computer=computer.id)
                     for(booking) in bookings:
                         if(booking.start >= parser.parse(time_span_start) and booking.end <= parser.parse(time_span_end)):
                             computerInRoomI.computer_status = 1
                         elif(booking.start <= parser.parse(time_span_start) and booking.end >= parser.parse(time_span_start)):
+                            computerInRoomI.computer_status = 1
+                        elif(booking.start <= parser.parse(time_span_start) and booking.end >= parser.parse(time_span_end)):
                             computerInRoomI.computer_status = 1
                         elif(booking.start >= parser.parse(time_span_start) and booking.start <= parser.parse(time_span_end) and booking.end >= parser.parse(time_span_end)):
                             computerInRoomI.computer_status = 1
