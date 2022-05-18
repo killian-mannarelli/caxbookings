@@ -32,7 +32,7 @@ class CreateBookingSerializer(serializers.ModelSerializer):
 class ComputerInRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ComputerInRoom
-        fields = ('computer_id', 'computer_status', 'computer_name', 'room_id')
+        fields = ('computer_id', 'computer_status', 'computer_name', 'room_id', 'next_booking_time')
 
 
 class UserSerializer(serializers.ModelSerializer):
