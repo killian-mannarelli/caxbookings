@@ -7,6 +7,7 @@ from .views.ComputersViews import *
 from .admin import *
 from .login import login_verify
 
+# A list of all the urls that the server will be able to handle.
 urlpatterns = [
     path('login/', login_verify),
     path('users/getCurrent', CurrentUserSearchView.as_view()),
@@ -31,7 +32,6 @@ urlpatterns = [
     path('rooms/mostbooked', MostBookedRoomsSearch.as_view()),
 
 
-    path('bookings/list', BookingsListView.as_view()),
     path('bookings/search', BookingSearchView.as_view()),
     path('bookings/create', add_bookings),
     path('bookings/delete', BookingCancelView.as_view()),
@@ -48,8 +48,7 @@ urlpatterns = [
     path('bookings/overweek', bookingOverWeek),     
     path('bookings/overday', bookingOverDay),
 
-    path('db/bookings', export_csv)  ,
-    path('bookings/avgBookingTime', avg_booking_time_ever),     
+    path('db/bookings', export_csv)  ,   
     path('bookings/stats-overall', statsOverall),    
 ]
 

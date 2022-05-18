@@ -15,6 +15,11 @@ class SpecificRoomsSearch(generics.ListAPIView):
     model = Rooms
     serializer_class = RoomsSerializer
 
+    """
+    > If the user has specified a room_id in the query string, filter the queryset to only include rooms
+    with that id
+    :return: The queryset is being returned.
+    """
     def get_queryset(self):
         queryset = Rooms.objects.all()
         id = self.request.query_params.get('room_id')
@@ -49,6 +54,14 @@ class RoomsViewSet(generics.ListAPIView):
     queryset = Rooms.objects.all()
     serializer_class = RoomsSerializer
     def post(self, request, format=None):
+        """
+        It takes a room_id and a new_name, and changes the name of the room with the given room_id to the
+        new_name
+        
+        :param request: The request object that is passed to the view
+        :param format: The format of the response
+        :return: A JsonResponse object is being returned.
+        """
         room_id = request.data['room_id']
         new_name = request.data['room_name']
         room = Rooms.objects.get(id=room_id)
@@ -65,6 +78,11 @@ class RoomsSearchView(generics.ListAPIView):
     serializer_class = RoomSearchSerializer
 
     def get_queryset(self):
+        """
+        It takes in a room id, a start time, and an end time, and returns a list of RoomSearch objects,
+        which contain the room id, room name, room capacity, and room current capacity
+        :return: A list of RoomSearch objects
+        """
         queryset = Rooms.objects.all()
         id = self.request.query_params.get('room_id')
         timestart = self.request.query_params.get('time_start')
@@ -88,6 +106,14 @@ class RoomsSearchView(generics.ListAPIView):
 
 
 def get_room_current_capacity(room_id, time_start, time_end):
+    """
+    It returns the number of computers that are not in a booking during the timespan
+    
+    :param room_id: The id of the room you want to check
+    :param time_start: The start time of the booking
+    :param time_end: The end time of the booking
+    :return: The number of computers that are not in a booking during this timespan
+    """
     # A method that counts the number of computer that are not in a booking during this timespan and return the number of computer
     computers = Computers.objects.filter(room=room_id)
     computers_in_booking = []
@@ -109,12 +135,26 @@ def get_room_current_capacity(room_id, time_start, time_end):
 
 
 def get_room_capacity(room_id):
+    """
+    > This function takes in a room id and returns the number of computers in that room
+    
+    :param room_id: The id of the room
+    :return: The number of computers in a room
+    """
     # A method that counts the number of computer that have this room id and return the number of computers
     computers = Computers.objects.filter(room=room_id)
     return len(computers)
 
 
 def add_room(request):
+    """
+    It takes the request body, decodes it, loads it into a json object, and then saves it to the
+    database
+    
+    :param request: The request object is a Python object that contains all the information about the
+    request that was sent to the server
+    :return: a JsonResponse object.
+    """
     # take the same model as the one used in the add_bookings
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
@@ -129,6 +169,13 @@ def add_room(request):
 
 
 def delete_room(request):
+    """
+    It deletes a room and all the computers and bookings related to it.
+    
+    :param request: The request object is a Python object that contains all the information about the
+    request that was made to the server
+    :return: A list of all the rooms in the database
+    """
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)

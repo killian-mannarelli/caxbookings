@@ -18,6 +18,10 @@ class CurrentUserSearchView(generics.ListAPIView):
     serializer_class = UserSerializer
 
     def get_queryset(self):
+        """
+        If the user is authenticated, return all users with the same username as the current user
+        :return: The query is being returned.
+        """
         if(self.request.user.is_authenticated):
             query = User.objects.all()
             query = query.filter(username=self.request.user.username)
@@ -26,11 +30,17 @@ class CurrentUserSearchView(generics.ListAPIView):
             return None
 
 
+# This class is a view that allows a user to search for other users by id, username, or admin level
 class UserSearchView(generics.ListAPIView):
     model = User
     serializer_class = UserSerializer
 
     def get_queryset(self):
+        """
+        If the user is a staff member or superuser, then return the queryset of all users. If the user is
+        not a staff member or superuser, then return None
+        :return: A list of all users
+        """
         if(self.request.user.is_staff or self.request.user.is_superuser):
             id = self.request.query_params.get('id')
             username = self.request.query_params.get('username')
@@ -48,6 +58,14 @@ class UserSearchView(generics.ListAPIView):
 
 
 def delete_users(request):
+    """
+    It takes a list of user ids, finds all the bookings related to each user, deletes the bookings, then
+    deletes the user
+    
+    :param request: The request object is a Python object that contains all the information about the
+    request that was made to the server
+    :return: a JsonResponse object with a status of success or error.
+    """
     if request.method == 'POST':
         if(request.user.is_superuser):
             json_body = request.body.decode('utf-8')
@@ -70,6 +88,13 @@ def delete_users(request):
 
 
 def delete_user(request):
+    """
+    It deletes a user from the database
+    
+    :param request: The request object is a Python object that contains all the information about the
+    request sent by the client
+    :return: a JsonResponse object.
+    """
     if request.method == 'POST':
         if(request.user.is_superuser):
             json_body = request.body.decode('utf-8')
@@ -91,6 +116,17 @@ def delete_user(request):
 
 
 def modify_user(request):
+    """
+    It takes a request from the frontend, checks if the user is a superuser, then checks if the request
+    is a POST request, then it decodes the request body, loads it into a json object, then it gets the
+    user id, is_superuser, and is_staff from the json object, then it gets the user object from the
+    database, then it sets the user's is_superuser and is_staff to the values from the json object, then
+    it saves the user object, then it returns a success message
+    
+    :param request: The request object is the first parameter to the view. It contains the HTTP request
+    that was made to the server
+    :return: A JsonResponse object is being returned.
+    """
     if(request.user.is_superuser):
         if request.method == 'POST':
             json_body = request.body.decode('utf-8')
@@ -119,6 +155,10 @@ class UserInfosView(generics.ListAPIView):
     serializer_class = UserInfosSerialiser
 
     def get_queryset(self):
+        """
+        It creates a list of UserInfos objects, each of which contains information about a user
+        :return: A list of UserInfos objects.
+        """
         userList = []
         for user in User.objects.all():
             bookings = Bookings.objects.all().filter(user_id=user.id)

@@ -2,60 +2,104 @@
 
 
 
-## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Table of content
+1. [General Info](#general-info)
+2. [Technologies](#technologies)
+3. [Setup](#setup)
+    - [Setup-Dev](#setup-dev)
+    - [Setup-Prod](#setup-prod)
+4. [How to use](#how-to-use)
+    - [Django architecture](#django-architecture)
+    - [Django manage](#django-manage)
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## General Info
+This project is a website project to allow students to book computers, it also allows teachers and other admin to monitor the rooms efficiency through various statistics
 
-## Add your files
+## Technologies
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- database : mysql 
+- backend : 
+    - python version=3.8
+    - pipenv version=11.9.0
+<!--     - pipenv packages :
+        - django version=4.0.4 
+        - djangorestframework version=3.13.1
+        - mysqlclient version=2.1.0
+        - requests version=2.27.1
+        - python-dateutil version=2.8.2 
+-->
+
+- frontend :
+    - NodeJs version=17.9.0
+    - npm version=8.5.5
+```    - npm dependencies :        
+        ├── @babel/core@7.17.9
+        ├── @babel/preset-env@7.16.11
+        ├── @babel/preset-react@7.16.7
+        ├── @date-io/moment@2.13.1
+        ├── @emotion/react@11.9.0
+        ├── @emotion/styled@11.8.1
+        ├── @mui/icons-material@5.6.2
+        ├── @mui/material@5.6.4
+        ├── @mui/styled-engine@5.6.1
+        ├── @mui/x-data-grid@5.10.0
+        ├── @mui/x-date-pickers@5.0.0-alpha.1
+        ├── axios@0.26.1
+        ├── babel-loader@8.2.4
+        ├── concurrently@6.5.1
+        ├── css-loader@6.7.1
+        ├── moment@2.29.3
+        ├── react-chartjs-2@4.1.0
+        ├── react-dom@17.0.2
+        ├── react-router-dom@5.3.1
+        ├── react@17.0.2
+        ├── style-loader@3.3.1
+        ├── webpack-cli@4.9.2    
+        └── webpack@5.72.0
+```
+
+## Setup
+
+### Setup-Dev
+
+To setup the project in dev you need to be located in the `/CAxBooking_django_react/frontend` folder and run
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.gwdg.de/mecke/caxbooking.git
-git branch -M main
-git push -uf origin main
+npm run init
 ```
+then run 
+```
+npm run serve
+```
+and both the django server and the node server should be running. 
 
-## Integrate with your tools
+### Setup-Prod 
+`TODO`
 
-- [ ] [Set up project integrations](https://gitlab.gwdg.de/mecke/caxbooking/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## How to use 
+### Django architecture
+The project architecture is as follow :
+```
+├──CaxBooking_django_react/
+|   ├──api/
+|   |   ├──models.py
+|   |   ├──views/
+|   |   ├──urls.py
+|   |   | ...
+|   ├──frontend/
+|   |   ├──src/
+|   |   |   ├──component/
+|   |   |   |   ...
+|   |   |   ├──index.js
+|   ├──CAxBooking_django_react/
+|   |   ├──settings.py
+|   |   | ...
+|   ├──manage.py
+|   | ... 
+```
+### Django manage
+### React  
 
 ## Badges
 On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
@@ -64,7 +108,7 @@ On some READMEs, you may see small images that convey metadata, such as whether 
 Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+
 
 ## Usage
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.

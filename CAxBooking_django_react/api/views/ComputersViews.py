@@ -12,13 +12,16 @@ from ..models import Bookings, ComputerInRoom, Computers
 
 
 class ComputerListView(generics.ListAPIView):
-    # check if the user is authenticated
-    # if not redirect to login page
-    # if authenticated then return the list of computers
     queryset = Computers.objects.all()
     serializer_class = ComputerSerializer
 
     def get(self, request, *args, **kwargs):
+        """
+        If the user is authenticated, then show the list of objects, otherwise redirect to the login page
+        
+        :param request: The full HTTP request object for this page
+        :return: The list of all the questions in the database.
+        """
         if(request.user.is_authenticated):
             return self.list(request, *args, **kwargs)
         else:
@@ -31,6 +34,14 @@ class ComputerModifyView(generics.ListAPIView):
     serializer_class = ComputerSerializer
 
     def post(self, request, format=None):
+        """
+        It takes a computer id and a new name, and changes the name of the computer with that id to the new
+        name
+        
+        :param request: The request object that is passed to the view
+        :param format: The format of the response
+        :return: A JsonResponse object is being returned.
+        """
         computer_id = request.data['computer_id']
         new_name = request.data['computer_name']
         computer = Computers.objects.get(id=computer_id)
@@ -44,11 +55,14 @@ class ComputerModifyView(generics.ListAPIView):
 class ComputerSearchView(generics.ListAPIView):
     model = Computers
     serializer_class = ComputerSerializer
-    # check if the user is authenticated
-    # if not redirect to login page
-    # if authenticated then return the list of computers
 
     def get_queryset(self):
+        """
+        If the user has specified a computer_id, return only the computer with that id. If the user has
+        specified a room_id, return all computers in that room. If the user has specified neither,
+        return all computers
+        :return: The queryset is being returned.
+        """
         queryset = Computers.objects.all()
         id = self.request.query_params.get('computer_id')
         roomid = self.request.query_params.get('room_id')
@@ -64,6 +78,12 @@ class ComputerInRoomListView(generics.ListAPIView):
     serializer_class = ComputerInRoomSerializer
 
     def get_queryset(self):
+        """
+        It takes a room_id and a time_span_start and time_span_end as parameters and returns a list of
+        ComputerInRoom objects that have the computer_id, computer_name, room_id, computer_status and
+        next_booking_time of each computer in the room
+        :return: A list of ComputerInRoom objects
+        """
         queryset = Computers.objects.all()
         listtoreturn = []
         room_id = self.request.query_params.get('room_id')
@@ -104,6 +124,13 @@ class ComputerInRoomListView(generics.ListAPIView):
         return listtoreturn
 
 
+    """
+    It deletes a computer from the database and all the bookings related to this computer
+    
+    :param request: The request object is an HttpRequest object. It contains metadata about the request,
+    such as the HTTP method
+    :return: A JsonResponse with a status of success or error.
+    """
 def delete_room_computer(request):
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')

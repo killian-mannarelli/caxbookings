@@ -15,17 +15,24 @@ from dateutil.relativedelta import relativedelta
 import json
 import math
 
-# region bookings
+# All of the different bookings views
 
 
-# Can list all views if no parameters is given, if book_id set, returns the info of the bokking,
-# if user_id is set returns the list of ongoing bookings of the user
 
 class BookingSearchView(generics.ListAPIView):
+# Can list all views if no parameters is given, if book_id set, returns the info of the bokking,
+# if user_id is set returns the list of ongoing bookings of the user
     model = Bookings
     serializer_class = BookingsSerializer
 
     def get_queryset(self):
+        """
+        If the userId is not None, then return the queryset filtered by the userId and status. If the
+        status is not None, then return the queryset filtered by the userId and status. If the status2
+        is not None, then return the queryset filtered by the userId and status2. If the id is not None,
+        then return the queryset filtered by the id
+        :return: The queryset is being returned.
+        """
         queryset = Bookings.objects.all().order_by('start')
         id = self.request.query_params.get('book_id')
         userId = self.request.query_params.get('user_id')
@@ -41,11 +48,18 @@ class BookingSearchView(generics.ListAPIView):
             return queryset.filter(id=id)
 
 
+
 class OnGoingUserBookings(generics.ListAPIView):
+# Lists all pf the ongoing bookings of a given user
     model = Bookings
     serializer_class = BookingsSerializer
 
     def get_queryset(self):
+        """
+        If the user is logged in, return all the bookings that have a status of 1 and belong to the
+        logged in user
+        :return: The queryset is being returned.
+        """
         queryset = Bookings.objects.all()
         user = User.objects.get(username=self.request.user.username)
 
@@ -56,8 +70,17 @@ class OnGoingUserBookings(generics.ListAPIView):
 
 
 def bookingsFromStatus(request):
+    """
+    It returns a JSON response of the bookings with the given status, or the count of the bookings with
+    the given status
+    
+    :param request: The request object is a Python object that contains all the information about the
+    request that was sent to the server
+    :return: A list of bookings with the given status, or the count of bookings with the given status.
+    """
+    
     if request.method == 'GET':
-        status = int(request.GET.get('book_status', -1))
+        status = int(request.GET.get('book_status', 1))
         count = bool(request.GET.get('count', False))
         bookings = Bookings.objects.all()
         if status is not None and count is not None:
@@ -69,6 +92,12 @@ def bookingsFromStatus(request):
 
 
 def add_bookings(request):
+    """
+    It takes a POST request, extracts the data from the request, and saves it to the database
+    
+    :param request: the request object
+    :return: A JsonResponse with the status of the request.
+    """
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)
@@ -88,6 +117,14 @@ def add_bookings(request):
 
 
 def add_room(request):
+    """
+    It takes a POST request, decodes the body of the request, loads the body into a json object, and
+    then saves the room name into the database
+    
+    :param request: The request object is a Python object that contains all the information about the
+    request that was sent to the server
+    :return: a JsonResponse object.
+    """
     # take the same model as the one used in the add_bookings
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
@@ -102,6 +139,13 @@ def add_room(request):
 
 
 def add_pc_in_room(request):
+    """
+    It takes a POST request with a JSON body containing a room_id and a pc_name, and adds a new computer
+    to the database with the given name and room
+    
+    :param request: The request object that Django uses to represent and manage an HTTP request
+    :return: A JsonResponse object.
+    """
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)
@@ -116,26 +160,17 @@ def add_pc_in_room(request):
         return JsonResponse({'status': 'error'})
 
 
-def avg_booking_time_ever(request):
-    bookings = Bookings.objects.all()
-    avg = 0
-    for booking in bookings:
-        avg += booking.end.timestamp() - booking.start.timestamp()
-    if bookings.count() > 0:
-        avg = avg / bookings.count()
-        min = str(math.floor(avg / 60) % 6)
-        if math.floor(avg / 60) < 10:
-            min = '0'+str(math.floor(avg / 60) % 6)
-        return {'avg_time': str(int((avg - (avg % 3600)) / 3600)) + "h" + min}
-    else:
-        return {'avg_time': "--h--"}
-
-
+# It's a ListAPIView that takes a query parameter called book_id, finds the booking with that id, and
+# sets its status to 4
 class BookingCancelView(generics.ListAPIView):
     model = Bookings
     serializer_class = BookingsSerializer
 
     def get_queryset(self):
+        """
+        It gets the booking id from the query params, gets the booking object, sets the status to 4 and
+        saves it
+        """
         id = self.request.query_params.get('book_id')
         if id is not None:
             booking = Bookings.objects.get(id=id,
@@ -148,6 +183,14 @@ class BookingsCreateView(APIView):
     serializer_class = CreateBookingSerializer
 
     def post(self, request, format=None):
+        """
+        It takes a request, checks if the user is authenticated, then creates a booking object and saves it
+        to the database.
+        
+        :param request: The full HTTP request object
+        :param format: The format of the response
+        :return: The booking object is being returned.
+        """
         if(self.request.user.is_authenticated):
             serializer = self.serializer_class(request.data)
             if(serializer.is_valid()):
@@ -160,10 +203,6 @@ class BookingsCreateView(APIView):
                 booking.save()
                 return Response(BookingsSerializer(booking).data, status=status.HTTP_201_CREATED)
 
-
-class BookingsListView(generics.ListAPIView):
-    queryset = Bookings.objects.all()
-    serializer_class = BookingsSerializer
 
 
 def get_number_of_bookins_between_two_hours(start, end):
@@ -184,10 +223,12 @@ def get_number_of_bookins_between_two_hours(start, end):
 
 
 def get_busiest_time(request):
-    # Imagine that a day start at 7AM and end at 9PM
-    # For periods of one hour, we will have a list of the number of bookings of status 1 2 or 3 for each period
-    # Have a dictionary with the period as key and the number of bookings as value
-    # Return the highest key and value as JSON
+    """
+    It returns the time slot with the highest number of bookings
+    
+    :param request: the request object
+    :return: The busiest time slot and the number of bookings in that time slot.
+    """
     if request.method == 'GET':
         tab = []
         for i in range(7, 22):
@@ -200,6 +241,13 @@ def get_busiest_time(request):
 
 
 def getBookedRooms(bookings):
+    """
+    It takes a queryset of bookings and returns a dictionary of room names and the number of bookings in
+    each room
+    
+    :param bookings: A queryset of all the bookings
+    :return: A dictionary of rooms and the number of bookings in each room.
+    """
     allRooms = Rooms.objects.all()
     roomsData = {}
     for room in allRooms:
@@ -209,6 +257,12 @@ def getBookedRooms(bookings):
 
 
 def avg_booking_time_in_selection(bookings):
+    """
+    It takes a list of bookings and returns the average booking time in the format "hh:mm"
+    
+    :param bookings: a queryset of bookings
+    :return: A string with the average booking time in hours and minutes.
+    """
     avg = 0
     for booking in bookings:
         avg += booking.end.timestamp() - booking.start.timestamp()
@@ -223,6 +277,20 @@ def avg_booking_time_in_selection(bookings):
 
 
 def bookingOverYear(offset):
+    """
+    It returns a dictionary containing the title of the graph, the labels of the graph, the data of the
+    graph, the number of ongoing bookings, the average number of bookings per day, and the average
+    booking time.
+    
+    :param offset: the number of years to offset from the current year
+    :return: A dictionary with the following keys:
+        title: The title of the graph
+        labels: A list of labels for the x-axis
+        ongoingData: A list of values for the y-axis
+        roomsData: A list of values for the y-axis
+        nbOngoing: The number of ongoing bookings
+        nbAvgOverRange: The
+    """
 
     date = datetime.now()
 
@@ -260,6 +328,15 @@ def bookingOverYear(offset):
 
 
 def bookingOverMonth(offset):
+    """
+    It returns a dictionary containing the title of the graph, the labels of the graph, the data of the
+    graph, the number of ongoing bookings, the average number of bookings per day, and the average
+    booking time
+    
+    :param offset: the number of months to go back in time
+    :return: A dictionary with the title, labels, ongoingData, roomsData, nbOngoing, nbAvgOverRange, and
+    avgBookTime.
+    """
 
     date = datetime.now()
 
@@ -298,6 +375,19 @@ def bookingOverMonth(offset):
 
 
 def bookingOverWeek(offset):
+    """
+    It returns a dictionary containing the data for the bookings of a week, given an offset
+    
+    :param offset: the number of weeks to go back from the current week
+    :return: A dictionary with the following keys:
+        title: The title of the graph
+        labels: The labels of the graph
+        ongoingData: The data of the graph
+        roomsData: The data of the graph
+        nbOngoing: The number of ongoing bookings
+        nbAvgOverRange: The average number of bookings per day
+        avgBookTime
+    """
 
     date = datetime.now()
 
@@ -335,6 +425,16 @@ def bookingOverWeek(offset):
 
 
 def bookingOverDay(offset):
+    """
+    It takes an offset (in days) and returns a dictionary containing
+    the title of the graph, the labels, the data for the ongoing bookings, the data for the rooms, the
+    number of ongoing
+    bookings, the average number of ongoing bookings over the range, and the average booking time.
+    
+    :param offset: the number of days before today to look at. 0 is today, 1 is yesterday, etc
+    :return: A dictionary with the title, labels, ongoingData, roomsData, nbOngoing, nbAvgOverRange, and
+    avgBookTime
+    """
 
     date = datetime.now()
 
@@ -373,18 +473,37 @@ def bookingOverDay(offset):
 
 
 def statsOverall(request):
+    """
+    It takes a GET request, and returns a JSON object containing the number of bookings over the last
+    day, week, month, and year
+    
+    :param request: The request object
+    :return: A list of dictionaries, each dictionary contains the number of bookings for a given day.
+    """
     if request.method == 'GET':
         offset = int(request.GET.get('offset', 0))
-        print(bookingOverDay(offset))
         return JsonResponse({'day': bookingOverDay(offset), 'week': bookingOverWeek(offset),
                             'month': bookingOverMonth(offset), 'year': bookingOverYear(offset), })
 
+
+
+# This class is a ListAPIView that returns a list of all GlobalVariables objects, and uses the
+# GlobalVariablesSerializer to serialize the data
 class ModifyMaxBookingTimeView(generics.ListAPIView):
     model = GlobalVariables
     queryset = GlobalVariables.objects.all()
     serializer_class = GlobalVariablesSerializer
 
     def post(self, request, format=None):
+        """
+        It takes the value of the max_booking_time from the request and updates the value of the global
+        variable maximum_booking_time with the new value
+        
+        :param request: The request object
+        :param format: The format of the response
+        :return: The response is a JSON object with the key "error" and the value "max_booking_time is
+        missing"
+        """
         max_booking_time = request.data.get('max_booking_time')
         if(max_booking_time is None):
             return Response({"error": "max_booking_time is missing"}, status=status.HTTP_400_BAD_REQUEST)
@@ -396,11 +515,21 @@ class ModifyMaxBookingTimeView(generics.ListAPIView):
         global_variable.save()
         return Response(status=status.HTTP_200_OK)
 
+
+# This class is a ListAPIView that returns a list of all GlobalVariables objects.
 class MaxBookingTimeView(generics.ListAPIView):
     model = GlobalVariables
     queryset = GlobalVariables.objects.all()
 
     def get(self, request, format=None):
+        """
+        It gets the value of the global variable named 'maximum_booking_time' from the database and
+        returns it to the user
+        
+        :param request: The request object
+        :param format: The format of the response
+        :return: The maximum booking time is being returned.
+        """
         global_variable = GlobalVariables.objects.get(name='maximum_booking_time')
         return Response({"max_booking_time": global_variable.value}, status=status.HTTP_200_OK)
 
