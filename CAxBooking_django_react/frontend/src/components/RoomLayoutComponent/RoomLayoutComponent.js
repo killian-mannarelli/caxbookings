@@ -155,6 +155,20 @@ export default function RoomLayout(props) {
   }
 
 
+  const correctHoursString = () => {
+    let startStringIso = urlInfos?.startTime.toISOString() ?? "2022-05-18T12:30:00.000Z";
+    let endStringIso = urlInfos?.endTime.toISOString() ?? "2022-05-18T12:30:00.000Z";
+
+    let correctStart = new Date(startStringIso)
+    let correctEnd = new Date(endStringIso)
+
+    correctStart.setHours(correctStart.getHours() )
+    correctEnd.setHours(correctEnd.getHours() )
+    
+    
+    return [correctStart.toLocaleTimeString(), correctEnd.toLocaleTimeString()]
+  }
+
   const makeBooking = () => {
 
     let startStringIso = urlInfos.startTime.toISOString();
@@ -250,7 +264,7 @@ export default function RoomLayout(props) {
               <DialogContentText id="alert-dialog-slide-description">
                 Do you want to book this computer for this time :
                 {selectedComputer?.computer_name ?? "placeholder"} ,
-                from {urlInfos?.startTime.toLocaleString() ?? "placeholder"} to {urlInfos?.endTime.toLocaleString() ?? "placeholder"}
+                from {correctHoursString()[0]} to {correctHoursString()[1]}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
