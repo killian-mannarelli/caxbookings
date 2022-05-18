@@ -5,6 +5,7 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SecurityIcon from '@mui/icons-material/Security';
 import './AccountManagement.css'
+import ModifyMaxBookingTimeComponent from "./ModifyMaxBookingTimeComponent";
 
 export default function AccountManagement(props) {
 
@@ -166,6 +167,7 @@ export default function AccountManagement(props) {
                 }}
             />}
             <button className="CAxButton" onClick={() => { deleteUsers(selectedUser) }}>Delete</button>
+            <ModifyMaxBookingTimeComponent />
         </div   >
     );
 }

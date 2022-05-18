@@ -9,7 +9,7 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from ..serializers import *
-from ..models import Bookings, Computers, Rooms
+from ..models import Bookings, Computers, GlobalVariables, Rooms
 from dateutil.relativedelta import relativedelta
 
 import json
@@ -383,3 +383,31 @@ def statsOverall(request):
         print(bookingOverDay(offset))
         return JsonResponse({'day': bookingOverDay(offset), 'week': bookingOverWeek(offset),
                             'month': bookingOverMonth(offset), 'year': bookingOverYear(offset), })
+
+class ModifyMaxBookingTimeView(generics.ListAPIView):
+    model = GlobalVariables
+    queryset = GlobalVariables.objects.all()
+    serializer_class = GlobalVariablesSerializer
+
+    def post(self, request, format=None):
+        max_booking_time = request.data.get('max_booking_time')
+        if(max_booking_time is None):
+            return Response({"error": "max_booking_time is missing"}, status=status.HTTP_400_BAD_REQUEST)
+        #find the global variable with name maximum_booking_time
+        global_variable = GlobalVariables.objects.get(name='maximum_booking_time')
+        #update the value of the global variable
+        global_variable.value = max_booking_time
+        #save the global variable
+        global_variable.save()
+        return Response(status=status.HTTP_200_OK)
+
+class MaxBookingTimeView(generics.ListAPIView):
+    model = GlobalVariables
+    queryset = GlobalVariables.objects.all()
+
+    def get(self, request, format=None):
+        global_variable = GlobalVariables.objects.get(name='maximum_booking_time')
+        return Response({"max_booking_time": global_variable.value}, status=status.HTTP_200_OK)
+
+
+    
