@@ -807,6 +807,7 @@ class ComputerInRoom(models.Model):
     computer_name = models.CharField(max_length=255, blank=True, null=False, default="New PC")
     room_id = models.IntegerField()
     computer_status = models.IntegerField()
+    next_booking_time = models.DateTimeField(blank=True, null=True )
 
     class Meta:
         managed = False

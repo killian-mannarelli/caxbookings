@@ -121,6 +121,7 @@ export default function AccountManagement(props) {
 
 
             return {
+
                 id: users.user_id,
                 username: users.username,
                 superuser: users.is_superuser,
@@ -131,8 +132,7 @@ export default function AccountManagement(props) {
                 bookings_canceld: users.nb_canceled_bookings,
                 avg_booking_time: users.avg_booking_time,
             }
-        }
-        ); 
+        });
         return data;
     }
 
