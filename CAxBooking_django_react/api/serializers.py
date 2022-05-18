@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ComputerInRoom, Computers, RoomSearch, UserInfos, RoomBooked
+from .models import ComputerInRoom, Computers, GlobalVariables, RoomSearch, UserInfos, RoomBooked
 from .models import Bookings
 from .models import Rooms
 from django.contrib.auth.models import User
@@ -33,6 +33,11 @@ class ComputerInRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ComputerInRoom
         fields = ('computer_id', 'computer_status', 'computer_name', 'room_id', 'next_booking_time')
+
+class GlobalVariablesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GlobalVariables
+        fields = ('name','value')
 
 
 class UserSerializer(serializers.ModelSerializer):

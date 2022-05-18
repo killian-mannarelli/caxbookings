@@ -36,7 +36,9 @@ urlpatterns = [
     path('bookings/create', add_bookings),
     path('bookings/delete', BookingCancelView.as_view()),
     path('bookings/user/ongoing', OnGoingUserBookings.as_view()),
-    path('bookings/status', bookingsFromStatus),   
+    path('bookings/status', bookingsFromStatus),
+    path('bookings/maxtime/modify' , ModifyMaxBookingTimeView.as_view()),
+    path('bookings/maxtime', MaxBookingTimeView.as_view()),  
 
     path('times/mostbooked', get_busiest_time),
     
