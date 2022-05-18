@@ -216,54 +216,54 @@ export default function RoomLayout(props) {
     <div className="page">
 
       <Header currentUser={currentUser} />
-      <p id="roomName">{roomName + ' :'}</p>
 
       <div className="roomLayout">
+        <h2 id="roomName">{roomName + ' :'}</h2>
 
-        <Container id='RoomLayout'>
-          <TimeSpan
-            day={urlInfos?.day}
-            start={urlInfos?.startTime}
-            end={urlInfos?.endTime}
-            callback={callBackFromTimeSpan}
-          />
-          <div className="roomLayout">
+        <TimeSpan
+          day={urlInfos?.day}
+          start={urlInfos?.startTime}
+          end={urlInfos?.endTime}
+          callback={callBackFromTimeSpan}
+        />
 
-            <Container id='RoomLayout' className="background">
-              <Box>
 
-                <Grid container spacing={12} wrap="wrap" direction="row" alignItems="center">
-                  {computers.map((pc) =>
-                    <PcComponent pc={pc} onClick={handleClickOpen} />
-                  )}
 
-                </Grid>
-              </Box>
-              <Dialog
-                open={open}
-                keepMounted
-                onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description"
-              >
-                <DialogTitle>{"Book this computer ?"}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-slide-description">
-                    Do you want to book this computer for this time :
-                    {selectedComputer?.computer_name ?? "placeholder"} ,
-                    from {urlInfos?.startTime.toLocaleString() ?? "placeholder"} to {urlInfos?.endTime.toLocaleString() ?? "placeholder"}
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleNo}>No</Button>
-                  <Button onClick={handleClose}>Yes</Button>
-                </DialogActions>
-              </Dialog>
-            </Container>
-          </div>
+        <Container id='RoomLayout' className="background">
+          <Box>
+
+            <Grid container spacing={12} wrap="wrap" direction="row" alignItems="center">
+              {computers.map((pc) =>
+                <PcComponent pc={pc} onClick={handleClickOpen} />
+              )}
+
+            </Grid>
+          </Box>
+          <Dialog
+            open={open}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{"Book this computer ?"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                Do you want to book this computer for this time :
+                {selectedComputer?.computer_name ?? "placeholder"} ,
+                from {urlInfos?.startTime.toLocaleString() ?? "placeholder"} to {urlInfos?.endTime.toLocaleString() ?? "placeholder"}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleNo}>No</Button>
+              <Button onClick={handleClose}>Yes</Button>
+            </DialogActions>
+          </Dialog>
+        </Container>
       </div>
+
     </div>
   );
 
-}
+};
 
 

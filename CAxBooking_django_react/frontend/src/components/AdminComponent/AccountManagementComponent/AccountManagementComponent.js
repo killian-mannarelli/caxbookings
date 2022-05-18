@@ -10,9 +10,7 @@ export default function AccountManagement(props) {
 
 
     const [users, setUsers] = React.useState([]);
-    const dataUsers = null;
     let selectedUser = null;
-    console.log(props.currentUser.is_superuser)
 
     useEffect(() => {
         fetchUsers();
@@ -141,7 +139,7 @@ export default function AccountManagement(props) {
     return (
         <div className="AccountDisplayComponent" >
 
-            <DataGrid
+            {props.currentUser && <DataGrid
                 columns={columns}
                 rows={setData()}
                 autoHeight={true}
@@ -158,7 +156,7 @@ export default function AccountManagement(props) {
                         bookings_passed: true,
                         bookings_canceld: true,
                         avg_booking_time: true,
-                        actions: props.currentUser.is_super,
+                        actions: props.currentUser.is_superuser,
                     }
                 }}
 
@@ -166,7 +164,7 @@ export default function AccountManagement(props) {
                     console.log(newSelection);
                     selectedUser = newSelection;
                 }}
-            />
+            />}
             <button className="CAxButton" onClick={() => { deleteUsers(selectedUser) }}>Delete</button>
         </div   >
     );

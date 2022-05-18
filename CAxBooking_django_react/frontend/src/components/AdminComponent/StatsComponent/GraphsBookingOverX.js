@@ -147,7 +147,7 @@ export default function GraphsBookingOverX() {
                 <div className='statOfGraph background'>
                     <p>Average booking nb over range</p>
                     <hr />
-                    <p>{Math.ceil(graphData.nbAvgOverRange * 100) / 100}</p>
+                    <p>{graphData.nbAvgOverRange && Math.ceil(graphData.nbAvgOverRange * 100) / 100}</p>
                 </div>
                 <div className='statOfGraph background'>
                     <p>Average booking time over range</p>

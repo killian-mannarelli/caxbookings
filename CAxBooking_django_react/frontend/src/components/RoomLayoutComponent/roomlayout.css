@@ -10,9 +10,10 @@
 
 #roomName {
     margin-top: 0;
-    margin-right: 10vw;
     font-weight: bold;
     text-decoration: underline;
+    align-self: start;
+    margin-left: 10vw;
 }
 
 .timeSpan p {
@@ -21,6 +22,7 @@
 
 .roomLayout {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
