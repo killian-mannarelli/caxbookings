@@ -10,9 +10,7 @@
 }
 
 #line{
-    width: 90% !important;
     max-height: 1000px !important;
-    align-self: center;
 }
 
 
@@ -21,6 +19,8 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
+    width: 90%;
+    align-self: center;
 }
 
 .Graphs .selectGraphRange .CAxButton{
