@@ -870,3 +870,20 @@ class UserInfos(models.Model):
     class Meta:
         managed = False
         db_table = 'user_info'
+    
+    
+class RoomEquipment(models.Model):
+    id = models.IntegerField(primary_key=True)
+    equipment_name = models.CharField(max_length=255, null=False, blank=False)
+        
+    class Meta:
+        managed = True
+        db_table = 'room_equipment'
+
+class EquipmentInRoom(models.Model):
+    equipment_id =models.ForeignKey('RoomEquipment', primary_key=True)
+    room_id = models.ForeignKey('Rooms', primary_key=True)
+    
+    class Meta:
+        managed = True
+        db_table= 'rel_table_equipment_room'

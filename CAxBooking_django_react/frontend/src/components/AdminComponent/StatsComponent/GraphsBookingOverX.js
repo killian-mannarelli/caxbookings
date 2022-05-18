@@ -73,27 +73,11 @@ export default function GraphsBookingOverX() {
                         labels: graphData.labels,
                         datasets: [
                             {
-                                label: 'All Bookings',
-                                backgroundColor: 'rgba(84,142,241,1)',
-                                borderColor: 'rgba(84,142,241,1)',
-                                borderWidth: 2,
-                                tension: 0.2,
-                                data: graphData.allData,
-                            },
-                            {
-                                label: 'Bookings Canceled',
-                                backgroundColor: 'rgba(179, 6, 29, 1)',
-                                borderColor: 'rgba(179, 6, 29, 1)',
-                                borderWidth: 2,
-                                tension: 0.5,
-                                data: graphData.canceledData,
-                            },
-                            {
-                                label: 'Ongoing Bookings',
+                                label: 'Bookings',
                                 backgroundColor: 'rgba(122, 231, 84, 1)',
                                 borderColor: 'rgba(122, 231, 84, 1)',
                                 borderWidth: 2,
-                                tension: 0.4,
+                                tension: 0.5,
                                 data: graphData.ongoingData,
                             }
                         ]
@@ -129,16 +113,6 @@ export default function GraphsBookingOverX() {
             </div>
 
             <div className='CurrentGraphsStats'>
-                <div className='statOfGraph background'>
-                    <p>Total bookings</p>
-                    <hr />
-                    <p style={{ color: "#548EE7" }}>{graphData.nbBookTotal}</p>
-                </div>
-                <div className='statOfGraph background'>
-                    <p>Total cancel</p>
-                    <hr />
-                    <p style={{ color: "rgb(179, 6, 29, 1)" }}>{graphData.nbCancel}</p>
-                </div>
                 <div className='statOfGraph background'>
                     <p>Total ongoing</p>
                     <hr />

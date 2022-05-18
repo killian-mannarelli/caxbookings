@@ -204,8 +204,9 @@ def getBookedRooms(bookings):
     roomsData = {}
     for room in allRooms:
         computers = Computers.objects.filter(room=room.id)
-        roomsData[room.name]= len(bookings.filter(computer__in=computers))
+        roomsData[room.name] = len(bookings.filter(computer__in=computers))
     return roomsData
+
 
 def avg_booking_time_in_selection(bookings):
     avg = 0
@@ -233,14 +234,12 @@ def bookingOverYear(offset):
                                              start__lte=end)
 
     roomsData = getBookedRooms(bookings)
-    avgBookTime=avg_booking_time_in_selection(bookings)
+    avgBookTime = avg_booking_time_in_selection(bookings)
 
     nbTotal = bookings.count()
     nbCancel = bookings.filter(status=4).count()
     nbOngoing = bookings.filter(~Q(status=4)).count()
-    nbAvgOverRange = nbTotal/365
-    
-
+    nbAvgOverRange = nbOngoing/365
 
     title = f"Bookings of year {start.year}"
     listLabels = []
@@ -255,11 +254,9 @@ def bookingOverYear(offset):
         allDataValue.append(bookingsRange.count())
         canceledDataValue.append(bookingsRange.filter(status=4).count())
         ongoingDataValue.append(bookingsRange.filter(~Q(status=4)).count())
-        
 
-    return {'title': title, 'labels': listLabels,  'allData': allDataValue, 'canceledData': canceledDataValue,
-            'ongoingData': ongoingDataValue, 'roomsData': roomsData, 'nbBookTotal':nbTotal, 'nbCancel':nbCancel, 
-            'nbOngoing':nbOngoing, 'nbAvgOverRange':nbAvgOverRange, 'avgBookTime':avgBookTime}
+    return {'title': title, 'labels': listLabels,  'ongoingData': ongoingDataValue, 'roomsData': roomsData,
+            'nbOngoing': nbOngoing, 'nbAvgOverRange': nbAvgOverRange, 'avgBookTime': avgBookTime}
 
 
 def bookingOverMonth(offset):
@@ -274,13 +271,13 @@ def bookingOverMonth(offset):
                                              start__lte=end)
 
     roomsData = getBookedRooms(bookings)
-    avgBookTime=avg_booking_time_in_selection(bookings)
-    busiestTime=get_busiest_time
+    avgBookTime = avg_booking_time_in_selection(bookings)
+    busiestTime = get_busiest_time
 
     nbTotal = bookings.count()
     nbCancel = bookings.filter(status=4).count()
     nbOngoing = bookings.filter(~Q(status=4)).count()
-    nbAvgOverRange = nbTotal/daysInMonth
+    nbAvgOverRange = nbOngoing/daysInMonth
 
     title = f"Bookings of {month_name[start.month]} {start.year}"
     listLabels = []
@@ -296,9 +293,8 @@ def bookingOverMonth(offset):
         canceledDataValue.append(bookingsRange.filter(status=4).count())
         ongoingDataValue.append(bookingsRange.filter(~Q(status=4)).count())
 
-    return {'title': title, 'labels': listLabels, 'allData': allDataValue, 'canceledData': canceledDataValue,
-            'ongoingData': ongoingDataValue, 'roomsData': roomsData, 'nbBookTotal':nbTotal, 'nbCancel':nbCancel,
-            'nbOngoing':nbOngoing, 'nbAvgOverRange':nbAvgOverRange, 'avgBookTime':avgBookTime}
+    return {'title': title, 'labels': listLabels, 'ongoingData': ongoingDataValue, 'roomsData': roomsData,
+            'nbOngoing': nbOngoing, 'nbAvgOverRange': nbAvgOverRange, 'avgBookTime': avgBookTime}
 
 
 def bookingOverWeek(offset):
@@ -313,12 +309,12 @@ def bookingOverWeek(offset):
                                              start__lte=end)
 
     roomsData = getBookedRooms(bookings)
-    avgBookTime=avg_booking_time_in_selection(bookings)
+    avgBookTime = avg_booking_time_in_selection(bookings)
 
     nbTotal = bookings.count()
     nbCancel = bookings.filter(status=4).count()
     nbOngoing = bookings.filter(~Q(status=4)).count()
-    nbAvgOverRange = nbTotal/7
+    nbAvgOverRange = nbOngoing/7
 
     title = f"Bookings of week n°{start.isocalendar()[1]} of {start.year}"
     listLabels = []
@@ -334,9 +330,8 @@ def bookingOverWeek(offset):
         canceledDataValue.append(bookingsRange.filter(status=4).count())
         ongoingDataValue.append(bookingsRange.filter(~Q(status=4)).count())
 
-    return {'title': title, 'labels': listLabels, 'allData': allDataValue, 'canceledData': canceledDataValue,
-            'ongoingData': ongoingDataValue, 'roomsData': roomsData, 'nbBookTotal':nbTotal, 'nbCancel':nbCancel,
-            'nbOngoing':nbOngoing, 'nbAvgOverRange':nbAvgOverRange, 'avgBookTime':avgBookTime}
+    return {'title': title, 'labels': listLabels, 'ongoingData': ongoingDataValue, 'roomsData': roomsData,
+            'nbOngoing': nbOngoing, 'nbAvgOverRange': nbAvgOverRange, 'avgBookTime': avgBookTime}
 
 
 def bookingOverDay(offset):
@@ -351,13 +346,12 @@ def bookingOverDay(offset):
                                              start__lte=end)
 
     roomsData = getBookedRooms(bookings)
-    avgBookTime=avg_booking_time_in_selection(bookings)
+    avgBookTime = avg_booking_time_in_selection(bookings)
 
     nbTotal = bookings.count()
     nbCancel = bookings.filter(status=4).count()
     nbOngoing = bookings.filter(~Q(status=4)).count()
-    nbAvgOverRange = nbTotal/14
-    
+    nbAvgOverRange = nbOngoing/(14*15)
 
     title = f"Bookings of {start.day}th of {month_name[start.month]} {start.year}"
     listLabels = []
@@ -365,16 +359,17 @@ def bookingOverDay(offset):
     canceledDataValue = []
     ongoingDataValue = []
     for i in range(7, 21):
-        bookingsRange = bookings.filter((Q(start__hour__lt=i+1) & Q(start__hour__gte=i))
-                                        | (Q(end__hour__lt=i+1) & Q(end__hour__gte=i)))
-        listLabels.append(f"{i}h")
-        allDataValue.append(bookingsRange.count())
-        canceledDataValue.append(bookingsRange.filter(status=4).count())
-        ongoingDataValue.append(bookingsRange.filter(~Q(status=4)).count())
+        for j in range(0, 4):
+            print(start + relativedelta(hours=i, minutes=15*(j+1)))
+            bookingsRange = bookings.filter((Q(start__lt= start + relativedelta(hours=i, minutes=15*j))
+                                            & Q(end__gte=start + relativedelta(hours=i, minutes=15*j+1))))
+            listLabels.append(f"{i}h{j*15}")
+            allDataValue.append(bookingsRange.count())
+            canceledDataValue.append(bookingsRange.filter(status=4).count())
+            ongoingDataValue.append(bookingsRange.filter(~Q(status=4)).count())
 
-    return {'title': title, 'labels': listLabels, 'allData': allDataValue, 'canceledData': canceledDataValue,
-            'ongoingData': ongoingDataValue, 'roomsData': roomsData, 'nbBookTotal':nbTotal, 'nbCancel':nbCancel,
-            'nbOngoing':nbOngoing, 'nbAvgOverRange':nbAvgOverRange, 'avgBookTime':avgBookTime}
+    return {'title': title, 'labels': listLabels, 'ongoingData': ongoingDataValue, 'roomsData': roomsData,
+            'nbOngoing': nbOngoing, 'nbAvgOverRange': nbAvgOverRange, 'avgBookTime': avgBookTime}
 
 
 def statsOverall(request):
