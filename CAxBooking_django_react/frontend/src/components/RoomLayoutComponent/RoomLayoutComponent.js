@@ -23,16 +23,15 @@ export default function RoomLayout(props) {
   const [selectedComputer, setSelectedComputer] = React.useState(null);
   const [ongoinguserbookings, setOngoingUserBookings] = React.useState(null);
   let [currentUser, setCurrentUser] = React.useState(null);
+  const [maximumbookingtime, setMaximumBookingTime] = React.useState(0);
 
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []);
 
+
+  
 
 
   const fetchCurrentUser = () => {
     Axios.get("http://127.0.0.1:8000/api/users/getCurrent").then(res => {
-      console.log(res.data);
       setCurrentUser(res.data[0]);
     }
     );
@@ -40,8 +39,10 @@ export default function RoomLayout(props) {
 
 
   useEffect(() => {
+    fetchCurrentUser();
     getOngoingBookings();
     scrapUrl();
+    fetchMaxBookingTime();
   }, []
 
   );
@@ -56,6 +57,17 @@ export default function RoomLayout(props) {
   useEffect(() => {
     return;
   }, [computers]);
+
+
+  const fetchMaxBookingTime = () => {
+    Axios.get("http://127.0.0.1:8000/api/bookings/maxtime"
+    ).then(res => {
+      setMaximumBookingTime(res.data.max_booking_time);
+    }
+    );
+  }
+
+
 
   const callBackFromTimeSpan = (day, start, end) => {
 
@@ -79,6 +91,8 @@ export default function RoomLayout(props) {
     }
     setUrlInfos(newUrlInfos);
   }
+
+
 
   const fetchApi = () => {
     let startStringIso = urlInfos.startTime.toISOString();
@@ -134,20 +148,26 @@ export default function RoomLayout(props) {
     setOpen(false);
   };
 
-  const checkIfUserHas3Hours = () => {
+  const checkIfUserHasNHours = () => {
     //Use ongoinguserbookings
     //for each object in ongoinguserbookings
     //calculate the time between start and end and add it to a variable
     //if the variable is greater than 3 hours return true
     //else return false
     let time = 0;
+    let timespandifference = (urlInfos.endTime - urlInfos.startTime) / (1000 * 60 * 60);
+    time = time + timespandifference;
     for (let i = 0; i < ongoinguserbookings.length; i++) {
       let start = new Date(ongoinguserbookings[i].start);
       let end = new Date(ongoinguserbookings[i].end);
       time += (end - start) / 3600000;
+      
+    
+
+
     }
     console.log(time);
-    if (time > 3) {
+    if (time >= maximumbookingtime) {
       return true;
     }
     return false;
@@ -162,8 +182,8 @@ export default function RoomLayout(props) {
     let correctStart = new Date(startStringIso)
     let correctEnd = new Date(endStringIso)
 
-    correctStart.setHours(correctStart.getHours() )
-    correctEnd.setHours(correctEnd.getHours() )
+    correctStart.setHours(correctStart.getHours()-2 )
+    correctEnd.setHours(correctEnd.getHours() -2)
     
     
     return [correctStart.toLocaleTimeString(), correctEnd.toLocaleTimeString()]
@@ -195,8 +215,8 @@ export default function RoomLayout(props) {
     }, []);
 
     console.log(ongoingBooking);
-    if (checkIfUserHas3Hours()) {
-      alert("You already have 3 hours of bookings ! ");
+    if (checkIfUserHasNHours()) {
+      alert("You can't have more than " + maximumbookingtime + " hours of scheduled booking" );
       return;
     }
 
