@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import BookingPopup from './BookingPopup';
 
+
+/**
+ * It's a function that returns a div containing a paragraph and a BookingPopup component
+ * @param props - the props passed to the component
+ * @returns A div with a p and a BookingPopup component.
+ */
 export default function Booking(props) {
 
     const [computerName, setComputerName] = useState();

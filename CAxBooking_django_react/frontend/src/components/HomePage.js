@@ -12,6 +12,10 @@ import {
   Redirect,
 } from "react-router-dom";
 
+/**
+ * It returns a Router component that contains a Switch component that contains a Route component for
+ * each page in the app
+ */
 export default function HomePage() {
   
 

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios"
 import "./loginstyle.css"
 
+/* It's a React component that renders a login form */
 export default class Login extends Component {
     constructor(props) {
         super(props);

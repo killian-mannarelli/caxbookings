@@ -6,6 +6,11 @@ import Bookings from './BookingComponent/Bookings';
 import Header from '../HeaderComponent/Header';
 import Axios from 'axios';
 
+/**
+ * It fetches the current user, then fetches the rooms, then renders the header, bookings, timespan and
+ * roomdisplay components
+ * @returns The MainPage component is being returned.
+ */
 export default function MainPage() {
 
 
@@ -51,7 +56,12 @@ export default function MainPage() {
       });
   }
 
-
+/**
+ * It takes in a day, start time and end time and returns a start date and end date
+ * @param day - The day that the user has selected.
+ * @param start - The start time of the event
+ * @param end - The end time of the event.
+ */
   const callBackFromTimeSpan = (day, start, end) => {
 
     let StartDate = new Date(day.toISOString());
@@ -64,9 +74,6 @@ export default function MainPage() {
     EndDate.setSeconds(end.getSeconds());
     setStartDate(StartDate);
     setEndDate(EndDate);
-
-
-
   }
 
   return (

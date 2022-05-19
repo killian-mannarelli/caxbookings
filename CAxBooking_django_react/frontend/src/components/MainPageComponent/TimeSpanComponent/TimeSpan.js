@@ -8,9 +8,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import moment, { min } from 'moment';
-import { areDayPropsEqual } from '@mui/x-date-pickers/PickersDay/PickersDay';
 
 
+
+/**
+ * It renders a date picker, a start time picker and an end time picker
+ * @param props - 
+ * @returns A component that allows the user to select a date and a time span.
+ */
 export default function TimePickers(props) {
     const MINIMUM_BOOKING_TIME = 30;
     const MAXIMUM_BOOKING_TIME = 3;

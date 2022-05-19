@@ -4,6 +4,11 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import ComputerIcon from '@mui/icons-material/Computer';
 
+/**
+ * It takes a pc object as a prop and returns a grid with the pc name and the image
+ * @param props - the props that are passed to the component
+ * @returns A grid with the pc name and the image
+ */
 export default function PcComponent(props) {
     const pc = props.pc;
     let nextBooking = pc.next_booking_time
@@ -45,7 +50,4 @@ export default function PcComponent(props) {
             </Grid>
         </Grid>
     );
-
-
-
 }

@@ -3,6 +3,11 @@ import React, { useEffect } from 'react';
 import './HeaderStyle.css';
 import Axios from 'axios';
 
+/**
+ * It renders a header with a logo, a title, and a logout button
+ * @param props - The props that are passed to the component.
+ * @returns A div with a header and a button.
+ */
 export default function Header(props) {
 
   return (

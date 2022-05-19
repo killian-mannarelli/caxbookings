@@ -2,11 +2,21 @@ import './Bookings.css'
 import React, { useEffect, useState } from 'react';
 import Booking from './Booking';
 
+/**
+ * It fetches the bookings from the API, and displays them in a table
+ * @param props - the props that are passed to the component
+ * @returns A table with the ongoing bookings.
+ */
 export default function Bookings(props) {
 
 
     let [books, setBookings] = useState();
 
+    /**
+     * It fetches the bookings from the API and then sets the state of the bookings to the fetched
+     * bookings
+     * @returns A list of bookings
+     */
     function fetchBookings() {
         fetch("http://127.0.0.1:8000/api/bookings/search?user_id=" + props.user_id + "&status2=2&status=1", {
             method: "GET"

@@ -13,6 +13,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Axios from "axios";
+/**
+ * It fetches the computers in a room at a given time, and displays them in a grid
+ * @param props - The props that were passed to the component.
+ * @returns a component.
+ */
 
 export default function RoomLayout(props) {
 
@@ -27,7 +32,7 @@ export default function RoomLayout(props) {
 
 
 
-  
+
 
 
   const fetchCurrentUser = () => {
@@ -115,6 +120,10 @@ export default function RoomLayout(props) {
 
   }
 
+  /**
+   * It scrapes the url of the page and sets the state of the urlInfos object with the information it
+   * finds
+   */
   const scrapUrl = () => {
     let url = window.location.href;
     let startToAdd = new Date(url.split("start=")[1].split("&")[0]);
@@ -161,8 +170,8 @@ export default function RoomLayout(props) {
       let start = new Date(ongoinguserbookings[i].start);
       let end = new Date(ongoinguserbookings[i].end);
       time += (end - start) / 3600000;
-      
-    
+
+
 
 
     }
@@ -174,7 +183,13 @@ export default function RoomLayout(props) {
 
   }
 
-
+  /**
+   * It takes the start and end time from the url, converts it to a string, then converts it back to a
+   * date, then subtracts 2 hours from the hours, then returns the start and end time as a string
+   * @returns const correctHoursString = () => {
+   *     let startStringIso = urlInfos?.startTime.toISOString() ?? "2022-05-18T12:30:00.000Z";
+   *     let endStringIso = urlInfos?.endTime.toISOString() ?? "2022-05-18T12:
+   */
   const correctHoursString = () => {
     let startStringIso = urlInfos?.startTime.toISOString() ?? "2022-05-18T12:30:00.000Z";
     let endStringIso = urlInfos?.endTime.toISOString() ?? "2022-05-18T12:30:00.000Z";
@@ -182,13 +197,16 @@ export default function RoomLayout(props) {
     let correctStart = new Date(startStringIso)
     let correctEnd = new Date(endStringIso)
 
-    correctStart.setHours(correctStart.getHours()-2 )
-    correctEnd.setHours(correctEnd.getHours() -2)
-    
-    
+    correctStart.setHours(correctStart.getHours() - 2)
+    correctEnd.setHours(correctEnd.getHours() - 2)
+
+
     return [correctStart.toLocaleTimeString(), correctEnd.toLocaleTimeString()]
   }
 
+  /**
+   * It checks if there is an ongoing booking at the same time as the one the user is trying to make.
+   */
   const makeBooking = () => {
 
     let startStringIso = urlInfos.startTime.toISOString();
@@ -216,7 +234,7 @@ export default function RoomLayout(props) {
 
     console.log(ongoingBooking);
     if (checkIfUserHasNHours()) {
-      alert("You can't have more than " + maximumbookingtime + " hours of scheduled booking" );
+      alert("You can't have more than " + maximumbookingtime + " hours of scheduled booking");
       return;
     }
 

@@ -3,6 +3,11 @@ import React, { useEffect } from 'react';
 
 
 
+/**
+ * It takes in a list of rooms and a start and end time, and then displays them in a table
+ * @param props - {
+ * @returns A table with the available rooms and their capacity.
+ */
 export default function RoomDisplay(props) {
     let realtimestart = new Date(props.start);
     let realtimeend = new Date(props.end)

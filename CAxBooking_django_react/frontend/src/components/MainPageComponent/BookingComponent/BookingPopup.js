@@ -1,6 +1,11 @@
 import React from 'react';
 import './BookingPopUp.css'
 
+/**
+ * It returns a div with a title, some information, and two buttons
+ * @param props - {
+ * @returns A function that returns a div with the booking information.
+ */
 export default function BookingPopup(props) {
 
     function infoBox(name, data) {
