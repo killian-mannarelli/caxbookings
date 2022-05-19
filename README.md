@@ -22,8 +22,8 @@ This project is a website project to allow students to book computers, it also a
 - backend : 
     - python version=3.8
     - pipenv version=11.9.0
-```
     - pipenv packages :
+```
         ├──  django version=4.0.4 
         ├──  djangorestframework version=3.13.1
         ├──  mysqlclient version=2.1.0
@@ -34,8 +34,8 @@ This project is a website project to allow students to book computers, it also a
 - frontend :
     - NodeJs version=17.9.0
     - npm version=8.5.5
-```    
     - npm dependencies :        
+```    
         ├── @babel/core@7.17.9
         ├── @babel/preset-env@7.16.11
         ├── @babel/preset-react@7.16.7
