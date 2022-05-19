@@ -127,5 +127,5 @@ To format the responses of the views we use the `serializers.py` file.
 There are different commads that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to setup for the different migrations that might have appened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
 
 ### React  
-
+React is a JavaScript component based library,  
 

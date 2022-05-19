@@ -903,21 +903,3 @@ class UserInfos(models.Model):
         managed = False
         db_table = 'user_info'
     
-    
-# The RoomEquipment class is a model that represents a room equipment
-class RoomEquipment(models.Model):
-    id = models.IntegerField(primary_key=True)
-    equipment_name = models.CharField(max_length=255, null=False, blank=False)
-        
-    class Meta:
-        managed = True
-        db_table = 'room_equipment'
-        
-# This class is a relational table that links the equipment in a room to the room itself
-class EquipmentInRoom(models.Model):
-    equipment_id =models.ForeignKey('RoomEquipment', primary_key=True)
-    room_id = models.ForeignKey('Rooms', primary_key=True)
-    
-    class Meta:
-        managed = True
-        db_table= 'rel_table_equipment_room'

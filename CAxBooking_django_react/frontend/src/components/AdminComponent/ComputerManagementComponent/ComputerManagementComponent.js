@@ -15,6 +15,11 @@ import { TextField } from "@mui/material";
 import './ComputerManagement.css'
 
 
+/**
+ * It fetches the rooms from the database, displays them in a table, and when a room is selected, it
+ * fetches the computers in that room and displays them in a grid
+ * @returns A component that displays a list of rooms and computers.
+ */
 export default function ComputerManagement(){
     const [rooms, setRooms] = React.useState([]);
     const [computers, setComputers] = React.useState([]);
@@ -94,6 +99,11 @@ export default function ComputerManagement(){
         setOpen(false);
     };
 
+/**
+ * It returns the value of the cookie with the name passed in as an argument
+ * @param name - The name of the cookie you want to get.
+ * @returns The value of the cookie with the name passed in as an argument.
+ */
     const getCookie = (name) => {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {

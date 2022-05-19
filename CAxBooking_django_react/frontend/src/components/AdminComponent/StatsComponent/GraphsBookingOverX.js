@@ -3,6 +3,10 @@ import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import Axios from "axios";
 
+/**
+ * It fetches data from the backend, and then displays it in a graph
+ * @returns A graph of the number of bookings over a given time period.
+ */
 export default function GraphsBookingOverX() {
 
     const [graphData, setGraphData] = React.useState([]);

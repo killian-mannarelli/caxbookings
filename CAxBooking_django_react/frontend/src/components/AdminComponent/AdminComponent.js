@@ -7,6 +7,10 @@ import './AdminStyle.css';
 import Axios from 'axios';
 import Stats from './StatsComponent/StatsComponent';
 
+/**
+ * The Admin function is the main function of the Admin page. It renders the Header, Selection, and the
+ * content of the page. The content of the page is determined by the Selection component
+ */
 export default function Admin() {
   const [content, setContent] = React.useState(<Stats />)
   const [currentUser, setCurrentUser] = React.useState(null);

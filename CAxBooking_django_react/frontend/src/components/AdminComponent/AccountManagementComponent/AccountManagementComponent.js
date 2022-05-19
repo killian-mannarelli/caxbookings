@@ -7,6 +7,11 @@ import SecurityIcon from '@mui/icons-material/Security';
 import './AccountManagement.css'
 import ModifyMaxBookingTimeComponent from "./ModifyMaxBookingTimeComponent";
 
+/**
+ * It displays the users in a table and allows the admin to modify the users.
+ * @param props - the props that are passed to the component
+ * @returns A component that displays a table of users and their information.
+ */
 export default function AccountManagement(props) {
 
 

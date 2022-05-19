@@ -2,6 +2,12 @@ import React from "react";
 import axios from "axios";
 import "./style.css";
 
+/**
+ * It returns a form that will create a room, only one field for the room name and a button to create
+ * the room
+ * @param props - the props that are passed to the component
+ * @returns A form with a text input and a button.
+ */
 export default function RoomCreationComponent(props) {
     //return a form that will create a room
     //only one field for the room name
@@ -18,19 +24,19 @@ export default function RoomCreationComponent(props) {
             console.log(res.data);
 
         });
-            
-            
+
+
     }
 
     return (
         <div className="RoomCreationComponent">
             <form>
                 <label>Room name</label>
-                <input type="text" id = "roomName"/>
-                
+                <input type="text" id="roomName" />
+
             </form>
             <button className="login-logout CAxButton" onClick={createRoom}>Create</button>
         </div>
     );
 
-    }
+}

@@ -3,6 +3,11 @@ import Axios from "axios";
 import {DataGrid} from "@mui/x-data-grid";
 
 
+/**
+ * It fetches the most booked rooms from the API and displays them in a table
+ * @param props - the props passed to the component
+ * @returns A table with the most booked rooms and the number of bookings.
+ */
 export default function MostBookedRoomComponent(props) {
 
     const [rooms, setRooms] = React.useState([]);

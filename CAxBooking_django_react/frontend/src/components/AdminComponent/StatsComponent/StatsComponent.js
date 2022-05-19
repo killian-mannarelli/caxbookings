@@ -4,6 +4,12 @@ import MostBookedRoomComponent from "./MostBookedRoomComponent";
 import Axios from "axios";
 import './StatsComponent.css'
 
+/**
+ * It returns a div with a MostBookedRoomComponent, a GraphsBookingOverX and a button that downloads
+ * the database as a csv file
+ * @returns A div with the id "Statistics" containing the MostBookedRoomComponent, GraphsBookingOverX
+ * and a button to download the database as a csv file.
+ */
 export default function Stats(){
 
 

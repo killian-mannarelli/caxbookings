@@ -10,6 +10,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { TextField } from "@mui/material";
 
+/**
+ * It fetches the rooms from the database, displays them in a table, and allows the user to modify or
+ * delete them
+ * @param props - The props that are passed to the component.
+ * @returns A component that displays a list of rooms and allows the user to modify or delete them.
+ */
 export default function RoomDisplayComponent(props) {
 
     const [rooms, setRooms] = React.useState([]);
@@ -64,6 +70,9 @@ export default function RoomDisplayComponent(props) {
     }
 
 
+   /**
+    * It takes the new name of the room and sends it to the backend to be updated
+    */
     const modifRoom = () => {
         var CSRF_TOKEN=getCookie('csrftoken');
         let newName = document.getElementById("name").value;
@@ -92,7 +101,6 @@ export default function RoomDisplayComponent(props) {
             fetchRooms();
         }
         );
-
     }
 
     const columns = [
@@ -102,6 +110,7 @@ export default function RoomDisplayComponent(props) {
             flex: 1,
         },
     ];
+    
     const setData = () => {
         const data = rooms.map(room => {
             return {
