@@ -112,8 +112,13 @@ The projects settings are in the `CAxBooking_django_react/CAxBooking_django_reac
 
 Then the two other folders are apps we are using one for the backend(`api`) and another for the frontend(`frontend`)
 
-In the frontend app a ReactJs project was implemented and almost none of the generated files were modified except for the urls
+In the frontend app a ReactJs project was implemented and almost none of the Django generated files were modified except for `urls.py`.
 
+The api folder deals with all of the backend of the website, in the models folder you have all of the models used in the rest of the project.
+
+In the views folder there is a file for each of the 4 main tables in the database/models of the project, `Bookings`, `Rooms`, `Users` `Computers`. 
+In these files you can find all of the api requests that are used by the website while running.
+To format the responses of the views we use the `serializers.py` file.
 #### Django manage
 
 There are different commads that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to setup for the different migrations that might have appened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
