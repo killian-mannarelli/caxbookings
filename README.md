@@ -22,18 +22,20 @@ This project is a website project to allow students to book computers, it also a
 - backend : 
     - python version=3.8
     - pipenv version=11.9.0
-<!--     - pipenv packages :
-        - django version=4.0.4 
-        - djangorestframework version=3.13.1
-        - mysqlclient version=2.1.0
-        - requests version=2.27.1
-        - python-dateutil version=2.8.2 
--->
+```
+    - pipenv packages :
+        ├──  django version=4.0.4 
+        ├──  djangorestframework version=3.13.1
+        ├──  mysqlclient version=2.1.0
+        ├──  requests version=2.27.1
+        ├──  python-dateutil version=2.8.2 
+```
 
 - frontend :
     - NodeJs version=17.9.0
     - npm version=8.5.5
-```    - npm dependencies :        
+```    
+    - npm dependencies :        
         ├── @babel/core@7.17.9
         ├── @babel/preset-env@7.16.11
         ├── @babel/preset-react@7.16.7
@@ -78,8 +80,9 @@ and both the django server and the node server should be running.
 `TODO`
 
 ## How to use 
-### Django architecture
-The project architecture is as follow :
+### Django in general
+#### Django architecture
+The main project structure is as follow :
 ```
 ├──CaxBooking_django_react/
 |   ├──api/
@@ -98,7 +101,9 @@ The project architecture is as follow :
 |   ├──manage.py
 |   | ... 
 ```
-### Django manage
+#### Django manage
+There are different commads that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to setup for the different migrations that might have appened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
+
 ### React  
 
 ## Badges
