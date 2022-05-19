@@ -16,6 +16,8 @@
 ## General Info
 This project is a website project to allow students to book computers, it also allows teachers and other admin to monitor the rooms efficiency through various statistics
 
+    Important : as the server on which the database is running and we are connected to is 2 hours early some of the times durations have an hardcoded offset.S 
+
 ## Technologies
 
 - database : mysql 
