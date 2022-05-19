@@ -80,8 +80,13 @@ and both the django server and the node server should be running.
 `TODO`
 
 ## How to use 
+
 ### Django in general
+
+This part is just an very large overview of Django/DjangoRestAPI's frameworks, it is highly recommended to check the documentations of both of those to understand the project structure a little better.
+
 #### Django architecture
+
 The main project structure is as follow :
 ```
 ├──CaxBooking_django_react/
@@ -89,20 +94,30 @@ The main project structure is as follow :
 |   |   ├──models.py
 |   |   ├──views/
 |   |   ├──urls.py
-|   |   | ...
+|   |   └── ...
 |   ├──frontend/
 |   |   ├──src/
 |   |   |   ├──component/
-|   |   |   |   ...
-|   |   |   ├──index.js
+|   |   |   |  └── ...
+|   |   |   └──index.js
+|   |   └── ...
 |   ├──CAxBooking_django_react/
 |   |   ├──settings.py
-|   |   | ...
+|   |   └── ...
 |   ├──manage.py
-|   | ... 
+└── └── ... 
 ```
+
+The projects settings are in the `CAxBooking_django_react/CAxBooking_django_react/` folder there you have the `settings.py` file that alllows you to change settings like the different apps installed in the Django project and the connections informations of the database.
+
+Then the two other folders are apps we are using one for the backend(`api`) and another for the frontend(`frontend`)
+
+In the frontend app a ReactJs project was implemented and almost none of the generated files were modified except for the urls
+
 #### Django manage
+
 There are different commads that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to setup for the different migrations that might have appened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
 
 ### React  
+
 
