@@ -12,6 +12,7 @@
 4. [How to use](#how-to-use)
     - [Django architecture](#django-architecture)
     - [Django manage](#django-manage)
+    - [React](#react)
 
 ## General Info
 This project is a website project to allow students to book computers, it also allows teachers and other admin to monitor the rooms efficiency through various statistics
@@ -130,6 +131,7 @@ There are different commads that you can use with the `manage.py` file, the one 
 React is a JavaScript component based library, for more info check the [documentation](https://reactjs.org/docs/getting-started.html).
 
 The project only has 4 pages :
+
 * the Connection page
 * the "Main Page" page
 * the Room page
