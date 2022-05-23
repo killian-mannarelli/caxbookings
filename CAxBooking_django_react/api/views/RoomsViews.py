@@ -6,7 +6,7 @@ from dateutil import parser
 from django.db.models import Q
 from rest_framework import generics, viewsets
 from ..serializers import *
-from ..models import Bookings, Computers, RoomSearch, Rooms
+from ..models import Bookings, Computers, EquipmentInRoom, RoomEquipment, RoomSearch, RoomWithEquipmentName, Rooms
 
 # region rooms
 
@@ -153,5 +153,82 @@ def delete_room(request):
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
 
+
+class AddRoomEquipmentView(generics.ListAPIView):
+    model = RoomEquipment
+    serializer_class = RoomEquipmentSerializer
+    queryset = RoomEquipment.objects.all()
+
+    def post(self, request, format=None):
+        equipment_name = request.data['equipment_name']
+
+
+       
+        roomEquipment = RoomEquipment(equipment_name=equipment_name)
+        roomEquipment.save()
+        return JsonResponse({"success": "Room Equipment added"})
+
+
+
+class AddEquipmentToRoomView(generics.ListAPIView):
+    model = EquipmentInRoom
+    serializer_class = EquipmentInRoomSerializer
+    queryset = EquipmentInRoom.objects.all()
+
+    def post(self,request,format=None):
+        equipment_id = request.data['equipment_id']
+        room_id = request.data['room_id']
+        #find the RoomEquipment object with the id
+        roomEquipment = RoomEquipment.objects.get(id=equipment_id)
+        #find the room object with the id
+        room = Rooms.objects.get(id=room_id)
+
+        equipment_in_room = EquipmentInRoom(equipment_id=roomEquipment,room_id=room)
+        equipment_in_room.save()
+        return JsonResponse({"success": "Equipment added to room"})
+    
+
 # endregion
 
+class GetRoomEquipmentsView(generics.ListAPIView):
+    model = RoomEquipment
+    serializer_class = RoomEquipmentSerializer
+
+    def get_queryset(self):
+        queryset = EquipmentInRoom.objects.all()
+        id = self.request.query_params.get('room_id')
+        #find a room with this room_id 
+        room = Rooms.objects.get(id=id)
+        if room is not None:
+
+            queryset = queryset.filter(room_id=room)
+
+            queryset_equipments = []
+            for (i) in queryset:
+                RoomEquipmentI = RoomEquipment.objects.get(id=i.equipment_id_id)
+                queryset_equipments.append(RoomEquipmentI)
+        return queryset_equipments
+
+
+class AllEquipmentsView(generics.ListAPIView):
+    model = RoomEquipment
+    serializer_class = RoomEquipmentSerializer
+
+    def get_queryset(self):
+        queryset = RoomEquipment.objects.all()
+        return queryset
+
+
+class AllRoomsAllEquipmentsView(generics.ListAPIView):
+    model = RoomWithEquipmentName
+    serializer_class = RoomWithEquipmentNameSerializer
+
+    def get_queryset(self):
+        queryset = EquipmentInRoom.objects.all()
+        queryset_equipments = []
+        for (i) in queryset:
+            RoomEquipmentI = RoomEquipment.objects.get(id=i.equipment_id_id)
+            #create a RoomWithEquipmentName object
+            RoomWithEquipmentNameI = RoomWithEquipmentName(room_id=i.room_id_id,equipment_name=RoomEquipmentI.equipment_name)
+            queryset_equipments.append(RoomWithEquipmentNameI)
+        return queryset_equipments

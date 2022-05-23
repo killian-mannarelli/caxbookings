@@ -787,7 +787,7 @@ class Rooms(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, default="Ney Room")
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'rooms'
 
 
@@ -853,7 +853,7 @@ class GlobalVariables(models.Model):
     value = models.CharField(max_length=255, null=False)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'global_variables'
 
 
@@ -874,17 +874,27 @@ class UserInfos(models.Model):
     
     
 class RoomEquipment(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(db_column="id",primary_key=True)
     equipment_name = models.CharField(max_length=255, null=False, blank=False)
         
     class Meta:
-        managed = True
+        managed = False
         db_table = 'room_equipment'
 
 class EquipmentInRoom(models.Model):
-    equipment_id =models.ForeignKey('RoomEquipment', primary_key=True)
-    room_id = models.ForeignKey('Rooms', primary_key=True)
+    id = models.AutoField(primary_key=True)
+    equipment_id =models.ForeignKey(RoomEquipment, models.DO_NOTHING )
+    room_id = models.ForeignKey(Rooms, models.DO_NOTHING )
     
     class Meta:
-        managed = True
+        managed = False
         db_table= 'rel_table_equipment_room'
+
+class RoomWithEquipmentName(models.Model):
+    id = models.IntegerField(primary_key=True)
+    room_id = models.IntegerField(max_length=255, null=False, blank=False)
+    equipment_name = models.CharField(max_length=255, null=False, blank=False)
+    
+    class Meta:
+        managed = False
+        db_table = 'room_with_equipment_name'

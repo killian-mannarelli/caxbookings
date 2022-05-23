@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import AccountManagement from '../AccountManagementComponent/AccountManagementComponent';
 import ComputerManagement from '../ComputerManagementComponent/ComputerManagementComponent';
 import RoomManagement from '../RoomManagementComponent/RoomManagementComponent';
+import RoomEquipmentManagement from '../RoomEquipmentManagementComponent/RoomEquipmentManagementComponent';
 import Stats from '../StatsComponent/StatsComponent';
 import "./style.css";
 
@@ -31,6 +32,13 @@ export default function Selection(props) {
                 props.setContent(<AccountManagement currentUser={props.currentUser} />)
             }}>
                 <button className="login-logout CAxButton">Users</button>
+        </div>
+            <div onClick={() => {
+                props.setContent(<RoomEquipmentManagement currentUser={props.currentUser} />)
+            }}>
+                
+            <button className="login-logout CAxButton">Equipments</button>
+                
             </div>
         </div>
     )

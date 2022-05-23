@@ -133,6 +133,7 @@ export default function RoomLayout(props) {
   }
 
   const handleClickOpen = (data) => {
+
     setSelectedComputer(data);
     if (data.computer_status == 1) {
       return;

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ComputerInRoom, Computers, GlobalVariables, RoomSearch, UserInfos, RoomBooked
+from .models import ComputerInRoom, Computers, EquipmentInRoom, GlobalVariables, RoomEquipment, RoomSearch, RoomWithEquipmentName, UserInfos, RoomBooked
 from .models import Bookings
 from .models import Rooms
 from django.contrib.auth.models import User
@@ -57,9 +57,26 @@ class RoomBookedSerializer(serializers.ModelSerializer):
         fields = ('room_id', 'room_name' , 'room_booking_count')
 
 
+class RoomEquipmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomEquipment
+        fields = ('id' , 'equipment_name')
+
+class EquipmentInRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EquipmentInRoom
+        fields = ('equipment_id', 'room_id')
+
+
 
 class UserInfosSerialiser(serializers.ModelSerializer):
     class Meta:
         model = UserInfos
         fields = ('user_id', 'username', 'is_superuser', 'is_staff',
                   'nb_in_process_bookings', 'nb_total_bookings', 'nb_canceled_bookings', 'nb_passed_bookings', 'avg_booking_time')
+
+class RoomWithEquipmentNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoomWithEquipmentName
+        fields = ('room_id', 'equipment_name')
+
