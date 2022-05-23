@@ -30,6 +30,12 @@ urlpatterns = [
     path('rooms/delete', delete_room),
     path('rooms/modify', RoomsViewSet.as_view()),
     path('rooms/mostbooked', MostBookedRoomsSearch.as_view()),
+    path('rooms/equipment/add', AddRoomEquipmentView.as_view()),
+    path('rooms/addequipments', AddEquipmentToRoomView.as_view()),
+    path('rooms/equipments', GetRoomEquipmentsView.as_view()),
+    path('rooms/equipments/all', AllEquipmentsView.as_view()),
+    path('rooms/allequipments', AllRoomsAllEquipmentsView.as_view()),
+    path('rooms/equipments/delete',DeleteRoomEquipmentView.as_view()),
 
 
     path('bookings/search', BookingSearchView.as_view()),
