@@ -83,14 +83,12 @@ export default function TimePickers(props) {
 
     function isTimeStartOK(timeValue, clockType) {
         if (clockType == 'minutes') {
-            if (timeValue % 15 != 0) {
-                if (moment().dayOfYear() == valueDay.dayOfYear()) {
+            if (moment().dayOfYear() == valueDay.dayOfYear()) {
+                if (timeValue % 15 != 0) {
+
                     return true;
-                } else if (valueTimeStart.hours() == moment().hours()) {
-                    console.log(moment().minutes())
-                    if (timeValue < moment().minutes()) {
-                        return true;
-                    }
+                } else if (valueTimeStart.hours() == moment().hours() && timeValue < moment().minutes()) {
+                    return true;
                 }
             }
         } else if (clockType == 'hours') {
