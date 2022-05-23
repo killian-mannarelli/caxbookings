@@ -54,7 +54,7 @@
 }
 
 .popup .CAxButton {
-    width: 20%;
+    width: 20% !important;
     margin: 5px;
 }
 

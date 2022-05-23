@@ -40,7 +40,7 @@ export default function IsBooked() {
             {!nextBook &&
                 <div id="ComputerBookedContent" className="background">
 
-                    <h2> Try booking this computer on the computer Booking system  </h2>
+                    <h2> Try booking this computer on the Computer Booking Service  </h2>
                     <p>
                         You can try booking this computer on the Computer Resevation Service website, so that someone doesn't book it while you are using it.
                     </p>

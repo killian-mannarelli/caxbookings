@@ -40,7 +40,7 @@ class ComputerInRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ComputerInRoom
         fields = ('computer_id', 'computer_status',
-                  'computer_name', 'room_id', 'next_booking_time')
+                  'computer_name', 'room_id', 'next_booking_time', 'next_booking_duration')
 
 # This class is a serializer for the GlobalVariables model
 

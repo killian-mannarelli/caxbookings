@@ -129,7 +129,6 @@ export default function RoomLayout(props) {
   }
 
   const handleClickOpen = (data) => {
-
     setSelectedComputer(data);
     if (data.computer_status == 1) {
       return;
@@ -275,10 +274,11 @@ export default function RoomLayout(props) {
 
             </Grid>
           </Box>
+          
           <Dialog
             open={open}
+            onClose={handleNo}
             keepMounted
-            onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
           >
             <DialogTitle>{"Book this computer ?"}</DialogTitle>

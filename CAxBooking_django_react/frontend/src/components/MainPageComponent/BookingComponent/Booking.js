@@ -83,6 +83,7 @@ export default function Booking(props) {
                 close={popUp}
                 cancel={props.cancel}
                 duration={durationHours + "h" + durationMinutes + "min"} />
+            
         </div>
     )
 }

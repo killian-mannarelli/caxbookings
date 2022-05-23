@@ -20,17 +20,23 @@ export default function Login() {
     return (
         <div id="loginDiv">
 
-        <form >
-            <label>
-                <input type="text" id="username" name="username" placeholder="USERNAME" className="textbox" />
-            </label>
-            <label>
-                <input id="password" type="password" name="password" placeholder="PASSWORD" className="textbox" />
-            </label>
-            <input type="button" value="LOGIN" onClick={() => {
-                login()
-            }} className="CAxButton" />
-        </form>
-            </div>
+            <form onKeyPress={
+                (event) => {
+                    if (event.key === 'Enter') {
+                       login();
+                    }
+                }
+            }>
+                <label>
+                    <input type="text" id="username" name="username" placeholder="USERNAME" className="textbox" />
+                </label>
+                <label>
+                    <input id="password" type="password" name="password" placeholder="PASSWORD" className="textbox" />
+                </label>
+                <input type="button" value="LOGIN" onClick={() => {
+                    login();
+                }} className="CAxButton" />
+            </form>
+        </div>
     );
 }

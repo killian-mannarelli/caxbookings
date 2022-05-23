@@ -12,6 +12,10 @@ import ComputerIcon from '@mui/icons-material/Computer';
 export default function PcComponent(props) {
     const pc = props.pc;
     let nextBooking = pc.next_booking_time
+    let nextBookingDuration = undefined
+    if (pc.next_booking_duration != undefined) {
+        nextBookingDuration = pc.next_booking_duration.split(":");
+    }
 
     if (nextBooking == null) {
         nextBooking = "No bookings yet"
@@ -44,6 +48,10 @@ export default function PcComponent(props) {
                     <p style={{ wrap: "wrap", textAlign: "center" }}>{pc.computer_name}
                         <br /> Next booking on this computer : {nextBooking}
                     </p>
+                    {nextBookingDuration && <p style={{ wrap: "wrap", textAlign: "center" }}>
+                        Duration : {nextBookingDuration[0] + "h" + nextBookingDuration[1]}
+                    </p>}
+
                 </Grid>
 
 

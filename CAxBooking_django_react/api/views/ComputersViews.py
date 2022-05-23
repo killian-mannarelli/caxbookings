@@ -1,5 +1,4 @@
 from datetime import datetime
-from django.utils import timezone
 import json
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -9,6 +8,7 @@ from pytz import timezone
 from rest_framework import generics
 from ..serializers import *
 from ..models import Bookings, ComputerInRoom, Computers
+from dateutil.relativedelta import relativedelta
 # Create your views here.
 
 # region computers
@@ -103,14 +103,28 @@ class ComputerInRoomListView(generics.ListAPIView):
                     # search in Bookings if there is one for that computer in that time span
                     # if there is one then set the status to 1
                     # else set the status to 0
-                    bookings = Bookings.objects.filter(
-                        Q(status=1) | Q(status=2), computer=computer.id)
 
-                    nextBooking = bookings.aggregate(Min('start'))
+                    date = parser.parse(time_span_start)
+
+                    start = date - \
+                        relativedelta(days=date.weekday())
+
+                    end = start + relativedelta(days=6)
+                    bookings = Bookings.objects.filter(
+                        Q(status=1) | Q(status=2), computer=computer.id, start__gte=date, end__lte=end).order_by('start')
+
+                    if bookings.count() > 0:
+                        nextBooking = bookings[0]
+                        next_booking_time = nextBooking.start
+                        next_booking_duration = nextBooking.end - nextBooking.start
+                        print(next_booking_duration)
+                    else:
+                        next_booking_time = None
+                        next_booking_duration = None
 
                     computerInRoomI = ComputerInRoom(
                         computer_id=computer.id, computer_name=computer.name,  room_id=computer.room.id, computer_status=0,
-                        next_booking_time=nextBooking['start__min']
+                        next_booking_time=next_booking_time, next_booking_duration=next_booking_duration
                     )
 
                     # search for bookings for that computer in that time span
@@ -133,7 +147,7 @@ class ComputerInRoomListView(generics.ListAPIView):
 def get_next_booking(request):
     """
     It gets the next booking for a computer, and returns the time of the booking
-    
+
     :param request: The request object
     :return: The next booking for the computer
     """
@@ -149,8 +163,8 @@ def get_next_booking(request):
         if bookings.count() > 0:
             # Formatting the time to be in the format HH:MM
             minutes = bookings[0].start.minute
-            if minutes<10:
-                minutes= f"0{minutes}"
+            if minutes < 10:
+                minutes = f"0{minutes}"
             time = (f"{bookings[0].start.hour}:{minutes}")
             return JsonResponse({"next_booking": time})
 

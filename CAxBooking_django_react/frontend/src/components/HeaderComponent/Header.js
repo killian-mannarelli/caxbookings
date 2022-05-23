@@ -18,7 +18,9 @@ export default function Header(props) {
         window.location.replace("http://127.0.0.1:8000/")
       }}></img>
 
-      <h1>Computer booking service</h1>
+      <h1 onClick={() => {
+        window.location.replace("http://127.0.0.1:8000/")
+      }}>Computer booking service</h1>
 
 
 
