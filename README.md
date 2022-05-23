@@ -30,7 +30,7 @@ This project is a website project to allow students to book computers, it also a
         ├──  djangorestframework version=3.13.1
         ├──  mysqlclient version=2.1.0
         ├──  requests version=2.27.1
-        ├──  python-dateutil version=2.8.2 
+        └──  python-dateutil version=2.8.2 
 ```
 
 - frontend :
@@ -85,7 +85,7 @@ and both the django server and the node server should be running.
 
 ### Django in general
 
-This part is just an very large overview of Django/DjangoRestAPI's frameworks, it is highly recommended to check the documentations of both of those to understand the project structure a little better.
+This part is just an very large overview of Django/DjangoRestAPI's frameworks, it is highly recommended to check the [documentations](https://docs.djangoproject.com/en/4.0/) of both of those to understand the project structure a little better.
 
 #### Django architecture
 
@@ -127,5 +127,12 @@ To format the responses of the views we use the `serializers.py` file.
 There are different commads that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to setup for the different migrations that might have appened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
 
 ### React  
-React is a JavaScript component based library,  
+React is a JavaScript component based library, for more info check the [documentation](https://reactjs.org/docs/getting-started.html).
+
+The project only has 4 pages :
+* the Connection page
+* the "Main Page" page
+* the Room page
+* and the Admin page
+
 
