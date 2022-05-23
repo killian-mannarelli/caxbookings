@@ -314,7 +314,7 @@ def bookingOverYear(offset):
     allDataValue = []
     ongoingDataValue = []
     canceledDataValue = []
-    for i in range(0, 11):
+    for i in range(0, 12):
         bookingsRange = bookings.filter(start__gte=start + relativedelta(months=i),
                                         start__lte=start + relativedelta(months=i+1))
         listLabels.append(

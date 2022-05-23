@@ -152,18 +152,16 @@ export default function AccountManagement(props) {
                 checkboxSelection={true}
                 hideFooter={true}
                 columnVisibilityModel={{
-                    columns: {
-                        id: true,
-                        username: true,
-                        superuser: true,
-                        staff: true,
-                        bookings_count: true,
-                        bookings_in_process: true,
-                        bookings_passed: true,
-                        bookings_canceld: true,
-                        avg_booking_time: true,
-                        actions: props.currentUser.is_superuser,
-                    }
+                    id: true,
+                    username: true,
+                    superuser: true,
+                    staff: true,
+                    bookings_count: true,
+                    bookings_in_process: true,
+                    bookings_passed: true,
+                    bookings_canceld: true,
+                    avg_booking_time: true,
+                    actions: props.currentUser.is_superuser,
                 }}
 
                 onSelectionModelChange={(newSelection) => {
