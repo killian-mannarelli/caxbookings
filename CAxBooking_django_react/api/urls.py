@@ -34,6 +34,7 @@ urlpatterns = [
     path('rooms/equipments', GetRoomEquipmentsView.as_view()),
     path('rooms/equipments/all', AllEquipmentsView.as_view()),
     path('rooms/allequipments', AllRoomsAllEquipmentsView.as_view()),
+    path('rooms/equipments/delete',DeleteRoomEquipmentView.as_view()),
 
 
     path('bookings/list', BookingsListView.as_view()),

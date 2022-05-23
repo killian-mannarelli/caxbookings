@@ -24,7 +24,7 @@ export default function RoomDisplay(props) {
 
 
     const fetchRoomEquipment = () => {
-        Axios.get("http://127.0.0.1:8000/api/rooms/all/equipments").then(res => {
+        Axios.get("http://127.0.0.1:8000/api/rooms/allequipments").then(res => {
             setRoomEquipments(res.data)
         }
         );

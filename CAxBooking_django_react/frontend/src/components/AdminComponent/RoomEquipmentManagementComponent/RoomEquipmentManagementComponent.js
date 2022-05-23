@@ -5,6 +5,7 @@ import Axios from 'axios';
 export default function RoomEquipmentManagementComponent() {
 
     const [equipments, setEquipments] = React.useState([]);
+    const [selectedEquipment, setSelectedEquipment] = React.useState(null);
 
 
     useEffect(() => {
@@ -55,6 +56,23 @@ export default function RoomEquipmentManagementComponent() {
 
     }
 
+
+    const deleteEquipment = () => {
+        let token = getCookie('csrftoken');
+        if (selectedEquipment == null || selectedEquipment == undefined) return;
+        Axios.post("http://127.0.0.1:8000/api/rooms/equipments/delete", {
+            equipment_id : selectedEquipment
+        }, {
+            headers: {
+                'X-CSRFToken': token
+            }
+
+        }).then(res => {
+            fetchEquipments();
+        }
+        );
+    }
+
  //make the datagrid columns for the equipment, equipment is a json object with the following properties:
  // id and  equipment_name
     const columns = [
@@ -89,12 +107,15 @@ export default function RoomEquipmentManagementComponent() {
                 
             </form>
             <button className="login-logout CAxButton" onClick={createEquipment}>Create</button>
+            <button className="login-logout CAxButton" onClick={deleteEquipment}>Delete</button>
        <DataGrid
                 columns={columns}
                 rows={rows}
                 autoHeight={true}
-                checkboxSelection={true}
                 hideFooter={true}
+                onSelectionModelChange={(newSelection) => {
+                    setSelectedEquipment(newSelection);
+                }}
 
 
             

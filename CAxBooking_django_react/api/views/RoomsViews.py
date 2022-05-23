@@ -169,6 +169,30 @@ class AddRoomEquipmentView(generics.ListAPIView):
         return JsonResponse({"success": "Room Equipment added"})
 
 
+class DeleteRoomEquipmentView(generics.ListAPIView):
+    model = RoomEquipment
+    serializer_class = RoomEquipmentSerializer
+    queryset = RoomEquipment.objects.all()
+
+    def post(self, request, format=None):
+        equipment_id = request.data['equipment_id']
+
+        if equipment_id is not None:
+            for id in equipment_id:
+                roomEquipment = RoomEquipment.objects.get(id=id)
+                #find all related EquipmentInRoom
+                #delete all related EquipmentInRoom
+                queryset = EquipmentInRoom.objects.filter(equipment_id_id=id)
+                for i in queryset:
+                    i.delete()
+                
+
+                roomEquipment.delete()
+
+            return JsonResponse({"success": "Room Equipment deleted"})
+        return JsonResponse({"error": "Room Equipment not found"})
+
+
 
 class AddEquipmentToRoomView(generics.ListAPIView):
     model = EquipmentInRoom
