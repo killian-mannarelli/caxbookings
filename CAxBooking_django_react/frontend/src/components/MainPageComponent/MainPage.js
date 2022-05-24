@@ -5,6 +5,7 @@ import TimeSpan from './TimeSpanComponent/TimeSpan';
 import Bookings from './BookingComponent/Bookings';
 import Header from '../HeaderComponent/Header';
 import Axios from 'axios';
+import Footer from '../FooterComponent/Footer';
 
 /**
  * It fetches the current user, then fetches the rooms, then renders the header, bookings, timespan and
@@ -81,14 +82,7 @@ export default function MainPage() {
       {currentUser && <Bookings user_id={currentUser.id} />}
       <TimeSpan callback = {callBackFromTimeSpan}/>
       <RoomDisplay start = {startDate.toISOString()} end = {endDate.toISOString()} rooms = {rooms}/>
-      <footer>
-        <a>
-          contact admin
-        </a>
-        <a href='/userGuide'>
-          tutorials
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }

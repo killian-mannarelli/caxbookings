@@ -6,6 +6,7 @@ import { Container } from '@mui/material';
 import './AdminStyle.css';
 import Axios from 'axios';
 import Stats from './StatsComponent/StatsComponent';
+import Footer from '../FooterComponent/Footer';
 
 /**
  * The Admin function is the main function of the Admin page. It renders the Header, Selection, and the
@@ -39,6 +40,7 @@ export default function Admin() {
         </div>
 
       </div>
+      <Footer />
     </div>
   );
 }

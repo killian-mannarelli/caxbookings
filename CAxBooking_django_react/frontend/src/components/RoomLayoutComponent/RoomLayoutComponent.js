@@ -13,6 +13,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Axios from "axios";
+import Footer from "../FooterComponent/Footer";
 /**
  * It fetches the computers in a room at a given time, and displays them in a grid
  * @param props - The props that were passed to the component.
@@ -312,10 +313,8 @@ export default function RoomLayout(props) {
           </Dialog>
         </Container>
       </div>
-
+      <Footer />
     </div>
   );
 
 };
-
-

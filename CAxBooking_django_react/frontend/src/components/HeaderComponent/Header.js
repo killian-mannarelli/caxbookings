@@ -11,7 +11,7 @@ import Axios from 'axios';
 export default function Header(props) {
 
   return (
-    <div className="Header">
+    <header className="Header">
 
       <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Logo_Jade_Hochschule.jpg" onClick={() => {
         window.location.replace("http://127.0.0.1:8000/")
@@ -30,6 +30,6 @@ export default function Header(props) {
         window.location.replace("http://127.0.0.1:8000/logout")
       }}>Logout</button>
 
-    </div>
+    </header>
   );
 }

@@ -4,6 +4,7 @@ import Login from "./LoginComponent/LoginPageComponent";
 import RoomLayout from "./RoomLayoutComponent/RoomLayoutComponent";
 import MainPage from "./MainPageComponent/MainPage"
 import Admin from "./AdminComponent/AdminComponent";
+import UserGuide from "./UserGuideComponent/UserGuide";
 import {
   BrowserRouter as Router,
   Route,
@@ -32,6 +33,10 @@ export default function HomePage() {
 
         <Route path={'/admin'}>
           <Admin />
+        </Route> 
+
+        <Route path={'/userGuide'}>
+          <UserGuide />
         </Route> 
 
         <Route path={'/room/room_id=:id&start=:tss&stop=:tse'}>
