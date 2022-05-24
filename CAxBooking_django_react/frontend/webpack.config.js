@@ -23,14 +23,20 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
 
       },
+
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+      },
     ],
   },
   optimization: {
     minimize: true,
   },
-    plugins: [
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV' : JSON.stringify('development')
-        })
-    ]
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    })
+  ]
 };
