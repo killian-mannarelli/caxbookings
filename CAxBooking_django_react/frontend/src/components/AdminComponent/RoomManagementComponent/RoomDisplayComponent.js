@@ -9,6 +9,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { TextField } from "@mui/material";
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
 
 /**
  * It fetches the rooms from the database, displays them in a table, and allows the user to modify or
@@ -23,9 +30,28 @@ export default function RoomDisplayComponent(props) {
     const dataRooms = null;
     let selectedRoom = null;
     const [modifyRoom, setModifyRoom] = React.useState(null);
+    const [roomEquipments, setRoomEquipments] = React.useState([]);
+    const [allRoomsEquipments, setAllRoomsEquipments] = React.useState([]);
+    const [selectedEquipments, setSelectedEquipments] = React.useState([]);
+
+
+
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 250,
+            },
+        },
+    };
 
     useEffect(() => {
         fetchRooms();
+        fetchEquipments();
+        fetchAllRoomsEquipments();
     }, []);
 
     useEffect(() => {
@@ -33,14 +59,69 @@ export default function RoomDisplayComponent(props) {
     }, [rooms]);
 
     useEffect(() => {
+        console.log(selectedEquipments);
+    }, [selectedEquipments]);
+
+    useEffect(() => {
         if (modifyRoom == null || modifyRoom == undefined) return;
         setOpen(true);
     }, [modifyRoom]);
 
+
+    const fetchEquipments = () => {
+        Axios.get("http://127.0.0.1:8000/api/rooms/equipments/all").then(res => {
+            setRoomEquipments(res.data);
+        }
+        );
+    }
+
+    const fetchAllRoomsEquipments = () => {
+        Axios.get("http://127.0.0.1:8000/api/rooms/allequipments").then(res => {
+            setAllRoomsEquipments(res.data);
+        }
+        );
+    }
+
+    const checkedIfEquipmentIsSelected = (equipment_id) => {
+        for (let i = 0; i < selectedEquipments.length; i++) {
+            if (selectedEquipments[i].equipment_id == equipment_id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkIfRoomHasEquipment = (equipment_name) => {
+        //use allroomsequipments
+        for (let i = 0; i < allRoomsEquipments.length; i++) {
+            if (allRoomsEquipments[i].equipment_name == equipment_name && modifyRoom !=null && modifyRoom[0].id  == allRoomsEquipments[i].room_id) {
+                //add the id to the selectedequipments
+                //setSelectedEquipments(selectedEquipments.concat(equipment_id));
+                console.log("yes")
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    const getEquipmentString = (room_id) => {
+        let equipmentString = "";
+        console.log(allRoomsEquipments)
+        for (let i = 0; i < allRoomsEquipments.length; i++) {
+            if (allRoomsEquipments[i].room_id == room_id) {
+                equipmentString += allRoomsEquipments[i].equipment_name + "; ";
+            }
+        }
+        return equipmentString;
+    }
+
+
     const dialogContentText = useMemo(() => {
         if (modifyRoom == null || modifyRoom == undefined) return "";
 
-    
+
         if (modifyRoom.length === 0) return 'Pas de rooms';
         return modifyRoom[0].name ?? "placeholder";
     }, [modifyRoom]);
@@ -70,24 +151,31 @@ export default function RoomDisplayComponent(props) {
     }
 
 
-   /**
-    * It takes the new name of the room and sends it to the backend to be updated
-    */
+    /**
+     * It takes the new name of the room and sends it to the backend to be updated
+     */
     const modifRoom = () => {
-        var CSRF_TOKEN=getCookie('csrftoken');
+        var CSRF_TOKEN = getCookie('csrftoken');
         let newName = document.getElementById("name").value;
+        if(newName == ""){
+            let roomid = modifyRoom[0].id;
+            //use the roomid to get the room name
+            newName = rooms.filter(room => room.room_id == roomid)[0].room_name;
+        }
         Axios.post("http://127.0.0.1:8000/api/rooms/modify", {
             room_id: modifyRoom[0].id,
             room_name: newName,
-    }, {
-        headers: {
-            'X-CSRFToken': CSRF_TOKEN
-        }
+            equipments: selectedEquipments,
+        }, {
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
 
-    }).then(res => {
-        fetchRooms();
-        setOpen(false);
-    });
+        }).then(res => {
+            fetchRooms();
+            setOpen(false);
+            fetchAllRoomsEquipments();
+        });
     }
 
 
@@ -109,15 +197,24 @@ export default function RoomDisplayComponent(props) {
             headerName: 'Room name',
             flex: 1,
         },
+        {
+            field: 'equipments',
+            headerName: 'Equipments',
+            flex: 1,
+        }
     ];
-    
+
     const setData = () => {
         const data = rooms.map(room => {
             return {
                 id: room.room_id,
                 room_name: room.room_name,
+                equipments: getEquipmentString(room.room_id)
             }
         }
+
+        //to data add the related room equipments by id
+
         );
         return data;
     }
@@ -135,6 +232,18 @@ export default function RoomDisplayComponent(props) {
     }
 
 
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        
+
+        
+        } = event;
+        //append the key to the selectedEquipments array
+        setSelectedEquipments(value);
+
+    };
+
     return (
         <Container className="RoomDisplayComponent" >
 
@@ -151,7 +260,6 @@ export default function RoomDisplayComponent(props) {
                 }}
 
                 onSelectionModelChange={(newSelection) => {
-                    console.log(newSelection);
                     selectedRoom = newSelection;
                 }}
             />
@@ -188,6 +296,27 @@ export default function RoomDisplayComponent(props) {
                         variant="standard"
                     />
                 </DialogContent>
+                <div>
+                    <FormControl sx={{ m: 1, width: 300 }}>
+                        <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
+                        <Select
+                            labelId="demo-multiple-checkbox-label"
+                            id="demo-multiple-checkbox"
+                            multiple
+                            renderValue={(selected) => selected.join(', ')}
+                            value={selectedEquipments}
+                            onChange={handleChange}
+                            input={<OutlinedInput label="Tag" />}
+                        >
+                            {roomEquipments.map((item) => (
+                                <MenuItem key={item.id} value={item.id}>
+                                    <Checkbox checked={(checkIfRoomHasEquipment(item.equipment_name,item.id) && !selectedEquipments.includes(item.id)) || (selectedEquipments.includes(item.id) && !checkIfRoomHasEquipment(item.equipment_name,item.id))} />
+                                    <ListItemText primary={item.equipment_name} />
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </div>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>
                     <Button onClick={modifRoom}>Modify</Button>
