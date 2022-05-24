@@ -6,8 +6,10 @@
     "header header header header"
     "booking time time time"
     "booking room room room"
-    "booking room room room";
-  margin: 2vw;
+    "booking room room room"
+    "footer footer footer footer";
+  padding-left: 2vw;
+  padding-right: 2vw;
 }
 
 .Header {
@@ -28,4 +30,8 @@
 
 .RoomDisplay {
   grid-area: room;
+}
+
+footer{
+grid-area: footer;
 }

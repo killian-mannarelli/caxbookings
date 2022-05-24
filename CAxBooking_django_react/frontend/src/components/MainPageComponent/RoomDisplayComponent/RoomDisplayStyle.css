@@ -2,7 +2,6 @@
     margin-top: 2vh;
     display: block;
     flex-direction: column;
-    min-height: 80vh;
     justify-content: center;
     align-items: center;
 }
@@ -16,6 +15,11 @@
     margin: 0%;
     padding: 10px;
     width: 100%;
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .content-table th {
@@ -33,7 +37,7 @@
 
 .content-table tbody {
     display: block;
-    height: calc(100vh - 500px);
+    height: clamp(40vh,60vh);
     width: calc( 100% - 20px );
     overflow: auto;
 }
