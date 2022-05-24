@@ -64,6 +64,21 @@ class RoomsViewSet(generics.ListAPIView):
         """
         room_id = request.data['room_id']
         new_name = request.data['room_name']
+        equipments = request.data['equipments']
+        #find all related RoomsEquipments and create OR delete the corresponding EquipmentInRoom of the room
+        #with the given room_id
+        room = Rooms.objects.get(id=room_id)
+        queryset = EquipmentInRoom.objects.filter(room_id=room)
+        print(queryset)
+        for equipments_id in equipments:
+            #find the equipment with the given id
+            equipment = RoomEquipment.objects.get(id=equipments_id)
+            if queryset.filter(equipment_id=equipment).exists():
+                queryset.get(equipment_id=equipment).delete()
+            else:
+                EquipmentInRoom.objects.create(room_id=room, equipment_id=equipment)
+            
+        
         room = Rooms.objects.get(id=room_id)
         if(room is None):
             return JsonResponse({"error": "Room does not exist"})
