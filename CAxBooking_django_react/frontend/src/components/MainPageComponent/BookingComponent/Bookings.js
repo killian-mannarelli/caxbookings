@@ -42,7 +42,6 @@ export default function Bookings(props) {
 
     useEffect(() => {
         fetchBookings()
-        console.log(books);
     }, [])
 
     function cancelBbooking(idBook) {

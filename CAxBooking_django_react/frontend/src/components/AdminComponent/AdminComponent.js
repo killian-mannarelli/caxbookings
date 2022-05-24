@@ -23,7 +23,6 @@ export default function Admin() {
 
   const fetchCurrentUser = () => {
     Axios.get("http://127.0.0.1:8000/api/users/getCurrent").then(res => {
-      console.log(res.data);
       setCurrentUser(res.data[0]);
     }
     );

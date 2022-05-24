@@ -20,7 +20,6 @@ export default function ModifyMaxBookingTimeComponent(props) {
     component from re-rendering when the value of maxBookingTime changes. */
     const maxBookingTextValue = useMemo(() => {
         if (maxBookingTime.max_booking_time == 0) return "No limit";
-        console.log(maxBookingTime)
         return maxBookingTime.max_booking_time + " hours";
     }
         , [maxBookingTime]);

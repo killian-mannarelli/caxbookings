@@ -46,7 +46,6 @@ export default function GraphsBookingOverX() {
             setWeekStats(res.data.week);
             setMonthStats(res.data.month);
             setYearStats(res.data.year);
-            console.log(offset, res.data.year)
         }
         );
     }
@@ -57,15 +56,19 @@ export default function GraphsBookingOverX() {
 
             <div className='selectGraphRange'>
                 <button className="CAxButton" onClick={() => {
+                    setOffset(0)
                     setMode(1);
                 }}>Day</button>
                 <button className="CAxButton" onClick={() => {
+                    setOffset(0)
                     setMode(2);
                 }}>Week</button>
                 <button className="CAxButton" onClick={() => {
+                    setOffset(0)
                     setMode(3);
                 }}>Month</button>
                 <button className="CAxButton" onClick={() => {
+                    setOffset(0)
                     setMode(4);
                 }}>Year</button>
 

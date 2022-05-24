@@ -180,7 +180,6 @@ export default function ComputerManagement(){
                 }}
 
                 onSelectionModelChange={(newSelection) => {
-                    console.log(newSelection);
                     setSelectedRoom(newSelection);
                  }  }  
             />

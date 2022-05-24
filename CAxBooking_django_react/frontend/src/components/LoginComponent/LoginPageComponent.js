@@ -54,8 +54,6 @@ export default class Login extends Component {
         }).then(function (response) {
             return response.text();
         }).then(function (data) {
-            console.log(data);
-
         }).then(function(){
             window.location.href = "/"
         })

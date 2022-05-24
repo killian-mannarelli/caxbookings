@@ -27,7 +27,6 @@ export default function MainPage() {
 
   const fetchCurrentUser = () => {
     Axios.get("http://127.0.0.1:8000/api/users/getCurrent").then(res => {
-      console.log(res.data);
       setCurrentUser(res.data[0]);
     }
     );
@@ -82,7 +81,14 @@ export default function MainPage() {
       {currentUser && <Bookings user_id={currentUser.id} />}
       <TimeSpan callback = {callBackFromTimeSpan}/>
       <RoomDisplay start = {startDate.toISOString()} end = {endDate.toISOString()} rooms = {rooms}/>
-
+      <footer>
+        <a>
+          contact admin
+        </a>
+        <a href='/userGuide'>
+          tutorials
+        </a>
+      </footer>
     </div>
   );
 }
