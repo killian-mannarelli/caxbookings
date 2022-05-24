@@ -44,7 +44,6 @@ export default function AccountManagement(props) {
     }
 
     const deleteUser = (usersToDelete) => {
-        console.log(usersToDelete)
         if (usersToDelete == null || usersToDelete == undefined) return;
         Axios.post("http://127.0.0.1:8000/api/users/deleteUser", {
             user_id: usersToDelete
@@ -55,7 +54,6 @@ export default function AccountManagement(props) {
     }
 
     const toggleSuperUser = (id) => {
-        console.log(id)
         Axios.post("http://127.0.0.1:8000/api/users/modifyUser", {
             user_id: id,
             is_staff: false,
@@ -67,7 +65,6 @@ export default function AccountManagement(props) {
     }
 
     const toggleStaff = (id) => {
-        console.log(id)
         Axios.post("http://127.0.0.1:8000/api/users/modifyUser", {
             user_id: id,
             is_staff: true,
@@ -165,7 +162,6 @@ export default function AccountManagement(props) {
                 }}
 
                 onSelectionModelChange={(newSelection) => {
-                    console.log(newSelection);
                     selectedUser = newSelection;
                 }}
             />}
