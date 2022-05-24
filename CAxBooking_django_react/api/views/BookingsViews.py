@@ -5,12 +5,14 @@ from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.db.models import Q
 from django.contrib.auth.models import User
+import pytz
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from ..serializers import *
 from ..models import Bookings, Computers, GlobalVariables, Rooms
 from dateutil.relativedelta import relativedelta
+from django.utils import timezone
 
 import json
 import math
@@ -129,7 +131,6 @@ def add_room(request):
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)
-        print(json_body)
         roomname = json_body['room_name']
         if roomname is not None:
             roomtoAdd = Rooms(name=roomname)
@@ -149,7 +150,6 @@ def add_pc_in_room(request):
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)
-        print(json_body)
         room_id = json_body['room_id'][0]
         pc_name = json_body['pc_name']
         if room_id is not None and pc_name is not None:
@@ -292,10 +292,13 @@ def bookingOverYear(offset):
         nbAvgOverRange: The
     """
 
-    date = datetime.now()
+    # using the tz/pytz to avoid naïve datetime
+    date = datetime.now(tz=timezone.utc)
 
     start = datetime(year=date.year + offset, day=1, month=1, hour=0,
                      minute=0, second=0, microsecond=0)
+    
+    start = pytz.utc.localize(start)
     end = start + relativedelta(years=+1)
 
     bookings = Bookings.objects.all().filter(start__gte=start,
@@ -338,7 +341,7 @@ def bookingOverMonth(offset):
     avgBookTime.
     """
 
-    date = datetime.now()
+    date = datetime.now(tz=timezone.utc)
 
     start = date - relativedelta(days=date.day-1, months=-offset)
     daysInMonth = monthrange(start.year, start.month)[1]
@@ -389,7 +392,7 @@ def bookingOverWeek(offset):
         avgBookTime
     """
 
-    date = datetime.now()
+    date = datetime.now(tz=timezone.utc)
 
     start = date - relativedelta(days=date.weekday())
     start = start + relativedelta(days=offset*7)
@@ -436,7 +439,7 @@ def bookingOverDay(offset):
     avgBookTime
     """
 
-    date = datetime.now()
+    date = datetime.now(tz=timezone.utc)
 
     start = date - relativedelta(day=date.day + offset, hours=date.hour,
                                  minutes=date.minute, seconds=date.second, microseconds=date.microsecond)
@@ -460,7 +463,6 @@ def bookingOverDay(offset):
     ongoingDataValue = []
     for i in range(7, 21):
         for j in range(0, 4):
-            print(start + relativedelta(hours=i, minutes=15*(j+1)))
             bookingsRange = bookings.filter((Q(start__lt= start + relativedelta(hours=i, minutes=15*j))
                                             & Q(end__gte=start + relativedelta(hours=i, minutes=15*j+1))))
             listLabels.append(f"{i}h{j*15}")
