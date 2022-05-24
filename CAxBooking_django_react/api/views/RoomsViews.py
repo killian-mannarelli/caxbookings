@@ -209,6 +209,12 @@ def delete_room(request):
                     for booking in bookings:
                         booking.delete()
                     computer.delete()
+                #find all EquipmentsInRoom objects related to this room
+                #delete every EquipmentsInRoom object related to this room
+                equipmentsInRoom = EquipmentInRoom.objects.filter(room_id=roomtoDelete)
+                for equipmentInRoom in equipmentsInRoom:
+                    equipmentInRoom.delete()
+
 
                 roomtoDelete.delete()
 
