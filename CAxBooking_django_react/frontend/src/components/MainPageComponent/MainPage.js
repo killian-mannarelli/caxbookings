@@ -12,26 +12,12 @@ import Footer from '../FooterComponent/Footer';
  * roomdisplay components
  * @returns The MainPage component is being returned.
  */
-export default function MainPage() {
+export default function MainPage(props) {
 
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [rooms, setRooms] = React.useState([]);
-  let [currentUser, setCurrentUser] = React.useState(null);
-
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []);
-
-
-
-  const fetchCurrentUser = () => {
-    Axios.get("http://127.0.0.1:8000/api/users/getCurrent").then(res => {
-      setCurrentUser(res.data[0]);
-    }
-    );
-  }
 
   useEffect(() => {
     fetchRooms();
@@ -78,11 +64,9 @@ export default function MainPage() {
 
   return (
     <div className="MainPage">
-      <Header currentUser={currentUser}/>
-      {currentUser && <Bookings user_id={currentUser.id} />}
+      {props.currentUser && <Bookings user_id={props.currentUser.id} />}
       <TimeSpan callback = {callBackFromTimeSpan}/>
       <RoomDisplay start = {startDate.toISOString()} end = {endDate.toISOString()} rooms = {rooms}/>
-      <Footer />
     </div>
   );
 }

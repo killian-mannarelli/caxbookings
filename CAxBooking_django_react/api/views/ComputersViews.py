@@ -124,6 +124,30 @@ class ComputerInRoomListView(generics.ListAPIView):
         return listtoreturn
 
 
+
+def add_pc_in_room(request):
+    """
+    It takes a POST request with a JSON body containing a room_id and a pc_name, and adds a new computer
+    to the database with the given name and room
+    
+    :param request: The request object that Django uses to represent and manage an HTTP request
+    :return: A JsonResponse object.
+    """
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        room_id = json_body['room_id'][0]
+        pc_name = json_body['pc_name']
+        if room_id is not None and pc_name is not None:
+            room = Rooms.objects.get(id=room_id)
+            pc = Computers(name=pc_name, room=room)
+            pc.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'error'})
+
+
+
+def delete_room_computer(request):
     """
     It deletes a computer from the database and all the bookings related to this computer
     
@@ -131,7 +155,6 @@ class ComputerInRoomListView(generics.ListAPIView):
     such as the HTTP method
     :return: A JsonResponse with a status of success or error.
     """
-def delete_room_computer(request):
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)

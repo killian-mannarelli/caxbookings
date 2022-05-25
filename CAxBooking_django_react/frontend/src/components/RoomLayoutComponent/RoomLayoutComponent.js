@@ -28,24 +28,10 @@ export default function RoomLayout(props) {
   const [open, setOpen] = React.useState(false);
   const [selectedComputer, setSelectedComputer] = React.useState(null);
   const [ongoinguserbookings, setOngoingUserBookings] = React.useState(null);
-  let [currentUser, setCurrentUser] = React.useState(null);
   const [maximumbookingtime, setMaximumBookingTime] = React.useState(0);
 
 
-
-
-
-
-  const fetchCurrentUser = () => {
-    Axios.get("http://127.0.0.1:8000/api/users/getCurrent").then(res => {
-      setCurrentUser(res.data[0]);
-    }
-    );
-  }
-
-
   useEffect(() => {
-    fetchCurrentUser();
     getOngoingBookings();
     scrapUrl();
     fetchMaxBookingTime();
@@ -266,10 +252,6 @@ export default function RoomLayout(props) {
 
   return (
 
-    <div className="page">
-
-      <Header currentUser={currentUser} />
-
       <div className="roomLayout">
         <h2 id="roomName">{roomName + ' :'}</h2>
 
@@ -313,8 +295,6 @@ export default function RoomLayout(props) {
           </Dialog>
         </Container>
       </div>
-      <Footer />
-    </div>
   );
 
 };

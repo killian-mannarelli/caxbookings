@@ -159,7 +159,6 @@ def add_room(request):
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)
-        print(json_body)
         roomname = json_body['room_name']
         if roomname is not None:
             roomtoAdd = Rooms(name=roomname)

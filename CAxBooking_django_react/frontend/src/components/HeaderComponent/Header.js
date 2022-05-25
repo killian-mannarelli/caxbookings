@@ -1,4 +1,4 @@
-import { CurrencyYenTwoTone } from '@mui/icons-material';
+import { CurrencyYenTwoTone, PropaneSharp } from '@mui/icons-material';
 import React, { useEffect } from 'react';
 import './HeaderStyle.css';
 import Axios from 'axios';
@@ -9,6 +9,7 @@ import Axios from 'axios';
  * @returns A div with a header and a button.
  */
 export default function Header(props) {
+
 
   return (
     <header className="Header">
@@ -26,9 +27,12 @@ export default function Header(props) {
           window.location.replace("http://127.0.0.1:8000/admin")
         }}>Admin</button>
       }
-      <button id='Logout-button' className="login-logout CAxButton" onClick={() => {
-        window.location.replace("http://127.0.0.1:8000/logout")
-      }}>Logout</button>
+      {
+        (props.currentUser != undefined) &&
+        <button id='Logout-button' className="login-logout CAxButton" onClick={() => {
+          window.location.replace("http://127.0.0.1:8000/logout")
+        }}>Logout</button>
+      }
 
     </header>
   );

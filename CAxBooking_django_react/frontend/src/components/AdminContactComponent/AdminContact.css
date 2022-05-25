@@ -1,0 +1,19 @@
+#AdminContactContent {
+    width: 50vw;
+    align-self: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+#AdminContact {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.warn{
+    font-weight: bold;    
+}
+
+#AdminContact h2{
+    text-decoration: underline;
+}

@@ -1,91 +1,33 @@
-html body {
-    height: 100%;
-    width: 100%;
-    padding : 0;
-    margin:0;
-}
-
-.login-container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-}
-
-.login-container h1 {
-    font-size: 3.236245954692557vh;
-    font-family: 'Be Vietnam Pro', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    align-self: flex-start;
-    position: relative;
-    left: 63vh;
-    top: -10vh;
-}
-
-.container {
+form {
     /*make it flex*/
     display: flex;
     /*make it center*/
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 116.50485436893204vh;
-    height: 97.0873786407767vh;
+    width: 60vw;
+    height: 60vw;
     background-color: white;
     border-radius: 10vh;
+    align-self: center;
+}
 
+#loginDiv {
+
+    display: flex;
+    justify-content: center;
 }
 
 .textbox {
 
-    width: 48.86731391585761vh;
-    height: 9.385113268608414vh;
-    border-radius: 9.870550161812298vh;
-    border: 0.16181229773462782vh solid #595850;
+    border-radius: 40px;
+    border: 2px solid #595850;
     box-sizing: border-box;
-    box-shadow: 0px 0.16181229773462782vh 2.750809061488673vh rgba(0, 0, 0, 0.25);
-    margin-bottom: 14vh;
-
-    font-family: 'Be Vietnam Pro', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 3.883495145631068vh;
-    line-height: 4.53074433656958vh;
+    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
     text-align: center;
-
-    color: #B6B6B6;
-}
-
-.loginbutton {
-
-    width: 48.86731391585761vh;
-    height: 9.385113268608414vh;
-
-
-    background: #D6001D;
-    box-shadow: 0px 0.16181229773462782vh 2.750809061488673vh rgba(0, 0, 0, 0.25);
-    border-radius: 9.870550161812298vh;
-
-    font-family: 'Be Vietnam Pro', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 3.883495145631068vh;
-
-    margin-bottom: 7vh;
-    color: #FFFFFF;
-
-
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-
-    width: max-container;
-    justify-content: space-around;
+    margin-bottom: 40px;
+    width: 8vw;
+    height: 4vh;
 }
 
 img {
