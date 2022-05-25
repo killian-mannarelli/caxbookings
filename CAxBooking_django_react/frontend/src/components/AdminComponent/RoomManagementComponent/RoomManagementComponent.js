@@ -10,7 +10,6 @@ import "./style.css";
 export default function RoomManagement() {
     return (
         <div className="RoomManagement">
-            <RoomCreationComponent />
             <RoomDisplayComponent />
         </div>
     );
