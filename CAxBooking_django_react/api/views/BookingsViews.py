@@ -118,47 +118,6 @@ def add_bookings(request):
         return JsonResponse({'status': 'error'})
 
 
-def add_room(request):
-    """
-    It takes a POST request, decodes the body of the request, loads the body into a json object, and
-    then saves the room name into the database
-    
-    :param request: The request object is a Python object that contains all the information about the
-    request that was sent to the server
-    :return: a JsonResponse object.
-    """
-    # take the same model as the one used in the add_bookings
-    if request.method == 'POST':
-        json_body = request.body.decode('utf-8')
-        json_body = json.loads(json_body)
-        roomname = json_body['room_name']
-        if roomname is not None:
-            roomtoAdd = Rooms(name=roomname)
-            roomtoAdd.save()
-            return JsonResponse({'status': 'success'})
-        return JsonResponse({'status': 'error'})
-
-
-def add_pc_in_room(request):
-    """
-    It takes a POST request with a JSON body containing a room_id and a pc_name, and adds a new computer
-    to the database with the given name and room
-    
-    :param request: The request object that Django uses to represent and manage an HTTP request
-    :return: A JsonResponse object.
-    """
-    if request.method == 'POST':
-        json_body = request.body.decode('utf-8')
-        json_body = json.loads(json_body)
-        room_id = json_body['room_id'][0]
-        pc_name = json_body['pc_name']
-        if room_id is not None and pc_name is not None:
-            room = Rooms.objects.get(id=room_id)
-            pc = Computers(name=pc_name, room=room)
-            pc.save()
-            return JsonResponse({'status': 'success'})
-        return JsonResponse({'status': 'error'})
-
 
 # It's a ListAPIView that takes a query parameter called book_id, finds the booking with that id, and
 # sets its status to 4

@@ -23,7 +23,6 @@ export default function UserGuide() {
 
     return (
         <div id="UserGuide">
-            <Header currentUser={currentUser} />
             <div id="userGuideContent" className="background">
                 <h1>User Guide :</h1>
                 <h2>Student</h2>
@@ -70,7 +69,6 @@ export default function UserGuide() {
                     /!\ all of the statistics regarding deleted users will be lost /!\
                 </p>
             </div>
-            <Footer />
         </div>
     );
 }

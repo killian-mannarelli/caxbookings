@@ -58,7 +58,11 @@
 }
 
 .otherStats{
-    grid-area: "others";
+    margin: 15px;
+    margin-top: 35px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .CurrentGraphsStats{

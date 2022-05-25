@@ -6,11 +6,11 @@ export default function Footer() {
         <div className="footer">
             <div id="space"> </div>
             <footer>
-                <a>
-                    contact admin
+                <a href='/adminContact'>
+                    Contact Admin
                 </a>
                 <a href='/userGuide'>
-                    tutorials
+                    Tutorials
                 </a>
             </footer>
         </div>

@@ -4,11 +4,11 @@
     padding-left: 30px;
     padding-right: 30px;
 }
-
 #UserGuide {
     display: flex;
     flex-direction: column;
 }
+
 
 .warn{
     font-weight: bold;    

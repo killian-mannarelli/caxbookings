@@ -1,4 +1,5 @@
 import http.client
+import json
 from pyexpat import model
 from datetime import datetime
 from django.shortcuts import redirect
@@ -48,8 +49,10 @@ def login_verify(request, *args, **kwargs):
         return response
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        username =  json_body['username']
+        password =  json_body['password']
         if(check_db_if_user_exist(username)):
             user = authenticate(username=username, password=password)
             if user is not None:
