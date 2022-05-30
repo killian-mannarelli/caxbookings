@@ -13,18 +13,18 @@ export default function PcComponent(props) {
     const pc = props.pc;
     let nextBooking = pc.next_booking_time
 
-    if(nextBooking == null){
-        nextBooking="No bookings yet"
-    }else{
+    if (nextBooking == null) {
+        nextBooking = "No bookings yet"
+    } else {
         let date = nextBooking.split("-");
         let year = date[0];
         let month = date[1];
         let day = date[2].split("T")[0];
         let hour = date[2].split("T")[1].split(":")[0];
         let minutes = date[2].split("T")[1].split(":")[1];
-        nextBooking= year + "/" + month  + "/" + day + "  " + hour + ":" + minutes;
+        nextBooking = year + "/" + month + "/" + day + "  " + hour + ":" + minutes;
     }
-    console.log(typeof(nextBooking),nextBooking)
+    console.log(typeof (nextBooking), nextBooking)
 
     return (
         //make a grid with the pc name and the image
@@ -41,7 +41,7 @@ export default function PcComponent(props) {
                 </Grid>
 
                 <Grid item xs={12} justifyContent="center" >
-                    <p style={{ wrap: "wrap" }}>{pc.computer_name}
+                    <p style={{ wrap: "wrap", textAlign: "center" }}>{pc.computer_name}
                         <br /> Next booking on this computer : {nextBooking}
                     </p>
                 </Grid>

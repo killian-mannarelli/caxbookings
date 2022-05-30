@@ -8,6 +8,8 @@ def index(request, *args, **kwargs):
     else:
         #if the string of the request don't contain the word login
         #then redirect to the login page
+        if "isBooked" in request.path:
+            return render(request, 'frontend/index.html')
         if('login' not in request.path):
             return redirect('/login')
         return render(request, 'frontend/index.html')

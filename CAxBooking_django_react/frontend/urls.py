@@ -12,6 +12,7 @@ urlpatterns = [
     path('userGuide', index),
     path('adminContact', index),
     path('main', index),
+    path('isBooked/<slug:host_name>', index),
     path('favicon.ico', RedirectView.as_view(
         url=staticfiles_storage.url('img/favicon.ico')))
 ]

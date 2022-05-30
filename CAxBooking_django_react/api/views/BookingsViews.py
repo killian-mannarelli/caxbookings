@@ -1,7 +1,5 @@
-from calendar import day_name, month, monthrange, month_name
-from datetime import datetime, timedelta
-from pyexpat import model
-from django.forms import model_to_dict
+from calendar import monthrange, month_name
+from datetime import datetime
 from django.http import JsonResponse
 from django.db.models import Q
 from django.contrib.auth.models import User

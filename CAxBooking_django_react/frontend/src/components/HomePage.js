@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
-import './style.css'
+
+import Header from "./HeaderComponent/Header";
+import Footer from "./FooterComponent/Footer";
 import Login from "./LoginComponent/LoginPageComponent";
 import RoomLayout from "./RoomLayoutComponent/RoomLayoutComponent";
 import MainPage from "./MainPageComponent/MainPage"
 import Admin from "./AdminComponent/AdminComponent";
-import UserGuide from "./UserGuideComponent/UserGuide";
-import AdminContact from "./AdminContactComponent/AdminContactComponent";
+import UserGuide from "./FooterComponent/UserGuideComponent/UserGuide";
+import AdminContact from "./FooterComponent/AdminContactComponent/AdminContactComponent";
+import IsBooked from "./IsBookedComponent/IsBooked";
+import './style.css'
+
 import {
   BrowserRouter as Router,
   Route,
@@ -13,8 +18,6 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
-import Header from "./HeaderComponent/Header";
-import Footer from "./FooterComponent/Footer";
 import Axios from "axios";
 
 /**
@@ -64,6 +67,10 @@ export default function HomePage() {
 
           <Route path={'/room/room_id=:id&start=:tss&stop=:tse'}>
             <RoomLayout currentUser={currentUser} />
+          </Route>
+
+          <Route path={'/isBooked/:host_name'}>
+            <IsBooked />
           </Route>
 
         </Switch>

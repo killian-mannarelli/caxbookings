@@ -20,7 +20,8 @@ export default function PcComponent(props) {
 
                 </Grid>
                 <Grid item xs={12} justifyContent="center">
-                    <p style={{ wrap: "wrap" }}>{pc.name}</p>
+                    <p style={{ wrap: "wrap", textAlign: "center" }}>{pc.name}</p>
+                    <p style={{ wrap: "wrap", textAlign: "center" }}>{pc.host_name}</p>
                 </Grid>
 
 

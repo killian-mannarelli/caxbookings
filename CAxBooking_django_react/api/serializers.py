@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 class ComputerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Computers
-        fields = ('id', 'status', 'name', 'room')
+        fields = ('id', 'status', 'name', 'room', 'host_name')
 
 
 # This class is a serializer for the Bookings model. It will be used to serialize the Bookings model
@@ -39,13 +39,16 @@ class CreateBookingSerializer(serializers.ModelSerializer):
 class ComputerInRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ComputerInRoom
-        fields = ('computer_id', 'computer_status', 'computer_name', 'room_id', 'next_booking_time')
+        fields = ('computer_id', 'computer_status',
+                  'computer_name', 'room_id', 'next_booking_time')
 
 # This class is a serializer for the GlobalVariables model
+
+
 class GlobalVariablesSerializer(serializers.ModelSerializer):
     class Meta:
         model = GlobalVariables
-        fields = ('name','value')
+        fields = ('name', 'value')
 
 
 # "This is a serializer for the User model, and it should only serialize the id, username,
@@ -60,26 +63,29 @@ class UserSerializer(serializers.ModelSerializer):
 class RoomSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomSearch
-        fields = ('room_id', 'room_name' , 'room_capacity','room_current_capacity')
+        fields = ('room_id', 'room_name', 'room_capacity',
+                  'room_current_capacity')
 
 # The RoomBookedSerializer class is a subclass of the ModelSerializer class. It defines the fields
 # that will be serialized
+
+
 class RoomBookedSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomBooked
-        fields = ('room_id', 'room_name' , 'room_booking_count')
+        fields = ('room_id', 'room_name', 'room_booking_count')
 
 
 class RoomEquipmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomEquipment
-        fields = ('id' , 'equipment_name')
+        fields = ('id', 'equipment_name')
+
 
 class EquipmentInRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = EquipmentInRoom
         fields = ('equipment_id', 'room_id')
-
 
 
 # It's a serializer for the UserInfos model
@@ -89,8 +95,8 @@ class UserInfosSerialiser(serializers.ModelSerializer):
         fields = ('user_id', 'username', 'is_superuser', 'is_staff',
                   'nb_in_process_bookings', 'nb_total_bookings', 'nb_canceled_bookings', 'nb_passed_bookings', 'avg_booking_time')
 
+
 class RoomWithEquipmentNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoomWithEquipmentName
         fields = ('room_id', 'equipment_name')
-

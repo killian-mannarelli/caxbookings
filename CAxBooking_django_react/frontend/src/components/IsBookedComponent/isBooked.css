@@ -1,0 +1,13 @@
+#ComputerBookedContent{
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    width: 60%;
+}
+
+#ComputerBooked{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

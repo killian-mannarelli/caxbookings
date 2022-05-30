@@ -20,7 +20,7 @@ import './ComputerManagement.css'
  * fetches the computers in that room and displays them in a grid
  * @returns A component that displays a list of rooms and computers.
  */
-export default function ComputerManagement(){
+export default function ComputerManagement() {
     const [rooms, setRooms] = React.useState([]);
     const [computers, setComputers] = React.useState([]);
     const [selectedRoom, setSelectedRoom] = React.useState(null);
@@ -42,7 +42,7 @@ export default function ComputerManagement(){
 
 
     const fetchComputers = () => {
-        Axios.get("http://127.0.0.1:8000/api/computers/search?room_id="+selectedRoom).then(res => {
+        Axios.get("http://127.0.0.1:8000/api/computers/search?room_id=" + selectedRoom).then(res => {
             setComputers(res.data);
         }
         );
@@ -56,7 +56,7 @@ export default function ComputerManagement(){
     }
 
     const deleteComputer = () => {
-        if(selectedComputer == null || selectedComputer == undefined) return;
+        if (selectedComputer == null || selectedComputer == undefined) return;
         Axios.post("http://127.0.0.1:8000/api/computers/delete", {
             computer_id: selectedComputer.id
         }).then(res => {
@@ -65,19 +65,19 @@ export default function ComputerManagement(){
         }
         );
     }
-    
+
     const columns = [
         {
             field: 'room_name',
             headerName: 'Room name',
-            flex : 1,
+            flex: 1,
         },
     ];
 
     const setData = () => {
         const data = rooms.map(room => {
             return {
-                id : room.room_id,
+                id: room.room_id,
                 room_name: room.room_name,
             }
         }
@@ -89,11 +89,11 @@ export default function ComputerManagement(){
         setOpen(false);
     };
 
-/**
- * It returns the value of the cookie with the name passed in as an argument
- * @param name - The name of the cookie you want to get.
- * @returns The value of the cookie with the name passed in as an argument.
- */
+    /**
+     * It returns the value of the cookie with the name passed in as an argument
+     * @param name - The name of the cookie you want to get.
+     * @returns The value of the cookie with the name passed in as an argument.
+     */
     const getCookie = (name) => {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -112,21 +112,25 @@ export default function ComputerManagement(){
 
 
     const handleModify = () => {
-        if(selectedComputer == null || selectedComputer == undefined) return;
+        if (selectedComputer == null || selectedComputer == undefined) return;
         const csrftoken = getCookie('csrftoken');
         let newName = document.getElementById("name2").value;
+        let newHostName = document.getElementById("host_name2").value;
+        if (newHostName == "") newHostName = selectedComputer.host_name;
+        if (newName == "") newName = selectedComputer.name;
         Axios.post("http://127.0.0.1:8000/api/computers/modify", {
             computer_id: selectedComputer.id,
             computer_name: newName,
-    }, {
-        headers: {
-            'X-CSRFToken': csrftoken
+            computer_host_name: newHostName,
+        }, {
+            headers: {
+                'X-CSRFToken': csrftoken
+            }
+        }).then(res => {
+            fetchComputers();
+            setOpenDelete(false);
         }
-    }).then(res => {
-        fetchComputers();
-        setOpenDelete(false);
-    }
-    );
+        );
     }
 
 
@@ -134,9 +138,14 @@ export default function ComputerManagement(){
     const handleCreate = () => {
         //first recover the text from the name field
         const name = document.getElementById("name").value;
+        const host_name = document.getElementById("host_name").value;
+
+        if (host_name == "" || name == "") return;
+
         Axios.post("http://127.0.0.1:8000/api/computers/create", {
             room_id: selectedRoom,
             pc_name: name,
+            pc_host_name: host_name,
 
         }).then(res => {
             fetchComputers();
@@ -149,7 +158,7 @@ export default function ComputerManagement(){
     const handleClickOpenDelete = (data) => {
         setSelectedComputer(data);
         setOpenDelete(true);
-      };
+    };
 
     const handleCloseDelete = () => {
         setOpenDelete(false);
@@ -171,106 +180,136 @@ export default function ComputerManagement(){
 
                 onSelectionModelChange={(newSelection) => {
                     setSelectedRoom(newSelection);
-                 }  }  
+                }}
             />
             <Box sx={{
-            border: '1px solid #595850',
-            borderRadius: '40px',
-          }} className="pcDisplay">
+                border: '1px solid #595850',
+                borderRadius: '40px',
+            }} className="pcDisplay">
 
-            <Grid container spacing={3} wrap="wrap" direction="row" alignItems="center" >
-              {computers.map((pc) =>
-                <PcComponent pc={pc} onClick = {handleClickOpenDelete}/>
-              )}
-            <Grid item > {selectedRoom != null && <button className="login-logout CAxButton" onClick={() => {
-                setOpen(true);
-            }}>Add a computer</button>} </Grid>
-            </Grid>
-            
-          </Box>
-          <Dialog
-            open={open}
-            keepMounted
-            onClose={handleCloseDelete}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle>{"Add a Computer"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                
-                
-              </DialogContentText>
-                <DialogContentText id="alert-dialog-slide-description">
-                    Please enter the name of the new computer:
-                   </DialogContentText> 
-                   <TextField
-                   autoFocus
-                    margin="dense" 
-                    id="name"
-                    label="Name"
-                    type="text"
-                    fullWidth
-                    variant="standard"
+                <Grid container spacing={3} wrap="wrap" direction="row" alignItems="center" >
+                    {computers.map((pc) =>
+                        <PcComponent pc={pc} onClick={handleClickOpenDelete} />
+                    )}
+                    <Grid item > {selectedRoom != null && <button className="login-logout CAxButton" onClick={() => {
+                        setOpen(true);
+                    }}>Add a computer</button>} </Grid>
+                </Grid>
+
+            </Box>
+
+            <Dialog
+                open={open}
+                keepMounted
+                onClose={handleCloseDelete}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Add a Computer"}</DialogTitle>
+                <DialogContent>
+
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Please enter the name of the new computer:
+                    </DialogContentText>
+
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Name"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="host_name"
+                        label="Host_Name"
+                        type="text"
+                        fullWidth
+                        variant="standard"
                     />
 
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCancel}>Cancel</Button>
-              <Button onClick={handleCreate}>Create</Button>
-            </DialogActions>
-          </Dialog>
-          <Dialog
-            open={openDelete}
-            keepMounted
-            onClose={handleCancel}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle>{mode ? "Delete a Computer" : "Modify a computer"}</DialogTitle>
-            <DialogContent>
-                {mode && 
-                <DialogContentText id="alert-dialog-slide-description">
-                    Are you sure you want to delete this computer ?
-                    
-                    
-                   </DialogContentText> 
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleCancel}>Cancel</Button>
+                    <Button onClick={handleCreate}>Create</Button>
+                </DialogActions>
+
+            </Dialog>
+
+            <Dialog
+                open={openDelete}
+                keepMounted
+                onClose={handleCancel}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>
+                    {mode ? "Delete a Computer" : "Modify a computer"}
+                </DialogTitle>
+
+                <DialogContent>
+                    {mode &&
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Are you sure you want to delete this computer ?
+                        </DialogContentText>
                     }
-                    {
-                        !mode &&
+
+                    {!mode &&
                         <DialogContentText id="alert-dialog-slide-description">
                             Please enter the new name of the computer:
-                            </DialogContentText>
+                        </DialogContentText>
                     }
-                    { mode &&
-                   <DialogContentText id="alert-dialog-slide-description">
-                   {selectedComputer?.name ?? "placeholder"}
-                     </DialogContentText>
-                     }
-                  
-                  {
-                    !mode &&
-                    <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name2"
-                    label="Name"
-                    type="text"
-                    />
-                  }
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseDelete}>Cancel</Button>
-            <Button onClick={() => {
-                if(mode) deleteComputer();
-                else handleModify();
-                }
-                }>{mode ? "Delete" : "Modify"}</Button>
-              
-              <Button onClick= { () => {
-                    setMode(!mode);
 
-              } } >Change Mode</Button>
-            </DialogActions>
-          </Dialog>
+                    {mode &&
+                        <DialogContentText id="alert-dialog-slide-description">
+                            {selectedComputer?.name ?? "placeholder"}
+                        </DialogContentText>
+                    }
+
+                    {!mode &&
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name2"
+                            label="Name"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            placeholder={selectedComputer?.name ?? "PC name"}
+                        />}
+
+
+                    {!mode &&
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="host_name2"
+                            label="Host_Name"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            placeholder={selectedComputer?.host_name ?? "PC host_name"}
+                        />}
+                </DialogContent>
+
+                <DialogActions>
+
+                    <Button onClick={handleCloseDelete}>Cancel</Button>
+                    <Button onClick={() => {
+                        if (mode) deleteComputer();
+                        else handleModify();
+                    }
+                    }>{mode ? "Delete" : "Modify"}</Button>
+
+                    <Button onClick={() => {
+                        setMode(!mode);
+                    }} >
+                        Change Mode
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
 }

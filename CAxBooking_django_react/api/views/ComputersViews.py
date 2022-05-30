@@ -1,8 +1,11 @@
+from datetime import datetime
+from django.utils import timezone
 import json
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from dateutil import parser
 from django.db.models import Q, Min
+from pytz import timezone
 from rest_framework import generics
 from ..serializers import *
 from ..models import Bookings, ComputerInRoom, Computers
@@ -18,7 +21,7 @@ class ComputerListView(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         """
         If the user is authenticated, then show the list of objects, otherwise redirect to the login page
-        
+
         :param request: The full HTTP request object for this page
         :return: The list of all the questions in the database.
         """
@@ -37,17 +40,19 @@ class ComputerModifyView(generics.ListAPIView):
         """
         It takes a computer id and a new name, and changes the name of the computer with that id to the new
         name
-        
+
         :param request: The request object that is passed to the view
         :param format: The format of the response
         :return: A JsonResponse object is being returned.
         """
         computer_id = request.data['computer_id']
         new_name = request.data['computer_name']
+        new_host_name = request.data['computer_host_name']
         computer = Computers.objects.get(id=computer_id)
         if(computer is None):
             return JsonResponse({"error": "Computer does not exist"})
         computer.name = new_name
+        computer.host_name = new_host_name
         computer.save()
         return JsonResponse({"success": "Computer name changed"})
 
@@ -89,6 +94,7 @@ class ComputerInRoomListView(generics.ListAPIView):
         room_id = self.request.query_params.get('room_id')
         time_span_start = self.request.query_params.get('time_span_start')
         time_span_end = self.request.query_params.get('time_span_end')
+
         if room_id is not None:
             queryset = queryset.filter(room=room_id)
             if time_span_start is not None and time_span_end is not None:
@@ -101,12 +107,12 @@ class ComputerInRoomListView(generics.ListAPIView):
                         Q(status=1) | Q(status=2), computer=computer.id)
 
                     nextBooking = bookings.aggregate(Min('start'))
-                    
+
                     computerInRoomI = ComputerInRoom(
-                        computer_id=computer.id, computer_name=computer.name, room_id=computer.room.id, computer_status=0,
-                        next_booking_time = nextBooking['start__min']
+                        computer_id=computer.id, computer_name=computer.name,  room_id=computer.room.id, computer_status=0,
+                        next_booking_time=nextBooking['start__min']
                     )
-                    
+
                     # search for bookings for that computer in that time span
                     # print("parsering time span")
                     # print(parser.parse(time_span_start))
@@ -124,12 +130,31 @@ class ComputerInRoomListView(generics.ListAPIView):
         return listtoreturn
 
 
+def get_next_booking(request):
+    if request.method == 'POST':
+        json_body = request.body.decode('utf-8')
+        json_body = json.loads(json_body)
+        host_name = json_body['host_name']
+        computer = Computers.objects.get(host_name=host_name)
+        bookings = Bookings.objects.filter(
+            Q(status=1) | Q(status=2), computer=computer.id, start__gte=datetime.now(), start__day=datetime.now().day, start__month=datetime.now().month, start__year=datetime.now().year)
+        bookings.order_by('start')
+
+        if bookings.count() > 0:
+            minutes = bookings[0].start.minute
+            if minutes<10:
+                minutes= f"0{minutes}"
+            time = (f"{bookings[0].start.hour}:{minutes}")
+            return JsonResponse({"next_booking": time})
+
+        return JsonResponse({'next_booking': "none"})
+
 
 def add_pc_in_room(request):
     """
     It takes a POST request with a JSON body containing a room_id and a pc_name, and adds a new computer
     to the database with the given name and room
-    
+
     :param request: The request object that Django uses to represent and manage an HTTP request
     :return: A JsonResponse object.
     """
@@ -138,19 +163,19 @@ def add_pc_in_room(request):
         json_body = json.loads(json_body)
         room_id = json_body['room_id'][0]
         pc_name = json_body['pc_name']
+        host_name = json_body['pc_host_name']
         if room_id is not None and pc_name is not None:
             room = Rooms.objects.get(id=room_id)
-            pc = Computers(name=pc_name, room=room)
+            pc = Computers(name=pc_name, room=room, host_name=host_name)
             pc.save()
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'error'})
 
 
-
 def delete_room_computer(request):
     """
     It deletes a computer from the database and all the bookings related to this computer
-    
+
     :param request: The request object is an HttpRequest object. It contains metadata about the request,
     such as the HTTP method
     :return: A JsonResponse with a status of success or error.
