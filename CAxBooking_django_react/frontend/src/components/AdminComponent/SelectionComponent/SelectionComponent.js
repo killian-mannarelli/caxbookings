@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import AccountManagement from '../AccountManagementComponent/AccountManagementComponent';
 import ComputerManagement from '../ComputerManagementComponent/ComputerManagementComponent';
-import RoomManagement from '../RoomManagementComponent/RoomManagementComponent';
 import RoomEquipmentManagement from '../RoomEquipmentManagementComponent/RoomEquipmentManagementComponent';
 import Stats from '../StatsComponent/StatsComponent';
 import "./style.css";
+import RoomDisplayComponent from '../RoomManagementComponent/RoomDisplayComponent';
 
 /**
  * It returns a div with four buttons that, when clicked, change the content of the page to the
@@ -17,36 +17,26 @@ export default function Selection(props) {
 
     return (
         <div id='Selection' className='background'>
-            <div onClick={() => {
-                props.setContent(<Stats currentUser={props.currentUser}/>)
-            }} >
-                <button className="login-logout CAxButton">Stats</button>
-            </div>
 
-            <div onClick={() => {
-                props.setContent(<RoomManagement currentUser={props.currentUser} />)
-            }}>
-                <button className="login-logout CAxButton">Rooms</button>
-            </div>
+            <button className="login-logout CAxButton" onClick={() => {
+                props.setContent(<Stats currentUser={props.currentUser} />)
+            }} >Stats</button>
 
-            <div onClick={() => {
-                props.setContent(<ComputerManagement currentUser={props.currentUser} />)
-            }}>
-                <button className="login-logout CAxButton">Computers</button>
-            </div>
+            <button className="login-logout CAxButton" onClick={() => {
+                props.setContent(<RoomDisplayComponent currentUser={props.currentUser} />)
+            }}>Rooms</button>
 
-            <div onClick={() => {
-                props.setContent(<AccountManagement currentUser={props.currentUser} />)
-            }}>
-                <button className="login-logout CAxButton">Users</button>
-        </div>
-            <div onClick={() => {
+            <button className="login-logout CAxButton" onClick={() => {
                 props.setContent(<RoomEquipmentManagement currentUser={props.currentUser} />)
-            }}>
-                
-            <button className="login-logout CAxButton">Equipments</button>
-                
-            </div>
+            }}>Equipments</button>
+
+            <button className="login-logout CAxButton" onClick={() => {
+                props.setContent(<ComputerManagement currentUser={props.currentUser} />)
+            }}>Computers</button>
+
+            <button className="login-logout CAxButton" onClick={() => {
+                props.setContent(<AccountManagement currentUser={props.currentUser} />)
+            }}>Users</button>
         </div>
     )
 }

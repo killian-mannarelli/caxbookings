@@ -11,7 +11,6 @@ export default function Login() {
             username: document.getElementById("username").value,
             password: document.getElementById("password").value,
         }).then(res => {
-            console.log(res)
             window.location.href = "/"
         })
     }

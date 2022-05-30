@@ -1,6 +1,7 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Axios from 'axios';
+import './RoomEquipment.css';
 
 export default function RoomEquipmentManagementComponent() {
 
@@ -19,7 +20,6 @@ export default function RoomEquipmentManagementComponent() {
         }
         );
     }
-
 
     const getCookie = (name) => {
         var cookieValue = null;
@@ -43,7 +43,7 @@ export default function RoomEquipmentManagementComponent() {
         let name = document.getElementById('equipmentName').value;
         Axios.post("http://127.0.0.1:8000/api/rooms/equipment/add", {
             equipment_name: name,
-    }, {
+        }, {
             headers: {
                 'X-CSRFToken': token
             }
@@ -51,17 +51,13 @@ export default function RoomEquipmentManagementComponent() {
             fetchEquipments();
         }
         );
-
-
-
     }
-
 
     const deleteEquipment = () => {
         let token = getCookie('csrftoken');
         if (selectedEquipment == null || selectedEquipment == undefined) return;
         Axios.post("http://127.0.0.1:8000/api/rooms/equipments/delete", {
-            equipment_id : selectedEquipment
+            equipment_id: selectedEquipment
         }, {
             headers: {
                 'X-CSRFToken': token
@@ -73,17 +69,11 @@ export default function RoomEquipmentManagementComponent() {
         );
     }
 
- //make the datagrid columns for the equipment, equipment is a json object with the following properties:
- // id and  equipment_name
+    //make the datagrid columns for the equipment, equipment is a json object with the following properties:
+    // id and  equipment_name
     const columns = [
-        {
-            field: 'id',
-            headerName: 'ID',
-        },
-        {
-            field: 'equipment_name',
-            headerName: 'Equipment Name',
-        },
+        { field: 'id', headerName: 'ID' },
+        { field: 'equipment_name', headerName: 'Equipment Name' },
     ];
 
     //make the rows for the datagrid
@@ -95,20 +85,14 @@ export default function RoomEquipmentManagementComponent() {
     });
 
 
-
-
-
-
-  return (
-    <div>
-         <form>
-                <label>Room Equipment name</label>
-                <input type="text" id = "equipmentName"/>
-                
+    return (
+        <div id='roomEquipment'>
+            <form id='equipmentCreation'>
+                <label id='nameLabel'>Room Equipment name</label>
+                <input type="text" id="equipmentName" />
             </form>
-            <button className="login-logout CAxButton" onClick={createEquipment}>Create</button>
-            <button className="login-logout CAxButton" onClick={deleteEquipment}>Delete</button>
-       <DataGrid
+                <button className="login-logout CAxButton" onClick={createEquipment}>Create</button>
+            <DataGrid id='equipmentList'
                 columns={columns}
                 rows={rows}
                 autoHeight={true}
@@ -116,12 +100,10 @@ export default function RoomEquipmentManagementComponent() {
                 onSelectionModelChange={(newSelection) => {
                     setSelectedEquipment(newSelection);
                 }}
-
-
-            
             />
+            <button className="login-logout CAxButton" onClick={deleteEquipment}>Delete</button>
 
-    </div>
-  );
+        </div>
+    );
 }
 

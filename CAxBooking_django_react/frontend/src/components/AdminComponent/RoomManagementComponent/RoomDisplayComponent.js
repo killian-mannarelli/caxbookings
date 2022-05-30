@@ -16,7 +16,7 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-
+import "./style.css";
 /**
  * It fetches the rooms from the database, displays them in a table, and allows the user to modify or
  * delete them
@@ -27,27 +27,15 @@ export default function RoomDisplayComponent(props) {
 
     const [rooms, setRooms] = React.useState([]);
     const [open, setOpen] = React.useState(false);
-    const dataRooms = null;
     let selectedRoom = null;
     const [modifyRoom, setModifyRoom] = React.useState(null);
     const [roomEquipments, setRoomEquipments] = React.useState([]);
     const [allRoomsEquipments, setAllRoomsEquipments] = React.useState([]);
     const [selectedEquipments, setSelectedEquipments] = React.useState([]);
 
-
-
-
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 250,
-            },
-        },
-    };
-
+    
     useEffect(() => {
         fetchRooms();
         fetchEquipments();
@@ -57,10 +45,6 @@ export default function RoomDisplayComponent(props) {
     useEffect(() => {
         ;
     }, [rooms]);
-
-    useEffect(() => {
-        console.log(selectedEquipments);
-    }, [selectedEquipments]);
 
     useEffect(() => {
         if (modifyRoom == null || modifyRoom == undefined) return;
@@ -82,33 +66,20 @@ export default function RoomDisplayComponent(props) {
         );
     }
 
-    const checkedIfEquipmentIsSelected = (equipment_id) => {
-        for (let i = 0; i < selectedEquipments.length; i++) {
-            if (selectedEquipments[i].equipment_id == equipment_id) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     const checkIfRoomHasEquipment = (equipment_name) => {
         //use allroomsequipments
         for (let i = 0; i < allRoomsEquipments.length; i++) {
-            if (allRoomsEquipments[i].equipment_name == equipment_name && modifyRoom !=null && modifyRoom[0].id  == allRoomsEquipments[i].room_id) {
+            if (allRoomsEquipments[i].equipment_name == equipment_name && modifyRoom != null && modifyRoom[0].id == allRoomsEquipments[i].room_id) {
                 //add the id to the selectedequipments
                 //setSelectedEquipments(selectedEquipments.concat(equipment_id));
-                console.log("yes")
                 return true;
             }
         }
         return false;
     }
 
-
-
     const getEquipmentString = (room_id) => {
         let equipmentString = "";
-        console.log(allRoomsEquipments)
         for (let i = 0; i < allRoomsEquipments.length; i++) {
             if (allRoomsEquipments[i].room_id == room_id) {
                 equipmentString += allRoomsEquipments[i].equipment_name + "; ";
@@ -116,7 +87,6 @@ export default function RoomDisplayComponent(props) {
         }
         return equipmentString;
     }
-
 
     const dialogContentText = useMemo(() => {
         if (modifyRoom == null || modifyRoom == undefined) return "";
@@ -150,14 +120,13 @@ export default function RoomDisplayComponent(props) {
         return cookieValue;
     }
 
-
     /**
      * It takes the new name of the room and sends it to the backend to be updated
      */
     const modifRoom = () => {
         var CSRF_TOKEN = getCookie('csrftoken');
         let newName = document.getElementById("name").value;
-        if(newName == ""){
+        if (newName == "") {
             let roomid = modifyRoom[0].id;
             //use the roomid to get the room name
             newName = rooms.filter(room => room.room_id == roomid)[0].room_name;
@@ -185,7 +154,6 @@ export default function RoomDisplayComponent(props) {
         Axios.post("http://127.0.0.1:8000/api/rooms/create", {
             room_name: roomName
         }).then(res => {
-            console.log(res.data);
             fetchRooms();
 
         });
@@ -226,7 +194,7 @@ export default function RoomDisplayComponent(props) {
             }
         }
 
-        //to data add the related room equipments by id
+            //to data add the related room equipments by id
 
         );
         return data;
@@ -248,9 +216,6 @@ export default function RoomDisplayComponent(props) {
     const handleChange = (event) => {
         const {
             target: { value },
-        
-
-        
         } = event;
         //append the key to the selectedEquipments array
         setSelectedEquipments(value);
@@ -258,89 +223,91 @@ export default function RoomDisplayComponent(props) {
     };
 
     return (
-        <Container className="RoomDisplayComponent" >
-            <form>
-                <label>Room name</label>
-                <input type="text" id="roomNameInput" />
 
-            </form>
-            <button className="login-logout CAxButton" onClick={createRoom}>Create</button>
+        <div className="RoomManagement">
+            <div className="RoomDisplayComponent" >
+                <form>
+                    <label>Room name</label>
+                    <input type="text" id="roomNameInput" />
 
-            <DataGrid
-                columns={columns}
-                rows={setData()}
-                autoHeight={true}
-                checkboxSelection={true}
-                hideFooter={true}
-                columnVisibilityModel={{
-                    columns: {
-                        room_name: true,
-                    }
-                }}
+                </form>
+                <button className="login-logout CAxButton" onClick={createRoom}>Create</button>
 
-                onSelectionModelChange={(newSelection) => {
-                    selectedRoom = newSelection;
-                }}
-            />
-            <button className="login-logout CAxButton" onClick={deleteRoom}>Delete</button>
-            <button className="login-logout CAxButton" onClick={fetchRooms}>Refresh</button>
-            {<button className="login-logout CAxButton" onClick={() => {
-                fetchSpecificRoom(selectedRoom[0] ?? 1);
-            }}>Modify</button>}
-            <Dialog
-                open={open}
-                keepMounted
-                onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle>{"Modify a room"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        Previous name :
+                <DataGrid
+                    columns={columns}
+                    rows={setData()}
+                    autoHeight={true}
+                    checkboxSelection={true}
+                    hideFooter={true}
+                    columnVisibilityModel={{
+                        columns: {
+                            room_name: true,
+                        }
+                    }}
+
+                    onSelectionModelChange={(newSelection) => {
+                        selectedRoom = newSelection;
+                    }}
+                />
+                <button className="login-logout CAxButton" onClick={deleteRoom}>Delete</button>
+                {<button className="login-logout CAxButton" onClick={() => {
+                    fetchSpecificRoom(selectedRoom[0] ?? 1);
+                }}>Modify</button>}
+                <Dialog
+                    open={open}
+                    keepMounted
+                    onClose={handleClose}
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle>{"Modify a room"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Previous name :
 
 
-                    </DialogContentText>
+                        </DialogContentText>
 
-                    <DialogContentText id="alert-dialog-slide-description">
-                        {dialogContentText}
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        placeholder={dialogContentText}
-                        label=""
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                    />
-                </DialogContent>
-                <div>
-                    <FormControl sx={{ m: 1, width: 300 }}>
-                        <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
-                        <Select
-                            labelId="demo-multiple-checkbox-label"
-                            id="demo-multiple-checkbox"
-                            multiple
-                            renderValue={(selected) => selected.join(', ')}
-                            value={selectedEquipments}
-                            onChange={handleChange}
-                            input={<OutlinedInput label="Tag" />}
-                        >
-                            {roomEquipments.map((item) => (
-                                <MenuItem key={item.id} value={item.id}>
-                                    <Checkbox checked={(checkIfRoomHasEquipment(item.equipment_name,item.id) && !selectedEquipments.includes(item.id)) || (selectedEquipments.includes(item.id) && !checkIfRoomHasEquipment(item.equipment_name,item.id))} />
-                                    <ListItemText primary={item.equipment_name} />
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
-                <DialogActions>
-                    <Button onClick={handleClose}>Close</Button>
-                    <Button onClick={modifRoom}>Modify</Button>
-                </DialogActions>
-            </Dialog>
-        </Container>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            {dialogContentText}
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            placeholder={dialogContentText}
+                            label=""
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                        />
+                    </DialogContent>
+                    <div>
+                        <FormControl sx={{ m: 1, width: 300 }}>
+                            <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
+                            <Select
+                                labelId="demo-multiple-checkbox-label"
+                                id="demo-multiple-checkbox"
+                                multiple
+                                renderValue={(selected) => selected.join(', ')}
+                                value={selectedEquipments}
+                                onChange={handleChange}
+                                input={<OutlinedInput label="Tag" />}
+                            >
+                                {roomEquipments.map((item) => (
+                                    <MenuItem key={item.id} value={item.id}>
+                                        <Checkbox checked={(checkIfRoomHasEquipment(item.equipment_name, item.id) && !selectedEquipments.includes(item.id)) || (selectedEquipments.includes(item.id) && !checkIfRoomHasEquipment(item.equipment_name, item.id))} />
+                                        <ListItemText primary={item.equipment_name} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Close</Button>
+                        <Button onClick={modifRoom}>Modify</Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
+        </div>
     );
 }

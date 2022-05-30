@@ -809,6 +809,7 @@ class Computers(models.Model):
     id = models.AutoField(primary_key=True)
     status = models.IntegerField(blank=True, null=False, default=1)
     name = models.CharField(max_length=255, blank=True, null=False, default="New PC")
+    host_name = models.CharField(max_length=255, blank=True, null=False) 
     room = models.ForeignKey('Rooms', models.DO_NOTHING, blank=False, null=False)
 
     class Meta:
@@ -923,7 +924,7 @@ class EquipmentInRoom(models.Model):
 
 class RoomWithEquipmentName(models.Model):
     id = models.IntegerField(primary_key=True)
-    room_id = models.IntegerField(max_length=255, null=False, blank=False)
+    room_id = models.IntegerField(null=False, blank=False)
     equipment_name = models.CharField(max_length=255, null=False, blank=False)
     
     class Meta:

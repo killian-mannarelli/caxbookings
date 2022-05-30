@@ -36,10 +36,6 @@ export default function ComputerManagement(){
     }, []);
 
     useEffect(() => {
-        ;
-    }, [rooms,computers]);
-
-    useEffect(() => {
         if (selectedRoom == null || selectedRoom == undefined) return;
         fetchComputers();
     }, [selectedRoom]);
@@ -51,12 +47,6 @@ export default function ComputerManagement(){
         }
         );
     }
-
-    const buttonText = useMemo(() => {
-        if (mode) return 'Delete';
-        return "Modify";
-    }, [mode]);
-
 
     const fetchRooms = () => {
         Axios.get("http://127.0.0.1:8000/api/rooms/search?time_start=2022-05-05T13:19:10.545Z&time_end=2022-05-05T14:19:10.545Z").then(res => {
@@ -76,7 +66,6 @@ export default function ComputerManagement(){
         );
     }
     
-
     const columns = [
         {
             field: 'room_name',
@@ -84,6 +73,7 @@ export default function ComputerManagement(){
             flex : 1,
         },
     ];
+
     const setData = () => {
         const data = rooms.map(room => {
             return {
