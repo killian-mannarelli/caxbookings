@@ -40,7 +40,7 @@
     padding: 10px;
 }
 
-#Logout-button{
+#Logout-button, #Login-button{
     align-self: center;
     align-items: center;
     grid-area: login;

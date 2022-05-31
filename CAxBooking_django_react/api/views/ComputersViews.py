@@ -131,6 +131,12 @@ class ComputerInRoomListView(generics.ListAPIView):
 
 
 def get_next_booking(request):
+    """
+    It gets the next booking for a computer, and returns the time of the booking
+    
+    :param request: The request object
+    :return: The next booking for the computer
+    """
     if request.method == 'POST':
         json_body = request.body.decode('utf-8')
         json_body = json.loads(json_body)
@@ -141,6 +147,7 @@ def get_next_booking(request):
         bookings.order_by('start')
 
         if bookings.count() > 0:
+            # Formatting the time to be in the format HH:MM
             minutes = bookings[0].start.minute
             if minutes<10:
                 minutes= f"0{minutes}"

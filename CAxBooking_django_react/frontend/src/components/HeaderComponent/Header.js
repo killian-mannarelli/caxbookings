@@ -33,6 +33,13 @@ export default function Header(props) {
           window.location.replace("http://127.0.0.1:8000/logout")
         }}>Logout</button>
       }
+      
+      {
+        (props.currentUser == undefined) &&
+        <button id='Login-button' className="login-logout CAxButton" onClick={() => {
+          window.location.replace("http://127.0.0.1:8000/login")
+        }}>Login</button>
+      }
 
     </header>
   );
