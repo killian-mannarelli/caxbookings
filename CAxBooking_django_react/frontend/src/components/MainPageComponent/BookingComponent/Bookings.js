@@ -18,7 +18,7 @@ export default function Bookings(props) {
      * @returns A list of bookings
      */
     function fetchBookings() {
-        fetch("http://127.0.0.1:8000/api/bookings/search?user_id=" + props.user_id + "&status2=2&status=1", {
+        fetch("http://"+process.env.PRODIP+"/api/bookings/search?user_id=" + props.user_id + "&status2=2&status=1", {
             method: "GET"
         }).then(function (response) {
             return response.text();

@@ -18,7 +18,7 @@ export default function RoomCreationComponent(props) {
         //recover the room name from the input
         let roomName = document.getElementById("roomNameInput").value;
         //create the room
-        axios.post("http://127.0.0.1:8000/api/rooms/create", {
+        axios.post("http://"+process.env.PRODIP+"/api/rooms/create", {
             room_name: roomName
         }).then(res => {
             console.log(res.data);

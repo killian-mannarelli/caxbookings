@@ -43,6 +43,7 @@ export default function BookingPopup(props) {
             <button id='close-pop-up-button' className='CAxButton' onClick={() => {
                 props.close();
             }}>Close</button>
+<<<<<<< HEAD
 
 
             <button id='cancel-booking-button' className='CAxButton' onClick={() => {
@@ -79,6 +80,17 @@ export default function BookingPopup(props) {
                     }}>Yes</Button>
                 </DialogActions>
             </Dialog>
+=======
+            <button className='CAxButton' onClick={() => {
+                fetch("http://"+process.env.PRODIP+"/api/bookings/delete?book_id=" + props.id, {
+                    method: "GET"
+                }).then(respnose => {
+                    return respnose.text;
+                });
+                props.close();
+                props.cancel(props.id);
+            }}>Cancel</button>
+>>>>>>> docker + making code adaptable to new ip
         </div>
     );
 }

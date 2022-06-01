@@ -30,7 +30,7 @@ export default function HomePage() {
   const [currentUser, setCurrentUser] = React.useState(null);
 
   const fetchCurrentUser = () => {
-    Axios.get("http://127.0.0.1:8000/api/users/getCurrent").then(res => {
+    Axios.get("http://"+process.env.PRODIP+"/api/users/getCurrent").then(res => {
       setCurrentUser(res.data[0]);
     }
     );

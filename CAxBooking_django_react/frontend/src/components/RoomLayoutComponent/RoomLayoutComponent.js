@@ -52,7 +52,7 @@ export default function RoomLayout(props) {
 
 
   const fetchMaxBookingTime = () => {
-    Axios.get("http://127.0.0.1:8000/api/bookings/maxtime"
+    Axios.get("http://"+process.env.PRODIP+"/api/bookings/maxtime"
     ).then(res => {
       setMaximumBookingTime(res.data.max_booking_time);
     }
@@ -89,14 +89,14 @@ export default function RoomLayout(props) {
   const fetchApi = () => {
     let startStringIso = urlInfos.startTime.toISOString();
     let endStringIso = urlInfos.endTime.toISOString();
-    Axios.get("http://127.0.0.1:8000/api/computerinroom?room_id=" + urlInfos.roomId + "&time_span_start=" + startStringIso + "&time_span_end=" + endStringIso).then(res => {
+    Axios.get("http://"+process.env.PRODIP+"/api/computerinroom?room_id=" + urlInfos.roomId + "&time_span_start=" + startStringIso + "&time_span_end=" + endStringIso).then(res => {
       setComputers(res.data);
     });
   }
 
   const fetchToGetRoom = () => {
     //fetch the room name
-    fetch("http://127.0.0.1:8000/api/rooms/search/specific?room_id=" + urlInfos.roomId, {
+    fetch("http://"+process.env.PRODIP+"/api/rooms/search/specific?room_id=" + urlInfos.roomId, {
       method: "GET"
     }).then(function (response) {
       return response.text();
@@ -231,7 +231,7 @@ export default function RoomLayout(props) {
     }
 
 
-    Axios.post("http://127.0.0.1:8000/api/bookings/create", {
+    Axios.post("http://"+process.env.PRODIP+"/api/bookings/create", {
       computer: selectedComputer.computer_id,
       start: startStringIso,
       end: endStringIso,
@@ -245,7 +245,7 @@ export default function RoomLayout(props) {
   }
 
   const getOngoingBookings = () => {
-    Axios.get("http://127.0.0.1:8000/api/bookings/user/ongoing").then(res => {
+    Axios.get("http://"+process.env.PRODIP+"/api/bookings/user/ongoing").then(res => {
       setOngoingUserBookings(res.data);
     });
   }

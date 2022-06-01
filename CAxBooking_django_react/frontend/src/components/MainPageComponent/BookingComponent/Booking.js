@@ -41,7 +41,7 @@ export default function Booking(props) {
     }, [computerRoom]);
 
     function fetchComputer() {
-        fetch("http://127.0.0.1:8000/api/computers/search?computer_id=" + props.computer, {
+        fetch("http://"+process.env.PRODIP+"/api/computers/search?computer_id=" + props.computer, {
             method: "GET"
         }).then(function (response) {
             return response.text();
@@ -54,7 +54,7 @@ export default function Booking(props) {
 
     function fetchRoom() {
         if (computerRoom !== undefined)
-            fetch("http://127.0.0.1:8000/api/rooms/search/specific?room_id=" + computerRoom, {
+            fetch("http://"+process.env.PRODIP+"/api/rooms/search/specific?room_id=" + computerRoom, {
                 method: "GET"
             }).then(function (response) {
                 return response.text();

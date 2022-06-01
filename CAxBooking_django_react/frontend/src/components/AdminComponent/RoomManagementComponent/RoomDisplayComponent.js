@@ -54,14 +54,14 @@ export default function RoomDisplayComponent(props) {
 
 
     const fetchEquipments = () => {
-        Axios.get("http://127.0.0.1:8000/api/rooms/equipments/all").then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/rooms/equipments/all").then(res => {
             setRoomEquipments(res.data);
         }
         );
     }
 
     const fetchAllRoomsEquipments = () => {
-        Axios.get("http://127.0.0.1:8000/api/rooms/allequipments").then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/rooms/allequipments").then(res => {
             setAllRoomsEquipments(res.data);
         }
         );
@@ -98,7 +98,7 @@ export default function RoomDisplayComponent(props) {
     }, [modifyRoom]);
 
     const fetchRooms = () => {
-        Axios.get("http://127.0.0.1:8000/api/rooms/search?time_start=2022-05-05T13:19:10.545Z&time_end=2022-05-05T14:19:10.545Z").then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/rooms/search?time_start=2022-05-05T13:19:10.545Z&time_end=2022-05-05T14:19:10.545Z").then(res => {
             setRooms(res.data);
         }
         );
@@ -132,7 +132,7 @@ export default function RoomDisplayComponent(props) {
             //use the roomid to get the room name
             newName = rooms.filter(room => room.room_id == roomid)[0].room_name;
         }
-        Axios.post("http://127.0.0.1:8000/api/rooms/modify", {
+        Axios.post("http://"+process.env.PRODIP+"/api/rooms/modify", {
             room_id: modifyRoom[0].id,
             room_name: newName,
             equipments: selectedEquipments,
@@ -152,7 +152,7 @@ export default function RoomDisplayComponent(props) {
         //recover the room name from the input
         let roomName = document.getElementById("roomNameInput").value;
         //create the room
-        Axios.post("http://127.0.0.1:8000/api/rooms/create", {
+        Axios.post("http://"+process.env.PRODIP+"/api/rooms/create", {
             room_name: roomName
         }).then(res => {
             fetchRooms();
@@ -164,7 +164,12 @@ export default function RoomDisplayComponent(props) {
 
     function deleteRoom() {
         if (selectedRoom == null || selectedRoom == undefined) return;
+<<<<<<< HEAD
         Axios.post("http://127.0.0.1:8000/api/rooms/delete", {
+=======
+        Axios.post("http://"+process.env.PRODIP+"/api/rooms/delete", {
+
+>>>>>>> docker + making code adaptable to new ip
             room_id: selectedRoom
         }).then(res => {
             fetchRooms();
@@ -205,7 +210,7 @@ export default function RoomDisplayComponent(props) {
     }
 
     const fetchSpecificRoom = (roomID) => {
-        Axios.get("http://127.0.0.1:8000/api/rooms/search/specific?room_id=" + roomID).then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/rooms/search/specific?room_id=" + roomID).then(res => {
             setModifyRoom(res.data);
 
         }

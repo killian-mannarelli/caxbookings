@@ -35,13 +35,13 @@ export default function Header(props) {
 
       {((props.currentUser?.is_superuser ?? false) || (props.currentUser?.is_staff ?? false)) &&
         <button id='Admin-button' className="login-logout CAxButton" onClick={() => {
-          window.location.replace("http://127.0.0.1:8000/admin")
+          window.location.replace("http://"+process.env.PRODIP+"/admin")
         }}>Admin</button>
       }
       {
         (props.currentUser != undefined) &&
         <button id='Logout-button' className="login-logout CAxButton" onClick={() => {
-          window.location.replace("http://127.0.0.1:8000/logout")
+          window.location.replace("http://"+process.env.PRODIP+"/logout")
         }}>Logout</button>
       }
 

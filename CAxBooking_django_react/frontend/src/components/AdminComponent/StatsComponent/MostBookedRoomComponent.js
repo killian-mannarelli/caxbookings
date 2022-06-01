@@ -21,7 +21,7 @@ export default function MostBookedRoomComponent(props) {
     }, [rooms]);
 
     const fetchRooms = () => {
-        Axios.get("http://127.0.0.1:8000/api/rooms/mostbooked").then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/rooms/mostbooked").then(res => {
             setRooms(res.data);
         }
         );

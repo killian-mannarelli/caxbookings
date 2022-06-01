@@ -1,5 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
+require('dotenv').config({ path: 'src/.env' }); 
+
 
 module.exports = {
   entry: "./src/index.js",
@@ -37,6 +39,10 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
-    })
+    }),
+    new webpack.DefinePlugin({
+      'process.env.PRODIP': JSON.stringify(process.env.PRODIP),
+    }),
+
   ]
 };

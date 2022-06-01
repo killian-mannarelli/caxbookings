@@ -36,7 +36,7 @@ export default function MainPage(props) {
   const fetchRooms = () => {
       let startDateIso = startDate.toISOString();
       let endDateIso = endDate.toISOString();
-      Axios.get("http://127.0.0.1:8000/api/rooms/search?time_start="+startDateIso+"&time_end=" + endDateIso).then(res => {
+      Axios.get("http://"+process.env.PRODIP+"/api/rooms/search?time_start="+startDateIso+"&time_end=" + endDateIso).then(res => {
           setRooms(res.data);
           
       });

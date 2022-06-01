@@ -19,7 +19,7 @@ export default function Stats(){
             <GraphsBookingOverX />
             <div className="otherStats">
                 <button className="CAxButton" onClick={()=>{
-                    window.location.replace("http://127.0.0.1:8000/api/db/bookings")
+                    window.location.replace("http://"+process.env.PRODIP+"/api/db/bookings")
                 }}>Download database as csv</button>
             </div>
         </div>

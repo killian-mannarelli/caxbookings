@@ -29,7 +29,7 @@ export default function RoomDisplay(props) {
 
 
     const fetchRoomEquipment = () => {
-        Axios.get("http://127.0.0.1:8000/api/rooms/allequipments").then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/rooms/allequipments").then(res => {
             setRoomEquipments(res.data)
         }
         );
@@ -68,7 +68,7 @@ export default function RoomDisplay(props) {
                                 <td>{getEquipmentString(val?.room_id ?? 1)}</td> 
                                 <td>
                                     <button className="checkout-button CAxButton" onClick={() => {
-                                        window.location.replace("http://127.0.0.1:8000/room/room_id=" + val.room_id + "&start=" + start + "&stop=" + end);
+                                        window.location.replace("http://"+process.env.PRODIP+"/room/room_id=" + val.room_id + "&start=" + start + "&stop=" + end);
                                     }}>Checkout</button>
 
                                 </td>
