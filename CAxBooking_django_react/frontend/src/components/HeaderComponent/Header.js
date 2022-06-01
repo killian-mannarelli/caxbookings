@@ -23,7 +23,7 @@ export default function Header(props) {
   return (
     <header className="Header">
 
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Logo_Jade_Hochschule.jpg" onClick={() => {
+      <img src="JadeHsLogo" onClick={() => {
         window.location.replace("http://127.0.0.1:8000/")
       }}></img>
 
