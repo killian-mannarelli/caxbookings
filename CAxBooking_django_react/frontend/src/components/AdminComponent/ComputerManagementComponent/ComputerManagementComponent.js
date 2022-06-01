@@ -200,8 +200,8 @@ export default function ComputerManagement() {
 
             <Dialog
                 open={open}
+                onClose={() => { setOpen(false) }}
                 keepMounted
-                onClose={handleCloseDelete}
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogTitle>{"Add a Computer"}</DialogTitle>
@@ -221,7 +221,6 @@ export default function ComputerManagement() {
                         variant="standard"
                     />
                     <TextField
-                        autoFocus
                         margin="dense"
                         id="host_name"
                         label="Host_Name"

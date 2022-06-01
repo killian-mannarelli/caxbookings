@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Axios from "axios";
 import { DataGrid } from '@mui/x-data-grid';
 import Container from '@mui/material/Container';
@@ -25,17 +25,18 @@ import "./style.css";
  */
 export default function RoomDisplayComponent(props) {
 
-    const [rooms, setRooms] = React.useState([]);
-    const [open, setOpen] = React.useState(false);
-    let selectedRoom = null;
-    const [modifyRoom, setModifyRoom] = React.useState(null);
-    const [roomEquipments, setRoomEquipments] = React.useState([]);
-    const [allRoomsEquipments, setAllRoomsEquipments] = React.useState([]);
-    const [selectedEquipments, setSelectedEquipments] = React.useState([]);
+    const [rooms, setRooms] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [selectedRoom, setSelectedRoom] = useState();
+    const [modifyRoom, setModifyRoom] = useState(null);
+    const [roomEquipments, setRoomEquipments] = useState([]);
+    const [allRoomsEquipments, setAllRoomsEquipments] = useState([]);
+    const [selectedEquipments, setSelectedEquipments] = useState([]);
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
-    
+
     useEffect(() => {
         fetchRooms();
         fetchEquipments();
@@ -161,10 +162,9 @@ export default function RoomDisplayComponent(props) {
 
     }
 
-    const deleteRoom = () => {
+    function deleteRoom() {
         if (selectedRoom == null || selectedRoom == undefined) return;
         Axios.post("http://127.0.0.1:8000/api/rooms/delete", {
-
             room_id: selectedRoom
         }).then(res => {
             fetchRooms();
@@ -246,11 +246,36 @@ export default function RoomDisplayComponent(props) {
                     }}
 
                     onSelectionModelChange={(newSelection) => {
-                        selectedRoom = newSelection;
+                        setSelectedRoom(newSelection);
                     }}
                 />
-                <button className="login-logout CAxButton" onClick={deleteRoom}>Delete</button>
-                {<button className="login-logout CAxButton" onClick={() => {
+
+                <button className="CAxButton" onClick={() => { setOpenDelete(true) }}>Delete</button>
+                <Dialog
+                    open={openDelete}
+                    onClose={() => { setOpenDelete(false) }}
+                    keepMounted
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle>{"Delete Room(s)"}</DialogTitle>
+
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            Are you sure you want to delete this/these room(s) ?
+                        </DialogContentText>
+                    </DialogContent>
+
+                    <DialogActions>
+                        <Button onClick={() => { setOpenDelete(false) }}>No</Button>
+                        <Button onClick={() => {
+                            setOpenDelete(false);
+                            deleteRoom();
+                        }}>Yes</Button>
+                    </DialogActions>
+                </Dialog>
+
+
+                {<button className="CAxButton" onClick={() => {
                     fetchSpecificRoom(selectedRoom[0] ?? 1);
                 }}>Modify</button>}
                 <Dialog
@@ -307,6 +332,7 @@ export default function RoomDisplayComponent(props) {
                         <Button onClick={modifRoom}>Modify</Button>
                     </DialogActions>
                 </Dialog>
+
             </div>
         </div>
     );

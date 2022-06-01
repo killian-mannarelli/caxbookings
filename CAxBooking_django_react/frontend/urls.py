@@ -10,9 +10,14 @@ urlpatterns = [
     path('logout', logout_view),
     path('admin', index),
     path('userGuide', index),
+    path('adminGuide', index),
     path('adminContact', index),
     path('main', index),
     path('isBooked/<slug:host_name>', index),
     path('favicon.ico', RedirectView.as_view(
-        url=staticfiles_storage.url('img/favicon.ico')))
+        url=staticfiles_storage.url('img/favicon.ico'))),
+    path('AdminGuide.md', RedirectView.as_view(
+        url=staticfiles_storage.url('markdown/AdminGuide.md'))),
+    path('UserGuide.md', RedirectView.as_view(
+        url=staticfiles_storage.url('markdown/UserGuide.md')))
 ]

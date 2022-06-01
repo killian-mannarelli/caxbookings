@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Axios from 'axios';
 import './RoomEquipment.css';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 export default function RoomEquipmentManagementComponent() {
 
-    const [equipments, setEquipments] = React.useState([]);
-    const [selectedEquipment, setSelectedEquipment] = React.useState(null);
+    const [equipments, setEquipments] = useState([]);
+    const [selectedEquipment, setSelectedEquipment] = useState(null);
+    const [openDelete, setOpenDelete] = useState(false);
 
 
     useEffect(() => {
         fetchEquipments();
-    }, []);
-
+    }, [openDelete]);
 
     const fetchEquipments = () => {
         Axios.get("http://127.0.0.1:8000/api/rooms/equipments/all").then(res => {
@@ -91,7 +92,7 @@ export default function RoomEquipmentManagementComponent() {
                 <label id='nameLabel'>Room Equipment name</label>
                 <input type="text" id="equipmentName" />
             </form>
-                <button className="login-logout CAxButton" onClick={createEquipment}>Create</button>
+            <button className="login-logout CAxButton" onClick={createEquipment}>Create</button>
             <DataGrid id='equipmentList'
                 columns={columns}
                 rows={rows}
@@ -101,7 +102,29 @@ export default function RoomEquipmentManagementComponent() {
                     setSelectedEquipment(newSelection);
                 }}
             />
-            <button className="login-logout CAxButton" onClick={deleteEquipment}>Delete</button>
+            <button className="login-logout CAxButton" onClick={() => { setOpenDelete(true) }}>Delete</button>
+            <Dialog
+                open={openDelete}
+                onClose={() => { setOpenDelete(false) }}
+                keepMounted
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Delete Equipment"}</DialogTitle>
+
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Are you sure you want to delete this/these Equipments ?
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={() => { setOpenDelete(false) }}>No</Button>
+                    <Button onClick={() => {
+                        setOpenDelete(false);
+                        deleteEquipment();
+                    }}>Yes</Button>
+                </DialogActions>
+            </Dialog>
 
         </div>
     );

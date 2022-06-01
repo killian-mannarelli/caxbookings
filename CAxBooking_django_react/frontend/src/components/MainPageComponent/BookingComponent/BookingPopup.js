@@ -16,10 +16,6 @@ export default function BookingPopup(props) {
 
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        return;
-    }, [open])
-
     function infoBox(name, data) {
         return (
             <div className='info-box'>

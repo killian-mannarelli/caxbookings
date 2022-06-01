@@ -30,6 +30,20 @@
     height: 4vh;
 }
 
+.formlabel input{
+    width: 100%;
+    font-size: clamp(16px, calc(10px + 2vmin), 22px) !important;
+}
+
+.formlabel{
+    width: 60%;
+    max-width: 580px;
+}
+#loginDiv .CAxButton{
+    width: 50%;
+    max-width:400px;
+}
+
 img {
     width: 34.627831715210355vh;
     height: 23.78640776699029vh;
@@ -37,5 +51,4 @@ img {
     position: relative;
     left: 5vh;
     top: 1.4vh;
-
 }

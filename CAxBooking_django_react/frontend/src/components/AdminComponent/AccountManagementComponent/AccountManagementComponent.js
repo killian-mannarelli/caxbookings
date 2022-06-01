@@ -1,5 +1,6 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Axios from "axios";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,12 +16,16 @@ import ModifyMaxBookingTimeComponent from "./ModifyMaxBookingTimeComponent";
 export default function AccountManagement(props) {
 
 
-    const [users, setUsers] = React.useState([]);
-    let selectedUser = null;
+    const [users, setUsers] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [openOne, setOpenOne] = useState(false);
+
+    const [selectedUsers, setSelectedUsers] = useState();
+    const [selectedUser, setSelectedUser] = useState();
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [open]);
 
     useEffect(() => {
         ;
@@ -94,7 +99,8 @@ export default function AccountManagement(props) {
                         icon={<DeleteIcon />}
                         label="Delete"
                         onClick={() => {
-                            deleteUser(params.id)
+                            setOpenOne(true)
+                            setSelectedUser(params.id)
                         }}
                     />,
                     <GridActionsCellItem
@@ -162,10 +168,60 @@ export default function AccountManagement(props) {
                 }}
 
                 onSelectionModelChange={(newSelection) => {
-                    selectedUser = newSelection;
+                    setSelectedUsers(newSelection);
                 }}
             />}
-            <button className="CAxButton" onClick={() => { deleteUsers(selectedUser) }}>Delete</button>
+            <button className="CAxButton" onClick={() => {
+                setOpen(true);
+            }}>Delete</button>
+
+
+            <Dialog
+                open={open}
+                onClose={() => { setOpen(false) }}
+                keepMounted
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Delete User(s)"}</DialogTitle>
+
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Are you sure you want delete this/these user(s), all related data will also be lost.
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={() => { setOpen(false) }}>No</Button>
+                    <Button onClick={() => {
+                        setOpen(false);
+                        deleteUsers(selectedUsers);
+                    }}>Yes</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                open={openOne}
+                onClose={() => { setOpenOne(false) }}
+                keepMounted
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Delete User"}</DialogTitle>
+
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Are you sure you want delete this user, all related data will also be lost.
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={() => { setOpenOne(false) }}>No</Button>
+                    <Button onClick={() => {
+                        setOpenOne(false);
+                        deleteUser(selectedUser);
+                    }}>Yes</Button>
+                </DialogActions>
+            </Dialog>
+
             <ModifyMaxBookingTimeComponent />
         </div   >
     );

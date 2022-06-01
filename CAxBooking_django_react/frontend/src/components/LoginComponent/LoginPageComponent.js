@@ -23,15 +23,15 @@ export default function Login() {
             <form onKeyPress={
                 (event) => {
                     if (event.key === 'Enter') {
-                       login();
+                        login();
                     }
                 }
             }>
-                <label>
-                    <input type="text" id="username" name="username" placeholder="USERNAME" className="textbox" />
+                <label className="formlabel">
+                    <input type="text" name="username" id="username" placeholder="USERNAME" className="textbox" />
                 </label>
-                <label>
-                    <input id="password" type="password" name="password" placeholder="PASSWORD" className="textbox" />
+                <label className="formlabel"   >
+                    <input type="password" name="password" id="password" placeholder="PASSWORD" className="textbox" />
                 </label>
                 <input type="button" value="LOGIN" onClick={() => {
                     login();

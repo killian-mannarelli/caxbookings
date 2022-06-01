@@ -7,6 +7,7 @@ import RoomLayout from "./RoomLayoutComponent/RoomLayoutComponent";
 import MainPage from "./MainPageComponent/MainPage"
 import Admin from "./AdminComponent/AdminComponent";
 import UserGuide from "./FooterComponent/UserGuideComponent/UserGuide";
+import AdminGuide from "./FooterComponent/AdminGuide/AdminGuide";
 import AdminContact from "./FooterComponent/AdminContactComponent/AdminContactComponent";
 import IsBooked from "./IsBookedComponent/IsBooked";
 import './style.css'
@@ -59,6 +60,11 @@ export default function HomePage() {
 
           <Route path={'/userGuide'}>
             <UserGuide currentUser={currentUser} />
+            {((currentUser?.is_superuser ?? false) || (currentUser?.is_staff ?? false)) && <AdminGuide currentUser={currentUser} />}
+          </Route>
+
+          <Route path={'/adminGuide'}>
+
           </Route>
 
           <Route path={'/adminContact'}>
