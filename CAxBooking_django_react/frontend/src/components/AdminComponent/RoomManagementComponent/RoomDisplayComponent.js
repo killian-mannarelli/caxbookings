@@ -164,12 +164,8 @@ export default function RoomDisplayComponent(props) {
 
     function deleteRoom() {
         if (selectedRoom == null || selectedRoom == undefined) return;
-<<<<<<< HEAD
-        Axios.post("http://127.0.0.1:8000/api/rooms/delete", {
-=======
         Axios.post("http://"+process.env.PRODIP+"/api/rooms/delete", {
 
->>>>>>> docker + making code adaptable to new ip
             room_id: selectedRoom
         }).then(res => {
             fetchRooms();

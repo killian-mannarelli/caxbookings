@@ -22,11 +22,8 @@
     "@mui/x-data-grid": "^5.10.0",
     "@mui/x-date-pickers": "^5.0.0-alpha.1",
     "axios": "^0.26.1",
-<<<<<<< HEAD
     "marked": "^4.0.16",
-=======
     "dotenv": "^16.0.1",
->>>>>>> docker + making code adaptable to new ip
     "moment": "^2.29.3",
     "react-chartjs-2": "^4.1.0",
     "react-markdown": "^8.0.3",
