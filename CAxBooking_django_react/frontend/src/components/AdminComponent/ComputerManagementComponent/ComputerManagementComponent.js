@@ -56,13 +56,8 @@ export default function ComputerManagement() {
     }
 
     const deleteComputer = () => {
-<<<<<<< HEAD
-        if (selectedComputer == null || selectedComputer == undefined) return;
-        Axios.post("http://127.0.0.1:8000/api/computers/delete", {
-=======
         if(selectedComputer == null || selectedComputer == undefined) return;
         Axios.post("http://"+process.env.PRODIP+"/api/computers/delete", {
->>>>>>> docker + making code adaptable to new ip
             computer_id: selectedComputer.id
         }).then(res => {
             fetchComputers();
@@ -120,14 +115,7 @@ export default function ComputerManagement() {
         if (selectedComputer == null || selectedComputer == undefined) return;
         const csrftoken = getCookie('csrftoken');
         let newName = document.getElementById("name2").value;
-<<<<<<< HEAD
-        let newHostName = document.getElementById("host_name2").value;
-        if (newHostName == "") newHostName = selectedComputer.host_name;
-        if (newName == "") newName = selectedComputer.name;
-        Axios.post("http://127.0.0.1:8000/api/computers/modify", {
-=======
         Axios.post("http://"+process.env.PRODIP+"/api/computers/modify", {
->>>>>>> docker + making code adaptable to new ip
             computer_id: selectedComputer.id,
             computer_name: newName,
             computer_host_name: newHostName,
@@ -147,15 +135,7 @@ export default function ComputerManagement() {
     const handleCreate = () => {
         //first recover the text from the name field
         const name = document.getElementById("name").value;
-<<<<<<< HEAD
-        const host_name = document.getElementById("host_name").value;
-
-        if (host_name == "" || name == "") return;
-
-        Axios.post("http://127.0.0.1:8000/api/computers/create", {
-=======
         Axios.post("http://"+process.env.PRODIP+"/api/computers/create", {
->>>>>>> docker + making code adaptable to new ip
             room_id: selectedRoom,
             pc_name: name,
             pc_host_name: host_name,
