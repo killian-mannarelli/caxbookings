@@ -1,0 +1,33 @@
+.RoomManagementComponent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    ;
+}
+
+.RoomDisplayComponent {
+    justify-self: right;
+    flex: 1;
+    margin-top: 20px;
+    
+}
+
+.RoomDisplayComponent button {
+    margin-top: 1vw;
+    
+}
+
+.RoomCreationComponent {
+    margin-top: 2vw;
+    flex :1;
+}
+
+.RoomCreationComponent  input {
+    border: 1px solid #595850;
+    box-shadow: 1px 17px 25px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    margin-bottom: 1vh;
+    height: 3vh;
+    width: 40vw;
+    font-size: 1.5vh;
+}
