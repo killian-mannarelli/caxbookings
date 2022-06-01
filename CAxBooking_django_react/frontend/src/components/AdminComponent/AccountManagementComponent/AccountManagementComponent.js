@@ -27,7 +27,7 @@ export default function AccountManagement(props) {
     }, [users]);
 
     const fetchUsers = () => {
-        Axios.get("http://127.0.0.1:8000/api/users/usersInfos").then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/users/usersInfos").then(res => {
             setUsers(res.data);
         }
         );
@@ -35,7 +35,7 @@ export default function AccountManagement(props) {
 
     const deleteUsers = (usersToDelete) => {
         if (usersToDelete == null || usersToDelete == undefined) return;
-        Axios.post("http://127.0.0.1:8000/api/users/deleteUsers", {
+        Axios.post("http://"+process.env.PRODIP+"/api/users/deleteUsers", {
             user_id: usersToDelete
         }).then(res => {
             fetchUsers();
@@ -45,7 +45,7 @@ export default function AccountManagement(props) {
 
     const deleteUser = (usersToDelete) => {
         if (usersToDelete == null || usersToDelete == undefined) return;
-        Axios.post("http://127.0.0.1:8000/api/users/deleteUser", {
+        Axios.post("http://"+process.env.PRODIP+"/api/users/deleteUser", {
             user_id: usersToDelete
         }).then(res => {
             fetchUsers();
@@ -54,7 +54,7 @@ export default function AccountManagement(props) {
     }
 
     const toggleSuperUser = (id) => {
-        Axios.post("http://127.0.0.1:8000/api/users/modifyUser", {
+        Axios.post("http://"+process.env.PRODIP+"/api/users/modifyUser", {
             user_id: id,
             is_staff: false,
             is_super: true,
@@ -65,7 +65,7 @@ export default function AccountManagement(props) {
     }
 
     const toggleStaff = (id) => {
-        Axios.post("http://127.0.0.1:8000/api/users/modifyUser", {
+        Axios.post("http://"+process.env.PRODIP+"/api/users/modifyUser", {
             user_id: id,
             is_staff: true,
             is_super: false,

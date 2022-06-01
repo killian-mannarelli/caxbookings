@@ -15,7 +15,7 @@ export default function RoomEquipmentManagementComponent() {
 
 
     const fetchEquipments = () => {
-        Axios.get("http://127.0.0.1:8000/api/rooms/equipments/all").then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/rooms/equipments/all").then(res => {
             setEquipments(res.data);
         }
         );
@@ -41,7 +41,7 @@ export default function RoomEquipmentManagementComponent() {
         let token = getCookie('csrftoken');
         //get the name from the input
         let name = document.getElementById('equipmentName').value;
-        Axios.post("http://127.0.0.1:8000/api/rooms/equipment/add", {
+        Axios.post("http://"+process.env.PRODIP+"/api/rooms/equipment/add", {
             equipment_name: name,
         }, {
             headers: {
@@ -56,7 +56,7 @@ export default function RoomEquipmentManagementComponent() {
     const deleteEquipment = () => {
         let token = getCookie('csrftoken');
         if (selectedEquipment == null || selectedEquipment == undefined) return;
-        Axios.post("http://127.0.0.1:8000/api/rooms/equipments/delete", {
+        Axios.post("http://"+process.env.PRODIP+"/api/rooms/equipments/delete", {
             equipment_id: selectedEquipment
         }, {
             headers: {

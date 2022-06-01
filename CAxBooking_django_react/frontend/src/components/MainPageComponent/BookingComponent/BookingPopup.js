@@ -33,7 +33,7 @@ export default function BookingPopup(props) {
                 props.close();
             }}>Close</button>
             <button className='CAxButton' onClick={() => {
-                fetch('http://127.0.0.1:8000/api/bookings/delete?book_id=' + props.id, {
+                fetch("http://"+process.env.PRODIP+"/api/bookings/delete?book_id=" + props.id, {
                     method: "GET"
                 }).then(respnose => {
                     return respnose.text;

@@ -7,7 +7,7 @@ import { Logout } from "@mui/icons-material";
 export default function Login() {
 
     function login() {
-        Axios.post("http://139.13.51.37:8080/api/login/", {
+        Axios.post("http://"+process.env.PRODIP+"/api/login/", {
             username: document.getElementById("username").value,
             password: document.getElementById("password").value,
         }).then(res => {

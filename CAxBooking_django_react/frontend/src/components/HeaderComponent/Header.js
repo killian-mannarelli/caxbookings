@@ -15,7 +15,7 @@ export default function Header(props) {
     <header className="Header">
 
       <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Logo_Jade_Hochschule.jpg" onClick={() => {
-        window.location.replace("http://127.0.0.1:8000/")
+        window.location.replace("http://"+process.env.PRODIP)
       }}></img>
 
       <h1>Computer booking service</h1>
@@ -24,13 +24,13 @@ export default function Header(props) {
 
       {((props.currentUser?.is_superuser ?? false) || (props.currentUser?.is_staff ?? false)) &&
         <button id='Admin-button' className="login-logout CAxButton" onClick={() => {
-          window.location.replace("http://127.0.0.1:8000/admin")
+          window.location.replace("http://"+process.env.PRODIP+"/admin")
         }}>Admin</button>
       }
       {
         (props.currentUser != undefined) &&
         <button id='Logout-button' className="login-logout CAxButton" onClick={() => {
-          window.location.replace("http://127.0.0.1:8000/logout")
+          window.location.replace("http://"+process.env.PRODIP+"/logout")
         }}>Logout</button>
       }
 

@@ -41,7 +41,7 @@ export default function GraphsBookingOverX() {
     }, [mode, graphData, dayStats, weekStats, monthStats, yearStats]);
 
     const fetchData = () => {
-        Axios.get("http://127.0.0.1:8000/api/bookings/stats-overall?offset=" + offset).then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/bookings/stats-overall?offset=" + offset).then(res => {
             setDayStats(res.data.day);
             setWeekStats(res.data.week);
             setMonthStats(res.data.month);

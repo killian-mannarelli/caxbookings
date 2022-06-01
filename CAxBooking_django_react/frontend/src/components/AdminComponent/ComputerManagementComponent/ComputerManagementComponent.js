@@ -42,14 +42,14 @@ export default function ComputerManagement(){
 
 
     const fetchComputers = () => {
-        Axios.get("http://127.0.0.1:8000/api/computers/search?room_id="+selectedRoom).then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/computers/search?room_id="+selectedRoom).then(res => {
             setComputers(res.data);
         }
         );
     }
 
     const fetchRooms = () => {
-        Axios.get("http://127.0.0.1:8000/api/rooms/search?time_start=2022-05-05T13:19:10.545Z&time_end=2022-05-05T14:19:10.545Z").then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/rooms/search?time_start=2022-05-05T13:19:10.545Z&time_end=2022-05-05T14:19:10.545Z").then(res => {
             setRooms(res.data);
         }
         );
@@ -57,7 +57,7 @@ export default function ComputerManagement(){
 
     const deleteComputer = () => {
         if(selectedComputer == null || selectedComputer == undefined) return;
-        Axios.post("http://127.0.0.1:8000/api/computers/delete", {
+        Axios.post("http://"+process.env.PRODIP+"/api/computers/delete", {
             computer_id: selectedComputer.id
         }).then(res => {
             fetchComputers();
@@ -115,7 +115,7 @@ export default function ComputerManagement(){
         if(selectedComputer == null || selectedComputer == undefined) return;
         const csrftoken = getCookie('csrftoken');
         let newName = document.getElementById("name2").value;
-        Axios.post("http://127.0.0.1:8000/api/computers/modify", {
+        Axios.post("http://"+process.env.PRODIP+"/api/computers/modify", {
             computer_id: selectedComputer.id,
             computer_name: newName,
     }, {
@@ -134,7 +134,7 @@ export default function ComputerManagement(){
     const handleCreate = () => {
         //first recover the text from the name field
         const name = document.getElementById("name").value;
-        Axios.post("http://127.0.0.1:8000/api/computers/create", {
+        Axios.post("http://"+process.env.PRODIP+"/api/computers/create", {
             room_id: selectedRoom,
             pc_name: name,
 

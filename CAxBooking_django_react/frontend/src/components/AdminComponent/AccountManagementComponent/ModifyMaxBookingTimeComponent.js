@@ -26,7 +26,7 @@ export default function ModifyMaxBookingTimeComponent(props) {
 
 
     const fetchMaxBookingTime = () => {
-        Axios.get("http://127.0.0.1:8000/api/bookings/maxtime").then(res => {
+        Axios.get("http://"+process.env.PRODIP+"/api/bookings/maxtime").then(res => {
             setMaxBookingTime(res.data);
         }
         );
@@ -50,7 +50,7 @@ export default function ModifyMaxBookingTimeComponent(props) {
 
     const modifyMaxBookingTime = () => {
         const csrfToken = getCookie('csrftoken');
-        Axios.post("http://127.0.0.1:8000/api/bookings/maxtime/modify", {
+        Axios.post("http://"+process.env.PRODIP+"/api/bookings/maxtime/modify", {
             max_booking_time: document.getElementById("newvalue").value
         },
             {
