@@ -1,0 +1,17 @@
+.TimeSpan {
+
+    display: block;
+    font-size: calc(10px + 2vmin);
+    color: #595850;
+}
+
+.TimeSpan .pickers{
+    display: flex;
+    flex-direction: row;
+}
+
+.TimeSpan .picker{
+    margin: 5px;
+    width: 12vw;
+    min-width: 150px;
+}

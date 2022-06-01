@@ -1,0 +1,48 @@
+.Header img {
+    grid-area: image;
+    width: 15vw;
+    height: auto;
+    align-self: flex-start;
+    position: relative;
+    top: 0;
+
+}
+
+.Header img:hover{
+    cursor: pointer;
+}
+
+.Header h1:hover{
+    cursor: pointer;
+}
+
+.Header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 0.5fr 0.5fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "image . title admin login";
+    padding: 15px;
+}
+
+.Header h1{
+    grid-area: title;
+    font-size: larger;
+    align-self: center;
+    
+}
+
+#Admin-button{
+    align-self: center;
+    align-items: center;
+    grid-area: admin;
+    margin-left: 15px;
+    padding: 10px;
+}
+
+#Logout-button{
+    align-self: center;
+    align-items: center;
+    grid-area: login;
+    margin: 15px;
+}
