@@ -13,7 +13,7 @@ export default function IsBooked() {
 
 
     function getNextBooking() {
-        Axios.post("http://127.0.0.1:8000/api/computers/nextBook", {
+        Axios.post("http://"+process.env.PRODIP+"/api/computers/nextBook", {
             host_name: host_name
         }).then(
             res => {

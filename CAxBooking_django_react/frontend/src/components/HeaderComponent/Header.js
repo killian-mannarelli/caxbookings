@@ -24,11 +24,11 @@ export default function Header(props) {
     <header className="Header">
 
       <img src="JadeHsLogo" onClick={() => {
-        window.location.replace("http://127.0.0.1:8000/")
+        window.location.replace("http://"+process.env.PRODIP+"/")
       }}></img>
 
       <h1 onClick={() => {
-        window.location.replace("http://127.0.0.1:8000/")
+        window.location.replace("http://"+process.env.PRODIP+"/")
       }}>Computer booking service</h1>
 
 
@@ -48,7 +48,7 @@ export default function Header(props) {
       {
         (props.currentUser == undefined) &&
         <button id='Login-button' className="login-logout CAxButton" onClick={() => {
-          window.location.replace("http://127.0.0.1:8000/login")
+          window.location.replace("http://"+process.env.PRODIP+"/login")
         }}>Login</button>
       }
 
