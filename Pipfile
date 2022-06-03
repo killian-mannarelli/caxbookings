@@ -10,6 +10,7 @@ mysqlclient = "*"
 requests = "*"
 python-dateutil = "*"
 uwsgi = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

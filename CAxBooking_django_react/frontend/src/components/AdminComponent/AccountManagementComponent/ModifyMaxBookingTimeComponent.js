@@ -50,6 +50,8 @@ export default function ModifyMaxBookingTimeComponent(props) {
 
     const modifyMaxBookingTime = () => {
         const csrfToken = getCookie('csrftoken');
+        //get the csrfToken from the hidden input named csrftokenmiddleware
+        csrfToken = document.getElementsByName("csrftokenmiddleware")[0].value;
         Axios.post("http://"+process.env.PRODIP+"/api/bookings/maxtime/modify", {
             max_booking_time: document.getElementById("newvalue").value
         },

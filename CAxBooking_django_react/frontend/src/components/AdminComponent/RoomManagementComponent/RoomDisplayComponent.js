@@ -126,6 +126,7 @@ export default function RoomDisplayComponent(props) {
      */
     const modifRoom = () => {
         var CSRF_TOKEN = getCookie('csrftoken');
+        CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         let newName = document.getElementById("name").value;
         if (newName == "") {
             let roomid = modifyRoom[0].id;

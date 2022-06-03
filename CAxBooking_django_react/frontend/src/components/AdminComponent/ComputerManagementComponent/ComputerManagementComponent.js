@@ -114,6 +114,7 @@ export default function ComputerManagement() {
     const handleModify = () => {
         if (selectedComputer == null || selectedComputer == undefined) return;
         const csrftoken = getCookie('csrftoken');
+        csrfToken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         let newName = document.getElementById("name2").value;
         Axios.post("http://"+process.env.PRODIP+"/api/computers/modify", {
             computer_id: selectedComputer.id,
