@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://139.13.51.37:8080']
+CSRF_TRUSTED_ORIGINS = ['http://139.13.51.37:8080', 'http://139.13.250.121:8090']
 
 
 # Application definition
@@ -62,7 +62,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
 "http://localhost:8080",
-"http://139.13.51.37:8080"
+"http://139.13.51.37:8080",
+"http://139.13.250.121:8090"
 ]
 
 ROOT_URLCONF = 'CAxBooking_django_react.urls'

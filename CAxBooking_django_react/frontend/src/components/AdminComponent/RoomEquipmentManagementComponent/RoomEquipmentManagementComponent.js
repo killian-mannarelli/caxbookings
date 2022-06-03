@@ -39,6 +39,7 @@ export default function RoomEquipmentManagementComponent() {
     }
 
     const createEquipment = () => {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         let token = getCookie('csrftoken');
         //get the name from the input
         let name = document.getElementById('equipmentName').value;
@@ -46,7 +47,7 @@ export default function RoomEquipmentManagementComponent() {
             equipment_name: name,
         }, {
             headers: {
-                'X-CSRFToken': token
+                'X-CSRFToken': CSRF_TOKEN
             }
         }).then(res => {
             fetchEquipments();
@@ -56,12 +57,13 @@ export default function RoomEquipmentManagementComponent() {
 
     const deleteEquipment = () => {
         let token = getCookie('csrftoken');
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         if (selectedEquipment == null || selectedEquipment == undefined) return;
         Axios.post("http://"+process.env.PRODIP+"/api/rooms/equipments/delete", {
             equipment_id: selectedEquipment
         }, {
             headers: {
-                'X-CSRFToken': token
+                'X-CSRFToken': CSRF_TOKEN
             }
 
         }).then(res => {

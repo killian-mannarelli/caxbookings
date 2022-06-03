@@ -195,12 +195,12 @@ export default function RoomLayout(props) {
    * It checks if there is an ongoing booking at the same time as the one the user is trying to make.
    */
   const makeBooking = () => {
+    let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
     let startStringIso = urlInfos.startTime.toISOString();
     let endStringIso = urlInfos.endTime.toISOString();
     /**Look into the ongoingbookings if there is one at the same moment and if yes send an alert to the user */
     let ongoingBooking = ongoinguserbookings.filter(booking => {
-      console.log("oui")
 
       let startDate = new Date(booking.start);
       let endDate = new Date(booking.end);
@@ -235,7 +235,12 @@ export default function RoomLayout(props) {
       computer: selectedComputer.computer_id,
       start: startStringIso,
       end: endStringIso,
-    }
+    },{
+      headers: {
+          'X-CSRFToken': CSRF_TOKEN
+      }
+
+  }
     ).then(res => {
       setOpen(false);
       setSelectedComputer(null);

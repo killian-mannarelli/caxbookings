@@ -15,7 +15,7 @@ RUN mv /temp/entrypoint.sh . \
 
 
 WORKDIR ${PROJECT_DIR}
-EXPOSE 8000 8080
+EXPOSE 8000 8090
 
 RUN apk add --update --no-cache --virtual .tmp \
         python3-dev build-base linux-headers pcre-dev \
@@ -45,4 +45,4 @@ USER django
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
 WORKDIR ${PROJECT_DIR}/CAxBooking_django_react
-CMD ["uwsgi", "--http", "0.0.0.0:8080", "--master", "--enable-threads", "--module", "CAxBooking_django_react.wsgi"]
+CMD ["uwsgi", "--http", "0.0.0.0:8090", "--master", "--enable-threads", "--module", "CAxBooking_django_react.wsgi"]
