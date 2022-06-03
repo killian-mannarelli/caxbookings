@@ -56,9 +56,14 @@ export default function ComputerManagement() {
     }
 
     const deleteComputer = () => {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         if(selectedComputer == null || selectedComputer == undefined) return;
         Axios.post("http://"+process.env.PRODIP+"/api/computers/delete", {
             computer_id: selectedComputer.id
+        }, {
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
         }).then(res => {
             fetchComputers();
             setOpenDelete(false);
@@ -113,7 +118,7 @@ export default function ComputerManagement() {
 
     const handleModify = () => {
         if (selectedComputer == null || selectedComputer == undefined) return;
-        const csrftoken = getCookie('csrftoken');
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         csrfToken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         let newName = document.getElementById("name2").value;
         Axios.post("http://"+process.env.PRODIP+"/api/computers/modify", {
@@ -122,7 +127,7 @@ export default function ComputerManagement() {
             computer_host_name: newHostName,
         }, {
             headers: {
-                'X-CSRFToken': csrftoken
+                'X-CSRFToken': CSRF_TOKEN
             }
         }).then(res => {
             fetchComputers();
@@ -134,12 +139,18 @@ export default function ComputerManagement() {
 
 
     const handleCreate = () => {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         //first recover the text from the name field
         const name = document.getElementById("name").value;
         Axios.post("http://"+process.env.PRODIP+"/api/computers/create", {
             room_id: selectedRoom,
             pc_name: name,
             pc_host_name: host_name,
+
+        }, {
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
 
         }).then(res => {
             fetchComputers();

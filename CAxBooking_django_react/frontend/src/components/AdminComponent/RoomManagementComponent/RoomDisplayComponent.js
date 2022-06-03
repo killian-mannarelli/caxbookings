@@ -150,11 +150,17 @@ export default function RoomDisplayComponent(props) {
     }
 
     const createRoom = () => {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         //recover the room name from the input
         let roomName = document.getElementById("roomNameInput").value;
         //create the room
         Axios.post("http://"+process.env.PRODIP+"/api/rooms/create", {
             room_name: roomName
+        }, {
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
+
         }).then(res => {
             fetchRooms();
 
@@ -164,10 +170,16 @@ export default function RoomDisplayComponent(props) {
     }
 
     function deleteRoom() {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         if (selectedRoom == null || selectedRoom == undefined) return;
         Axios.post("http://"+process.env.PRODIP+"/api/rooms/delete", {
 
             room_id: selectedRoom
+        }, {
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
+
         }).then(res => {
             fetchRooms();
         }
