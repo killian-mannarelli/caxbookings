@@ -7,7 +7,6 @@ ENV PYTHONUNBUFFERED=1 \
   PROJECT_DIR=/app/
 COPY . ${PROJECT_DIR}
 COPY  docker/app/ /temp
-COPY CAxBooking_django_react/static /static 
 
 RUN mv /temp/entrypoint.sh . \
   && chmod 755 entrypoint.sh

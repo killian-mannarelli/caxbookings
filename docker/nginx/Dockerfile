@@ -11,4 +11,3 @@ RUN mkdir -p /appfiles/media \
 	&& chmod 755 /appfiles/static
 
 
-COPY CAxBooking_django_react/static /appfiles/static
