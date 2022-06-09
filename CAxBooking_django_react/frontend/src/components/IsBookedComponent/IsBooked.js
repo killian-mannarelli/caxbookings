@@ -11,7 +11,7 @@ export default function IsBooked() {
 
     useEffect(() => {
         getNextBooking()
-    }, []);
+    }, [nextBook]);
 
 
     function getNextBooking() {
