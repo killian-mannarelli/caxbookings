@@ -26,7 +26,7 @@ export default function IsBooked() {
         }).then(
             res => {
                 if (res.data.next_booking != "none") {
-                    setNextBook(res.data.next_booking)
+                    setNextBook(res.data.next_booking_start)
                     setNextBookEnd(res.data.next_booking_end)
                     setPCName(res.data.PC_name)
                 } else {
@@ -41,7 +41,7 @@ export default function IsBooked() {
             {nextBook &&
                 <div id="ComputerBookedContent" className="background">
 
-                    <h2> This computer {PCName} is booked today from {nextBook} to {nextBookEnd}</h2>
+                    <h2> This computer, {PCName}, is booked today from {nextBook} to {nextBookEnd}</h2>
                     <p>
                         Please leave access to this computer for the person who made the booking.
                     </p>

@@ -135,16 +135,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-#STATIC_URL = '/frontend/static/' #for development
-STATIC_URL = '/static/' #for production
+
+STATIC_URL = '/frontend/static/' #for development
+#STATIC_URL = '/static/' #for production
 
 STATIC_ROOT = '/files/static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/files/media' 
 
 STATICFILES_DIRS = [
-   #os.path.join(BASE_DIR, "frontend/static"), #for development
-    os.path.join(BASE_DIR, "static"), #for production
+   os.path.join(BASE_DIR, "frontend/static"), #for development
+   # os.path.join(BASE_DIR, "static"), #for production
    ]
 
 # Default primary key field type
