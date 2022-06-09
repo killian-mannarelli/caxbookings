@@ -39,9 +39,15 @@ export default function AccountManagement(props) {
     }
 
     const deleteUsers = (usersToDelete) => {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         if (usersToDelete == null || usersToDelete == undefined) return;
         Axios.post("http://"+process.env.PRODIP+"/api/users/deleteUsers", {
             user_id: usersToDelete
+        }, {
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
+
         }).then(res => {
             fetchUsers();
         }
@@ -49,9 +55,15 @@ export default function AccountManagement(props) {
     }
 
     const deleteUser = (usersToDelete) => {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         if (usersToDelete == null || usersToDelete == undefined) return;
         Axios.post("http://"+process.env.PRODIP+"/api/users/deleteUser", {
             user_id: usersToDelete
+        }, {
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
+
         }).then(res => {
             fetchUsers();
         }
@@ -59,10 +71,16 @@ export default function AccountManagement(props) {
     }
 
     const toggleSuperUser = (id) => {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         Axios.post("http://"+process.env.PRODIP+"/api/users/modifyUser", {
             user_id: id,
             is_staff: false,
             is_super: true,
+        }, {
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
+
         }).then(res => {
             fetchUsers();
         }
@@ -70,10 +88,16 @@ export default function AccountManagement(props) {
     }
 
     const toggleStaff = (id) => {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         Axios.post("http://"+process.env.PRODIP+"/api/users/modifyUser", {
             user_id: id,
             is_staff: true,
             is_super: false,
+        }, {
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
+
         }).then(res => {
             fetchUsers();
         }
