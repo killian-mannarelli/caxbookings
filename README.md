@@ -13,11 +13,13 @@
     - [Django architecture](#django-architecture)
     - [Django manage](#django-manage)
     - [React](#react)
+    - [Contact](#contact)
+
 
 ## General Info
-This project is a website project to allow students to book computers, it also allows teachers and other admin to monitor the rooms efficiency through various statistics
+This project is a website project to allow students to book computers, it also allows teachers and other admin to monitor the room's efficiency through various statistics
 
-    Important : as the server on which the database is running and we are connected to is 2 hours early some of the times durations have an hardcoded offset.S 
+    Important : as the server on which the database is running, and we are connected to is 2 hours early, some of the times durations have hard-coded offsets (for example: the event to change the state of a booking).
 
 ## Technologies
 
@@ -68,7 +70,7 @@ This project is a website project to allow students to book computers, it also a
 
 ### Setup-Dev
 
-To setup the project in dev you need to be located in the `/CAxBooking_django_react/frontend` folder and run
+To set up the project in dev you need to be located in the `/CAxBooking_django_react/frontend` folder and run
 
 ```
 npm run init
@@ -86,11 +88,11 @@ and both the django server and the node server should be running.
 
 ### Django in general
 
-This part is just a very large overview of Django/DjangoRestAPI's frameworks, it is highly recommended to check the [documentation](https://docs.djangoproject.com/en/4.0/) of both of those to understand the project structure a little better.
+This part is just a very large overview of Django/DjangoRestAPI's frameworks, it is highly recommended checking the [documentation](https://docs.djangoproject.com/en/4.0/) of both of those to understand the project structure a little better.
 
 #### Django architecture
 
-The main project structure is as follow :
+The main project structure is as follows :
 ```
 ├──CaxBooking_django_react/
 |   ├──api/
@@ -111,7 +113,7 @@ The main project structure is as follow :
 └── └── ... 
 ```
 
-The projects settings are in the `CAxBooking_django_react/CAxBooking_django_react/` folder there you have the `settings.py` file that alllows you to change settings like the different apps installed in the Django project and the connections informations of the database.
+The projects settings are in the `CAxBooking_django_react/CAxBooking_django_react/` folder there you have the `settings.py` file that allows you to change settings like the different apps installed in the Django project and the connections information of the database.
 
 Then the two other folders are apps we are using one for the backend(`api`) and another for the frontend(`frontend`)
 
@@ -125,7 +127,7 @@ To format the responses of the views, we use the `serializers.py` file.
 
 #### Django manage
 
-There are different commads that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to setup for the different migrations that might have happened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
+There are different commands that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to set up for the different migrations that might have happened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
 
 ### React  
 React is a JavaScript component based library, for more info check the [documentation](https://reactjs.org/docs/getting-started.html).
@@ -136,5 +138,10 @@ The project only has 4 pages :
 * the "Main Page" page
 * the Room page
 * and the Admin page
+
+## Contact
+This project was developed in the course of an internship at Jade Hochschule, by two students, if for maintenance purpose, or just to understand better, please contact us here :
+ - gabin.charasson@gmail.com
+ - killian.mannarelli@gmail.com
 
 

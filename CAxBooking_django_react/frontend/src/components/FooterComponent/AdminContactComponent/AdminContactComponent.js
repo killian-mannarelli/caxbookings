@@ -12,7 +12,8 @@ export default function AdminContact() {
                     If you need to contact an admin please use this email adress :
                 </p>
                 <p className="warn">
-                    admin@admin.admin
+                    gabin.charasson@gmail.com
+                    killian.mannarelli@gmail.com
                 </p>
             </div>
         </div>
