@@ -7,7 +7,7 @@ services:
     build: 
       context: .
       dockerfile: docker/app/Dockerfile
-    container_name: django-docker-app
+    container_name: django-docker-app-caxbooking
     volumes:
       - ./:/app/
       - ./appfiles:/appfile
@@ -16,7 +16,7 @@ services:
     build: 
       context: .
       dockerfile: docker/nginx/Dockerfile
-    container_name: django-docker-proxy
+    container_name: django-docker-proxy-caxbooking
     ports:
       - "8090:8080"
     volumes:
