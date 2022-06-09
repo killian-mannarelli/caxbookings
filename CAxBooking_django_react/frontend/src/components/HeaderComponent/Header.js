@@ -23,8 +23,8 @@ export default function Header(props) {
   return (
     <header className="Header">
 
-      <img src="JadeHsLogo" onClick={() => {
-        window.location.replace("http://"+process.env.PRODIP+"/")
+      <img src="http://127.0.0.1:8000/JadeHsLogo" onClick={() => {
+        window.location.replace("http://127.0.0.1:8000/")
       }}></img>
 
       <h1 onClick={() => {

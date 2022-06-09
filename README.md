@@ -86,7 +86,7 @@ and both the django server and the node server should be running.
 
 ### Django in general
 
-This part is just an very large overview of Django/DjangoRestAPI's frameworks, it is highly recommended to check the [documentations](https://docs.djangoproject.com/en/4.0/) of both of those to understand the project structure a little better.
+This part is just a very large overview of Django/DjangoRestAPI's frameworks, it is highly recommended to check the [documentation](https://docs.djangoproject.com/en/4.0/) of both of those to understand the project structure a little better.
 
 #### Django architecture
 
@@ -121,11 +121,11 @@ The api folder deals with all of the backend of the website, in the models folde
 
 In the views folder there is a file for each of the 4 main tables in the database/models of the project, `Bookings`, `Rooms`, `Users` `Computers`. 
 In these files you can find all of the api requests that are used by the website while running.
-To format the responses of the views we use the `serializers.py` file.
+To format the responses of the views, we use the `serializers.py` file.
 
 #### Django manage
 
-There are different commads that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to setup for the different migrations that might have appened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
+There are different commads that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to setup for the different migrations that might have happened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
 
 ### React  
 React is a JavaScript component based library, for more info check the [documentation](https://reactjs.org/docs/getting-started.html).
