@@ -52,7 +52,7 @@ export default function IsBooked() {
 
                     <h2> Try booking this computer on the Computer Booking Service  </h2>
                     <p>
-                        You can try booking this computer on the Computer Resevation Service website, so that someone doesn't book it while you are using it.
+                        You can try booking this computer, {PCName}, on the Computer Resevation Service website, so that someone doesn't book it while you are using it.
                     </p>
                 </div>}
         </div>

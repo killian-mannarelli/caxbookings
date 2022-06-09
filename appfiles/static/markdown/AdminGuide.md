@@ -34,7 +34,7 @@ There are 3 different users levels on the website:
 
 
 
-*(there is no difference between a user that has both**staff** and**super_user**, and another user that only has **super_user**)*
+*(there is no difference between a user that has both **staff** and**super_user**, and another user that only has **super_user**)*
 
 
 
@@ -49,7 +49,7 @@ There are 3 different users levels on the website:
 
 
 
-On this page you can see different statistics about the website's bookings, wich room is the most booked, the busiest time and a graph of the whole computer pool's usage in a selected time range*(you can select either day, week, month or year, and navigate through it with the plus and minus button under the graph)*.
+On this page you can see different statistics about the website's bookings, which room is the most booked, the busiest time and a graph of the whole computer pool's usage in a selected time range*(you can select either day, week, month or year, and navigate through it with the plus and minus button under the graph)*.
 
 
 
@@ -64,7 +64,7 @@ On this page you have a list of all the rooms in registered in the system.
 
 
 
-You can create a new Room by givin' the **name** of the new room in the ` text field ` and then pressing the ` create button `.
+You can create a new Room by giving the **name** of the new room in the ` text field ` and then pressing the ` create button `.
 
 
 
@@ -89,17 +89,17 @@ On this page you have a list of all the Equipments in registered in the system.
 
 
 
-You can create a new Equipment by giving the *name* of the new Equipment in the text field and then pressing the ` create button `.
+You can create Equipment by giving the *name* of the new Equipment in the text field and then pressing the ` create button `.
 
 
 
 
-You can delete a Equipment by selecting one or multiple and the press the ` delete button ` a pop-up should appear asking you to ` confirm ` deletion.
+You can delete Equipment by selecting one or multiple and the press the ` delete button ` a pop-up should appear asking you to ` confirm ` deletion.
 
 
 
 
-There is no modification possibility for the Equiments.
+There is no modification possibility for the Equipments.
 
 
 
@@ -126,7 +126,7 @@ You can delete a Computer by ` clicking ` on one, and then press ` yes ` to conf
 
 
 
-To modify a computer, you also need to ` click ` on one of the Computers, then in the pop-up you need to press the ` change mode button `, the pop-up should change to a form similar to the creation one where you can chang the *name* or the *host_name* of the selected Computer with two different ` text fields `, to confirm the modifications you just need to click on the ` modify button `.
+To modify a computer, you also need to ` click ` on one of the Computers, then in the pop-up you need to press the ` change mode button `, the pop-up should change to a form similar to the creation one where you can change the *name* or the *host_name* of the selected Computer with two different ` text fields `, to confirm the modifications you just need to click on the ` modify button `.
 
 
 
@@ -141,20 +141,16 @@ On this page you can see all of the registered users in the database, if they ar
 
 
 
-The creation is managed automatically on the first time a user log in with its Jade Hochschule credentials. By default a new user will have the *super_users* and *staff* attributes set to false.
+The creation is managed automatically on the first time a user log in with its Jade Hochschule credentials. By default, a new user will have the *super_users* and *staff* attributes set to false.
 
 
 
 
-The deletion of a user is only possible if you have the *super_user* user level, you can do it either by selecting multiple rows of users and then by clicking the ` delete button `, or by clicking the ` trashcan icon ` on each rows, a pop up will ask you to ` confirm ` the action in both cases.
+The deletion of a user is only possible if you have the *super_user* user level, you can do it either by selecting multiple rows of users and then by clicking the ` delete button `, or by clicking the ` trashcan icon ` on each row, a pop up will ask you to ` confirm ` the action in both cases.
 
 
 
 
-The modifications of an also are only possible if you have the *super_user* user level, you can only change the user level of a user by clicking on the ` three dots ` at the end of each rows and then chose to ` toggle ` either the *super_user* or the *staff* roles.
+The modifications are also only possible if you have the *super_user* user level, you can only change the user level of a user by clicking on the ` three dots ` at the end of each row and then chose to ` toggle ` either the *super_user* or the *staff* roles.
 
 
-
-6 unis 
-empower students 
-futures skills applied
