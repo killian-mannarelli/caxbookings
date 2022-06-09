@@ -149,7 +149,7 @@ export default function ComputerManagement() {
         //first recover the text from the name field
         let name = document.getElementById("name").value;
         let host_name = document.getElementById("host_name").value;
-        if (name == "" || hostname == "") return;
+        if (name == "" || host_name == "") return;
         Axios.post("http://" + process.env.PRODIP + "/api/computers/create", {
             room_id: selectedRoom,
             pc_name: name,
