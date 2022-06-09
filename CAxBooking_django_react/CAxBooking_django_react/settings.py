@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-rn#@xe(+gdmjvmh_5jzvcf=1fdsru@q)v@cv(9&$95hz4s@7)8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = ['http://139.13.51.37:8080', 'http://139.13.250.121:8090']
 
 
 # Application definition
@@ -41,17 +43,27 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'frontend.apps.FrontendConfig',
+    'corsheaders',
 
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+"http://localhost:8080",
+"http://139.13.51.37:8080",
+"http://139.13.250.121:8090"
 ]
 
 ROOT_URLCONF = 'CAxBooking_django_react.urls'
@@ -124,7 +136,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = '/files/static'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/files/media' 
 
 STATICFILES_DIRS = [
    os.path.join(BASE_DIR, "static"),

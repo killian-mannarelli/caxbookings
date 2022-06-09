@@ -13,8 +13,14 @@ export default function IsBooked() {
 
 
     function getNextBooking() {
-        Axios.post("http://127.0.0.1:8000/api/computers/nextBook", {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        Axios.post("http://"+process.env.PRODIP+"/api/computers/nextBook", {
             host_name: host_name
+        },{
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
+
         }).then(
             res => {
                 if (res.data.next_booking != "none") {

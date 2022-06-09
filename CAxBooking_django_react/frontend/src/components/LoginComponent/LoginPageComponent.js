@@ -7,9 +7,15 @@ import { Logout } from "@mui/icons-material";
 export default function Login() {
 
     function login() {
-        Axios.post("http://127.0.0.1:8000/api/login/", {
+        let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        Axios.post("http://"+process.env.PRODIP+"/api/login/", {
             username: document.getElementById("username").value,
             password: document.getElementById("password").value,
+        },{
+            headers: {
+                'X-CSRFToken': CSRF_TOKEN
+            }
+
         }).then(res => {
             window.location.href = "/"
         })

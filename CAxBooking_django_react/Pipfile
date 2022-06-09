@@ -9,6 +9,7 @@ djangorestframework = "*"
 mysqlclient = "*"
 requests = "*"
 python-dateutil = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
