@@ -11,7 +11,7 @@ import Axios from 'axios';
 export default function Header(props) {
 
   function login() {
-    Axios.post("http://127.0.0.1:8000/api/login/", {
+    Axios.post("http://" + process.env.PRODIP + "/api/login/", {
       username: document.getElementById("username").value,
       password: document.getElementById("password").value,
     }).then(res => {
@@ -23,32 +23,32 @@ export default function Header(props) {
   return (
     <header className="Header">
 
-      <img src="http://127.0.0.1:8000/JadeHsLogo" onClick={() => {
-        window.location.replace("http://127.0.0.1:8000/")
+      <img src={"http://" + process.env.PRODIP + "JadeHsLogo"} onClick={() => {
+        window.location.replace("http://" + process.env.PRODIP + "/")
       }}></img>
 
       <h1 onClick={() => {
-        window.location.replace("http://127.0.0.1:8000/")
+        window.location.replace("http://" + process.env.PRODIP + "/")
       }}>Computer booking service</h1>
 
 
 
       {((props.currentUser?.is_superuser ?? false) || (props.currentUser?.is_staff ?? false)) &&
         <button id='Admin-button' className="login-logout CAxButton" onClick={() => {
-          window.location.replace("http://127.0.0.1:8000/admin")
+          window.location.replace("http://" + process.env.PRODIP + "/admin")
         }}>Admin</button>
       }
       {
         (props.currentUser != undefined) &&
         <button id='Logout-button' className="login-logout CAxButton" onClick={() => {
-          window.location.replace("http://127.0.0.1:8000/logout")
+          window.location.replace("http://" + process.env.PRODIP + "/logout")
         }}>Logout</button>
       }
 
       {
         (props.currentUser == undefined) &&
         <button id='Login-button' className="login-logout CAxButton" onClick={() => {
-          window.location.replace("http://127.0.0.1:8000/login")
+          window.location.replace("http://" + process.env.PRODIP + "/login")
         }}>Login</button>
       }
 
