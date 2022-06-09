@@ -6,6 +6,8 @@ import "./isBooked.css"
 export default function IsBooked() {
     const { host_name } = useParams();
     const [nextBook, setNextBook] = useState()
+    const [nextBookEnd, setNextBookEnd] = useState()
+    const [PCName, setPCName] = useState()
 
     useEffect(() => {
         getNextBooking()
@@ -19,6 +21,8 @@ export default function IsBooked() {
             res => {
                 if (res.data.next_booking != "none") {
                     setNextBook(res.data.next_booking)
+                    setNextBookEnd(res.data.next_booking_end)
+                    setPCName(res.data.PC_name)
                 } else {
                     setNextBook(undefined)
                 }
@@ -31,7 +35,7 @@ export default function IsBooked() {
             {nextBook &&
                 <div id="ComputerBookedContent" className="background">
 
-                    <h2> This computer is booked today from {nextBook} </h2>
+                    <h2> This computer {PCName} is booked today from {nextBook} to {nextBookEnd}</h2>
                     <p>
                         Please leave access to this computer for the person who made the booking.
                     </p>

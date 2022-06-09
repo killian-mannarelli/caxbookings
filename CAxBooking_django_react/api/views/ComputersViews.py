@@ -162,11 +162,15 @@ def get_next_booking(request):
 
         if bookings.count() > 0:
             # Formatting the time to be in the format HH:MM
-            minutes = bookings[0].start.minute
-            if minutes < 10:
-                minutes = f"0{minutes}"
-            time = (f"{bookings[0].start.hour}:{minutes}")
-            return JsonResponse({"next_booking": time})
+            minutes_start = bookings[0].start.minute
+            minutes_end = bookings[0].end.minute
+            if minutes_start < 10:
+                minutes_start = f"0{minutes_start}"
+            if minutes_end < 10:
+                minutes_end = f"0{minutes_end}"
+            time_start = (f"{bookings[0].start.hour}:{minutes_start}")
+            time_end = (f"{bookings[0].start.hour}:{minutes_end}")
+            return JsonResponse({"next_booking_start": time_start, "next_booking_end": time_end, "PC_name":computer.name })
 
         return JsonResponse({'next_booking': "none"})
 
