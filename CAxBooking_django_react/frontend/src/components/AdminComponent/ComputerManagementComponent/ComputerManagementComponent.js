@@ -42,14 +42,14 @@ export default function ComputerManagement() {
 
 
     const fetchComputers = () => {
-        Axios.get("http://"+process.env.PRODIP+"/api/computers/search?room_id="+selectedRoom).then(res => {
+        Axios.get("http://" + process.env.PRODIP + "/api/computers/search?room_id=" + selectedRoom).then(res => {
             setComputers(res.data);
         }
         );
     }
 
     const fetchRooms = () => {
-        Axios.get("http://"+process.env.PRODIP+"/api/rooms/search?time_start=2022-05-05T13:19:10.545Z&time_end=2022-05-05T14:19:10.545Z").then(res => {
+        Axios.get("http://" + process.env.PRODIP + "/api/rooms/search?time_start=2022-05-05T13:19:10.545Z&time_end=2022-05-05T14:19:10.545Z").then(res => {
             setRooms(res.data);
         }
         );
@@ -57,8 +57,8 @@ export default function ComputerManagement() {
 
     const deleteComputer = () => {
         let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-        if(selectedComputer == null || selectedComputer == undefined) return;
-        Axios.post("http://"+process.env.PRODIP+"/api/computers/delete", {
+        if (selectedComputer == null || selectedComputer == undefined) return;
+        Axios.post("http://" + process.env.PRODIP + "/api/computers/delete", {
             computer_id: selectedComputer.id
         }, {
             headers: {
@@ -120,7 +120,14 @@ export default function ComputerManagement() {
         if (selectedComputer == null || selectedComputer == undefined) return;
         let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         let newName = document.getElementById("name2").value;
-        Axios.post("http://"+process.env.PRODIP+"/api/computers/modify", {
+        let newHostName = document.getElementById("host_name2").value;
+        if (newName == "") {
+            newName = selectedComputer.name
+        }
+        if (newHostName == "") {
+            newHostName = selectedComputer.host_name
+        }
+        Axios.post("http://" + process.env.PRODIP + "/api/computers/modify", {
             computer_id: selectedComputer.id,
             computer_name: newName,
             computer_host_name: newHostName,
@@ -140,8 +147,10 @@ export default function ComputerManagement() {
     const handleCreate = () => {
         let CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
         //first recover the text from the name field
-        const name = document.getElementById("name").value;
-        Axios.post("http://"+process.env.PRODIP+"/api/computers/create", {
+        let name = document.getElementById("name").value;
+        let host_name = document.getElementById("host_name").value;
+        if (name == "" || hostname == "") return;
+        Axios.post("http://" + process.env.PRODIP + "/api/computers/create", {
             room_id: selectedRoom,
             pc_name: name,
             pc_host_name: host_name,
