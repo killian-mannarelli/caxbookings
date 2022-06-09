@@ -1,8 +1,0 @@
-#ComputerManagement{
-    display: flex;
-    flex-direction: column;
-}
-
-.pcDisplay{
-    margin-top: 20px;
-}
