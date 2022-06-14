@@ -28,10 +28,10 @@ export default function IsBooked() {
                 if (res.data.next_booking != "none") {
                     setNextBook(res.data.next_booking_start)
                     setNextBookEnd(res.data.next_booking_end)
-                    setPCName(res.data.PC_name)
                 } else {
                     setNextBook(undefined)
                 }
+                setPCName(res.data.PC_name)
             }
         )
     }

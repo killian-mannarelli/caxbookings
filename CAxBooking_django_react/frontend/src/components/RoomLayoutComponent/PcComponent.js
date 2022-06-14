@@ -28,11 +28,10 @@ export default function PcComponent(props) {
         let minutes = date[2].split("T")[1].split(":")[1];
         nextBooking = year + "/" + month + "/" + day + "  " + hour + ":" + minutes;
     }
-    console.log(typeof (nextBooking), nextBooking)
 
     return (
         //make a grid with the pc name and the image
-        <Grid item xs={4} sm={4} md={4} lg={4} >
+        <Grid item xs={4} sm={4} md={4} lg={4}>
             <Grid container direction="column" alignItems="center" wrap="wrap" justifyContent="center" onClick={() => {
                 props.onClick(pc)
             }} className="pc">
