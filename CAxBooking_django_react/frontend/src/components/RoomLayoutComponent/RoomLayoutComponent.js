@@ -162,7 +162,7 @@ export default function RoomLayout(props) {
 
 
     }
-    console.log(time);
+    
     if (time >= maximumbookingtime) {
       return true;
     }
@@ -204,8 +204,8 @@ export default function RoomLayout(props) {
 
       let startDate = new Date(booking.start);
       let endDate = new Date(booking.end);
-      console.log(urlInfos.startTime.getTime());
-      console.log(startDate.getTime())
+      
+      
 
       if (startDate.getTime() >= urlInfos.startTime.getTime() && endDate.getTime() <= urlInfos.endTime.getTime()) {
         return true;
@@ -222,7 +222,7 @@ export default function RoomLayout(props) {
 
     }, []);
 
-    console.log(ongoingBooking);
+    
     if (checkIfUserHasNHours()) {
       alert("You can't have more than " + maximumbookingtime + " hours of scheduled booking");
       return;

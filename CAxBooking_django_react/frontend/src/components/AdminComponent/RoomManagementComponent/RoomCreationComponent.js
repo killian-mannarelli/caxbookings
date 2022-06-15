@@ -21,7 +21,7 @@ export default function RoomCreationComponent(props) {
         axios.post("http://"+process.env.PRODIP+"/api/rooms/create", {
             room_name: roomName
         }).then(res => {
-            console.log(res.data);
+            
 
         });
 

@@ -28,7 +28,7 @@ export default function PcComponent(props) {
         let minutes = date[2].split("T")[1].split(":")[1];
         nextBooking = year + "/" + month + "/" + day + "  " + hour + ":" + minutes;
     }
-    console.log(typeof (nextBooking), nextBooking)
+    
 
     return (
         //make a grid with the pc name and the image
