@@ -86,6 +86,8 @@ and both the django server and the node server should be running.
 
 ## How to use 
 
+
+
 ### Django in general
 
 This part is just a very large overview of Django/DjangoRestAPI's frameworks, it is highly recommended checking the [documentation](https://docs.djangoproject.com/en/4.0/) of both of those to understand the project structure a little better.
@@ -128,6 +130,11 @@ To format the responses of the views, we use the `serializers.py` file.
 #### Django manage
 
 There are different commands that you can use with the `manage.py` file, the one that are the most used are `python3 manage.py makemigration` to set up for the different migrations that might have happened in the project, and the `python3 manage.py migrate` that proceeds to make the different migrations
+
+### DataBase
+
+The database is a simple MySQL database with a few tables, and one event used to update the bookings status every minutes.
+The database is connected to Django via the settings.py file, each and every model from the models.py file are translatable in a database table.
 
 ### React  
 React is a JavaScript component based library, for more info check the [documentation](https://reactjs.org/docs/getting-started.html).

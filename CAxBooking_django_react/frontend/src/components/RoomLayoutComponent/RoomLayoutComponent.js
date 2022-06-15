@@ -1,11 +1,7 @@
 import React, { Component, useEffect } from "react";
-import "./roomlayout.css";
-import Header from "../HeaderComponent/Header";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import PcComponent from "./PcComponent";
 import Container from '@mui/material/Container';
-import TimeSpan from "../MainPageComponent/TimeSpanComponent/TimeSpan";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,7 +9,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Axios from "axios";
-import Footer from "../FooterComponent/Footer";
+import PcComponent from "./PcComponent";
+import TimeSpan from "../MainPageComponent/TimeSpanComponent/TimeSpan";
+import "./roomlayout.css";
+
 /**
  * It fetches the computers in a room at a given time, and displays them in a grid
  * @param props - The props that were passed to the component.
@@ -204,8 +203,11 @@ export default function RoomLayout(props) {
 
       let startDate = new Date(booking.start);
       let endDate = new Date(booking.end);
+<<<<<<< HEAD
       
       
+=======
+>>>>>>> 5795930f38f3cf4aa1123150629eb52ae9e19cd8
 
       if (startDate.getTime() >= urlInfos.startTime.getTime() && endDate.getTime() <= urlInfos.endTime.getTime()) {
         return true;
@@ -222,7 +224,10 @@ export default function RoomLayout(props) {
 
     }, []);
 
+<<<<<<< HEAD
     
+=======
+>>>>>>> 5795930f38f3cf4aa1123150629eb52ae9e19cd8
     if (checkIfUserHasNHours()) {
       alert("You can't have more than " + maximumbookingtime + " hours of scheduled booking");
       return;
@@ -277,7 +282,7 @@ export default function RoomLayout(props) {
 
             <Grid container spacing={12} wrap="wrap" direction="row" alignItems="center">
               {computers.map((pc) =>
-                <PcComponent pc={pc} onClick={handleClickOpen} />
+                <PcComponent key={pc.computer_id} pc={pc} onClick={handleClickOpen} />
               )}
 
             </Grid>

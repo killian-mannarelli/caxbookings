@@ -169,10 +169,10 @@ def get_next_booking(request):
             if minutes_end < 10:
                 minutes_end = f"0{minutes_end}"
             time_start = (f"{bookings[0].start.hour}:{minutes_start}")
-            time_end = (f"{bookings[0].start.hour}:{minutes_end}")
+            time_end = (f"{bookings[0].end.hour}:{minutes_end}")
             return JsonResponse({"next_booking_start": time_start, "next_booking_end": time_end, "PC_name":computer.name })
 
-        return JsonResponse({'next_booking': "none"})
+        return JsonResponse({'next_booking': "none", "PC_name":computer.name})
 
 
 def add_pc_in_room(request):
