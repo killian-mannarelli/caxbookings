@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'my9y@s!+!u^p239(06v(qs6+%(0@pjwv!6amg0)b=7)(vg_&9d'
+SECRET_KEY = '****'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -94,9 +94,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'caxbooking',
-        'USER'    : 'root',
-        'PASSWORD': 'pwd',
-        'HOST'    : '139.13.250.121',
+        'USER'    : '***',
+        'PASSWORD': '***',
+        'HOST'    : '**.**.**.**',
         'PORT'    : '8082',
     }
 }
